@@ -1,6 +1,8 @@
 ### Don't pick up binaries ###
+# Ignore swap files
+*.swp
 
-# Untrack everything in the roop
+# Untrack everything in the root
 /*
 /*/
 
