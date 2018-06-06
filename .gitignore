@@ -1,1 +1,13 @@
-/bin/**
+### Don't pick up binaries ###
+
+# Untrack everything in the roop
+/*
+
+# Re-enable everything that should be tracked
+/.gitignore
+/lib
+/makefile
+/res
+/src
+
+##############################
