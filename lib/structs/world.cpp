@@ -6,8 +6,6 @@
 using std::cout;
 using std::endl;
 using std::ifstream;
-using std::string;
-using std::istreambuf_iterator;
 
 World::World() :
 	width(-1),
