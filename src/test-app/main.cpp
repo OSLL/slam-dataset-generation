@@ -23,13 +23,4 @@ int main(int argc, char ** argv) {
 	for (Vec2D v : world.world_boundary.vertices) {
 		cout << v << endl;
 	}
-
-	/* STEP 2: Compute critical points */
-	//vector<Vec2D> critical_points = compute_critical_points(world);
-
-	/* STEP 3: Compute trajectory */
-	//Path trajectory = compute_trajectory(world, critical_points);
-
-	/* STEP 4: Simulate trajectory, construct bag file, and write to disk */
-	//simulate_trajectory(world, trajectory);
 }
