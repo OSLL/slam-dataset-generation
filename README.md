@@ -8,3 +8,8 @@ The first goal is to build a CLI app that can generate a random world, generate 
 
 ### GUI Application
 Once the CLI app is functional, we intend to wrap it in a Qt GUI.  Specifically, we'll add the functionality for a user to adjust/create the worlds, critical point selections, and trajectories.
+
+## Dependencies
+- **SVG++ 1.2.1**
+    * Depends on **Boost >= 1.56**
+    * Depends on **RapidXML NS 1.13**
