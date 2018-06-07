@@ -2,7 +2,7 @@
 #define PATH_H
 
 #include <vector>
-#include <vec2d.h>
+#include "structs/vec2d.h"
 
 class Path {
 	private:

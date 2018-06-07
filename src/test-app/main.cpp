@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "world.h"
+#include "structs/world.h"
 
 using namespace std;
 

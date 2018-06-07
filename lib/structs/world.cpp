@@ -1,4 +1,4 @@
-#include "world.h"
+#include "structs/world.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>

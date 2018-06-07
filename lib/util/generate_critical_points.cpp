@@ -1,6 +1,6 @@
 #include <vector>
-#include "vec2d.h"
-#include "world.h"
+#include "structs/vec2d.h"
+#include "structs/world.h"
 
 using std::vector;
 

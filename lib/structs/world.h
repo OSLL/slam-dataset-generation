@@ -2,7 +2,7 @@
 #define WORLD_H
 
 #include <vector>
-#include "path.h"
+#include "structs/path.h"
 
 class World {
 	private:

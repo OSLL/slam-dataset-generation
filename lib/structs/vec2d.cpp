@@ -1,4 +1,4 @@
-#include "vec2d.h"
+#include "structs/vec2d.h"
 
 using std::ostream;
 

@@ -1,4 +1,4 @@
-#include "path.h"
+#include "structs/path.h"
 
 Path::Path() { }
 
