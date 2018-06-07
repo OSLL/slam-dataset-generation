@@ -1,11 +1,11 @@
 #include "structs/path.h"
 
-Path::Path() { }
-
-void Path::populate_from_svg_data(const char * data) {
-	//
+Path::Path(bool is_world_boundary_value) :
+	is_world_boundary(is_world_boundary_value)
+{
+	edges.push_back({{2.2, 2.2}, {5.5, 5.5}});
 }
 
-bool Path::is_world_boundary() {
-	return isWorldBoundary;
+void Path::add_edge(Edge e) {
+	edges.push_back(e);
 }

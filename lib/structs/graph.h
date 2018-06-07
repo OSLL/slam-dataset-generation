@@ -1,12 +1,12 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "structs/vec2d.h"
+#include "structs/path.h"
 
 class Graph {
 	public:
 		Graph();
-		void add_edge(Vec2D v1, Vec2D v2);
+		void add_edge(Path p);
 };
 
 #endif

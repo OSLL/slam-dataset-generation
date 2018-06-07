@@ -2,16 +2,15 @@
 #define PATH_H
 
 #include <vector>
-#include "structs/vec2d.h"
+#include "structs/edge.h"
 
 class Path {
 	private:
-		bool isWorldBoundary;
 	public:
-		Path();
-		std::vector<Vec2D> vertices;
-		void populate_from_svg_data(const char *);
-		bool is_world_boundary();
+		Path(bool is_world_boundary_value = false);
+		std::vector<Edge> edges;
+		void add_edge(Edge e);
+		bool is_world_boundary;
 };
 
 #endif

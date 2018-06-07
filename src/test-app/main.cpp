@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "structs/edge.h"
 #include "structs/world.h"
 
 using namespace std;
@@ -20,7 +21,7 @@ int main(int argc, char ** argv) {
 
 	cout << "test" << endl;
 
-	for (Vec2D v : world.world_boundary.vertices) {
-		cout << v << endl;
+	for (Edge e : world.world_boundary.edges) {
+		cout << e << endl;
 	}
 }
