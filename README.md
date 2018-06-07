@@ -23,6 +23,6 @@ git submodule init
 git submodule update
 ```
 
-Second, make sure Qt and Boost are installed on your machine.
+Second, make sure Boost is installed on your machine.
 
 Last, issue `make` in the root of the repo.
