@@ -13,3 +13,16 @@ Once the CLI app is functional, we intend to wrap it in a Qt GUI.  Specifically,
 - **SVG++ 1.2.1**
     * Depends on **Boost >= 1.56**
     * Depends on **RapidXML NS 1.13**
+
+## Building
+
+First, check out the correct version of the included dependencies by issuing
+
+```shell
+git submodule init
+git submodule update
+```
+
+Second, make sure Qt and Boost are installed on your machine.
+
+Last, issue `make` in the root of the repo.
