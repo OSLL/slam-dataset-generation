@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
 	//vector<Vec2D> critical_points = generate_critical_points(world);
 
 	/* STEP 3: Generate trajectory */
-	//Path trajectory = compute_trajectory(world, critical_points);
+	//Path trajectory = generate_trajectory(world, critical_points);
 
 	/* STEP 4: Simulate trajectory, construct bag file, and write to disk */
 	//simulate_trajectory(world, trajectory, destination);
