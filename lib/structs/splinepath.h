@@ -4,9 +4,9 @@
 #include <vector>
 #include "structs/vec.h"
 
-// Encodes information for two splines (one for x(t) and one for y(t)
+// Encodes information for one spline
 struct SplineData {
-	// x(t) = at^3 + bt^2 + ct + d
+	// f(t) = at^3 + bt^2 + ct + d
 	double a, b, c, d;
 
 	// y(t) = et^3 + ft^2 + gt + h
@@ -19,12 +19,16 @@ struct SplineData {
 class SplinePath {
 	private:
 		// Static information about the spline coefficients and t bounds
-		const SplineData * spline_data; // Responsible for pointing to heap-allocated spline data array
+		SplineData * spline_data; // Responsible for pointing to heap-allocated spline data array
 		const int number_of_splines;
 
 		// State and function to keep track of which spline is currently being used (for efficiency)
 		SplineData * current_spline;
-		void find_new_spline(double t);
+		bool find_new_spline(double t);
+
+		// Range for t values for the entire spline function
+		double t_min;
+		double t_max;
 
 		// Small helper function that just computes the position
 		static Vec evaluate_spline(SplineData * s, double t);
