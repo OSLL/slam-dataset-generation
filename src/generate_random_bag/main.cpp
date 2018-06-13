@@ -1,13 +1,13 @@
 #include <iostream>
 #include <vector>
-#include "world.h"
-#include "vec2d.h"
-#include "path.h"
+#include "world/world.h"
+#include "misc/vec2d.h"
+#include "world/path.h"
 
 using namespace std;
 
-vector<Vec2D> generate_critical_points(const World & world);
-Path generate_trajectory(const World & world, const vector<Vec2D> & critical_points);
+vector<Vec> generate_critical_points(const World & world);
+Path generate_trajectory(const World & world, const vector<Vec> & critical_points);
 void simulate_trajectory(const World & world, const Path & trajectory, const char * destination);
 
 int main(int argc, char ** argv) {

@@ -1,4 +1,4 @@
-#include "structs/vec2d.h"
+#include "misc/vec.h"
 
 using std::ostream;
 
@@ -7,6 +7,10 @@ Vec::Vec(double x_val, double y_val) :
 	y(y_val)
 {
 	//
+}
+
+Vec Vec::operator+(const Vec & v) const {
+	return {x + v.x, y + v.y};
 }
 
 ostream & operator<<(ostream & o, Vec v) {

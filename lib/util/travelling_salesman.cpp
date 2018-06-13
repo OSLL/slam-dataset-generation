@@ -1,7 +1,7 @@
 #include <vector>
-#include "structs/vec2d.h"
-#include "structs/path.h"
-#include "structs/world.h"
+#include "misc/vec.h"
+#include "world/path.h"
+#include "world/world.h"
 #include "structs/graph.h"
 
 using std::vector;

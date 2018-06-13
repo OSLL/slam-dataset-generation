@@ -2,7 +2,7 @@
 #define SPLINE_PATH
 
 #include <vector>
-#include "structs/vec.h"
+#include "misc/vec.h"
 
 // Encodes information for one spline
 struct SplineData {

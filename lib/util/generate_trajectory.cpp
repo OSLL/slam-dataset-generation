@@ -1,7 +1,7 @@
 #include <vector>
-#include "structs/vec2d.h"
-#include "structs/path.h"
-#include "structs/world.h"
+#include "misc/vec.h"
+#include "world/path.h"
+#include "world/world.h"
 #include "structs/graph.h"
 
 using std::vector;
@@ -14,7 +14,7 @@ using std::vector;
  * This problem can be broken down into two distinct steps
  * 
  * 1. Generate a complete edge-weighted graph representing planned paths between each of
- *    each critical point.  To do this, implement plan_path(World, Vec2D, Vec2D) which
+ *    each critical point.  To do this, implement plan_path(World, Vec, Vec) which
  *    will make generation of the graph as simple as generating edges for each pair of nodes
  * 
  * 
@@ -26,11 +26,11 @@ using std::vector;
 Path travelling_salesman(const Graph & g);
 
 // Returns a path connecting two points that is valid in the world provided
-static Path plan_path(const World & world, const Vec2D & v1, const Vec2D & v2) {
+static Path plan_path(const World & world, const Vec & v1, const Vec & v2) {
 	// Not implemented
 }
 
-Path generate_trajectory(const World & world, const vector<Vec2D> & critical_points) {
+Path generate_trajectory(const World & world, const vector<Vec> & critical_points) {
 
 	// Construct graph
 	Graph g;

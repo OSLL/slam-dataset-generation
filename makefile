@@ -31,7 +31,7 @@ EXECUTABLES := $(filter-out $(EXECUTABLE_BLACKLIST),$(EXECUTABLES_UNFILTERED))
 #	  -I$(d))
 
 # Cheaper, you just have to specify the full relative path to your header files
-IFLAGS := -I./lib
+IFLAGS := -I./lib -I./lib/svgpp/include
 #########################
 
 all : $(EXECUTABLES)

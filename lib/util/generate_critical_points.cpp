@@ -1,9 +1,9 @@
 #include <vector>
-#include "structs/vec2d.h"
-#include "structs/world.h"
+#include "misc/vec.h"
+#include "world/world.h"
 
 using std::vector;
 
-vector<Vec2D> generate_critical_points(const World &) {
+vector<Vec> generate_critical_points(const World &) {
 	// Not implemented
 }

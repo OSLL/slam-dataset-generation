@@ -2,11 +2,9 @@
 #define WORLD_H
 
 #include <vector>
-#include "structs/path.h"
+#include "world/path.h"
 
 class World {
-	private:
-
 	public:
 		double width;
 		double height;
@@ -20,6 +18,7 @@ class World {
 
 		static World generate_world();
 
+		friend class Context;
 };
 
 #endif

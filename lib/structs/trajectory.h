@@ -2,7 +2,7 @@
 #define TRAJECTORY_H
 
 #include <vector>
-#include "structs/vec.h"
+#include "misc/vec.h"
 #include "structs/splinepath.h"
 
 class Trajectory : public SplinePath {

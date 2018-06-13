@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "structs/vec.h"
-#include "structs/world.h"
+#include "misc/vec.h"
+#include "world/world.h"
 
 using namespace std;
 
@@ -19,9 +19,7 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	cout << "test" << endl;
-
-	for (Vec v : world.world_boundary.edges) {
-		cout << e << endl;
-	}
+	//for (Edge * e : world.world_boundary.edges) {
+	//	cout << *e << endl;
+	//}
 }

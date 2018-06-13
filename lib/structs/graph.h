@@ -1,14 +1,14 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "structs/path.h"
-
 #include <vector>
+#include "world/path.h"
+#include "misc/vec.h"
 
 class Graph {
 	public:
 		Graph();
-		void add_edge(std::vector<Vec>);
+		void add_edge(Path p);
 };
 
 #endif
