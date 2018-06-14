@@ -1,6 +1,3 @@
 [submodule "lib/svgpp"]
 	path = lib/svgpp
 	url = https://github.com/svgpp/svgpp.git
-[submodule "lib/rapidxml_ns"]
-	path = lib/rapidxml_ns
-	url = https://github.com/svgpp/rapidxml_ns.git

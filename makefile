@@ -7,7 +7,7 @@ PARAMETERS := res/map.svg
 ##########################
 ###### OBJECT FILES ######
 # Used to ignore certain directories when finding source files to compile (e.g. for unit tests in packaged with dependencies)
-SOURCE_BLACKLIST := svgpp rapidxml
+SOURCE_BLACKLIST := svgpp
 
 ALL_COMMON_OBJ := $(foreach file, \
 		  $(shell find lib -name "*.cpp"), \
@@ -31,7 +31,7 @@ EXECUTABLES := $(filter-out $(EXECUTABLE_BLACKLIST),$(EXECUTABLES_UNFILTERED))
 #	  -I$(d))
 
 # Cheaper, you just have to specify the full relative path to your header files
-IFLAGS := -I./lib -I./lib/svgpp/include
+IFLAGS := -I./lib -I./lib/svgpp/include -I./lib/svgpp/third_party
 #########################
 
 all : $(EXECUTABLES)
