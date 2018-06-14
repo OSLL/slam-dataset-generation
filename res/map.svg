@@ -56,12 +56,12 @@
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 50.507627,737.6997 21.970818,253.80083 229.052095,25.00127 0.75761,-281.58002 z"
-       id="path3336"
+       id="world_boundary"
        inkscape:connector-curvature="0" />
     <path
+       id="path3357"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 144.19928,874.32283 182.08,806.39007 207.08127,879.12106 Z"
-       id="path3357"
        inkscape:connector-curvature="0" />
   </g>
 </svg>

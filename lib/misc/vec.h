@@ -10,8 +10,13 @@ class Vec {
 		double x;
 		double y;
 		Vec operator+(const Vec & v) const;
+		bool operator==(const Vec & v) const;
+		bool operator!=(const Vec & v) const;
 };
 
 std::ostream & operator<<(std::ostream & o, Vec v);
+
+// Null vector returned whenever a valid vector could not be found
+extern const Vec null_vector;
 
 #endif

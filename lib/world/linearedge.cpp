@@ -4,13 +4,13 @@
 
 using std::min;
 using std::max;
+using std::ostream;
 
 LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
-	start(start_point),
-	end(end_point)
+	Edge(start_point, end_point)
 { }
 
-static inline bool is_on(Vec p, LinearEdge e) {
+static inline bool is_on(const Vec & p, const LinearEdge & e) {
 	double x_min = min(e.start.x, e.end.x);
 	double x_max = max(e.start.x, e.end.x);
 	double y_min = min(e.start.y, e.end.y);
@@ -48,4 +48,14 @@ double LinearEdge::distance(const Vec & pos, const Vec & range) {
 	double dx = pos.x - x;
 	double dy = pos.x - y;
 	return sqrt(dx*dx + dy*dy);
+}
+
+void LinearEdge::print(ostream & o, int tabs) const {
+	// Print out the correct number of tabs
+	for (int i = 0; i < tabs; i++) {
+		o << '\t';
+	}
+
+	// Print out data
+	o << "LinearEdge: " << start << " -> " << end;
 }
