@@ -39,14 +39,13 @@ void Path::print(ostream & o, int tabs) const {
 
 	// Print data
 	o << "Path: " << _id << endl;
-	
-	o << edges.size() << endl;
-
 	for (Edge * e : edges) {
 		e->print(o, tabs + 1);
+		o << endl;
 	}
 }
 
 ostream & operator<<(ostream & o, const Path & path) {
 	path.print();
+	return o;
 }

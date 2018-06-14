@@ -55,7 +55,7 @@ void ParsingContext::parse(char * buffer) {
 
 
 
-/* ########################### Keep track of path ids ##############################*/
+/* ########################### Keep track of path ids ############################# */
 void ParsingContext::set(tag::attribute::id, const boost::iterator_range<const char *> & value) {
 
 	// Associate id with path
@@ -70,8 +70,6 @@ void ParsingContext::set(tag::attribute::id, const boost::iterator_range<const c
 		
 		// Set id
 		last_constructed_path->set_id(id);
-
-		cout << "path detected with id = " << id << endl;
 	}
 }
 /* #################################################################################*/
@@ -110,11 +108,11 @@ void ParsingContext::on_exit_element() {
 		parsing_path = false;
 	}
 }
-/* ################################################################################# */
+/* ################################################################################ */
 
 
 
-/* ############################### Add edges ####################################### */
+/* ################################ Add edges ##################################### */
 void ParsingContext::path_line_to(double x, double y, tag::coordinate::absolute) {
 	// Determine which path this edge should be added to
 	Path * current_path = parent.all_obstacles.back();
@@ -125,9 +123,9 @@ void ParsingContext::path_line_to(double x, double y, tag::coordinate::absolute)
 }
 
 void ParsingContext::path_cubic_bezier_to(double x1, double y1,
-			  double x2, double y2,
-			  double x, double y,
-			  tag::coordinate::absolute) {
+					  double x2, double y2,
+					  double x, double y,
+					  tag::coordinate::absolute) {
 	// Determine which path this edge should be added to
 	Path * current_path = parent.all_obstacles.back();
 
@@ -138,25 +136,21 @@ void ParsingContext::path_cubic_bezier_to(double x1, double y1,
 
 // TODO: Implement QuadraticBezierEdge and EllipticalArcEdge classes, then generate objects here
 void ParsingContext::path_quadratic_bezier_to(double x1, double y1,
-			      double x, double y,
-			      tag::coordinate::absolute) {
-      	//
-}
+					      double x, double y,
+					      tag::coordinate::absolute) { }
 
 void ParsingContext::path_elliptical_arc_to(double rx, double ry, double x_axis_rotation,
-			    bool large_arc_flag, bool sweep_flag,
-			    double x, double y,
-			    tag::coordinate::absolute) {
-	//
-}
-/* #################################################################################### */
+					    bool large_arc_flag, bool sweep_flag,
+					    double x, double y,
+					    tag::coordinate::absolute) { }
+/* ################################################################################ */
 
 
 
-/* ############################## Unneeded functions ################################## */
+/* ############################## Unneeded functions ############################## */
 void ParsingContext::on_enter_element(tag::element::any) {}
 
 void ParsingContext::path_exit() { }
 
 void ParsingContext::path_close_subpath() { }
-/* #################################################################################### */
+/* ################################################################################ */

@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <vector>
+#include <iostream>
 #include "world/path.h"
 
 class World {
@@ -24,9 +25,13 @@ class World {
 		void read_from_disk(const char * source);
 		void write_to_disk(const char * destination);
 
+		void print(std::ostream & o = std::cout, int tabs = 0) const;
+
 		static World generate_world();
 
 		friend class ParsingContext;
 };
+
+std::ostream & operator<<(std::ostream & o, const World & world);
 
 #endif

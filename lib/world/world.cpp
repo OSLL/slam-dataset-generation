@@ -11,6 +11,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
+using std::ostream;
 using std::ifstream;
 using std::istreambuf_iterator;
 
@@ -55,4 +56,22 @@ void World::read_from_disk(const char * source) {
 // Generate svg file from current world and write to destination
 void World::write_to_disk(const char * destination) {
 	// Not implemented
+}
+
+void World::print(ostream & o, int tabs) const {
+	// Print correct number of tabs
+	for (int i = 0; i < tabs; i++) {
+		o << '\t';
+	}
+
+	// Print data
+	o << "World:" << endl;
+	for (const Path * path : all_obstacles) {
+		path->print(o, tabs + 1);
+	}
+}
+
+ostream & operator<<(ostream & o, const World & world) {
+	world.print(o);
+	return o;
 }
