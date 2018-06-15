@@ -2,7 +2,9 @@
 #define EDGE_H
 
 #include "misc/vec.h"
+#include "misc/observationpath.h"
 #include <iostream>
+#include <set>
 
 /* NOTE:
  * The purpose of this class is to serve as the abstract base class for all edges.
@@ -13,11 +15,17 @@
 class Edge {
 	public:
 		Edge(const Vec & start_point, const Vec & end);
-		virtual ~Edge();
 
-		virtual double distance(const Vec & pos, const Vec & visual_range) = 0;
+		// Defined in Edge
+		std::set<Vec> intersection_points(const ObservationPath &);
+		double distance(const ObservationPath &);
 
+		// Can be defined in subclass
+		int number_of_intersections(const ObservationPath &);
 		virtual void print(std::ostream & o = std::cout, int tabs = 0) const;
+
+		// Must be defined in subclass
+		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) = 0;
 
 		// No harm in exposing to public, since both are const
 		const Vec & start;

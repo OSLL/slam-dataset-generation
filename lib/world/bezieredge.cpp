@@ -2,6 +2,7 @@
 #include <cmath>
 
 using std::ostream;
+using std::set;
 
 BezierEdge::BezierEdge(const Vec & start_point, const Vec & c1, const Vec & c2, const Vec & end_point) :
 	Edge(start_point, end_point),
@@ -9,8 +10,11 @@ BezierEdge::BezierEdge(const Vec & start_point, const Vec & c1, const Vec & c2, 
 	control_2(c2)
 { }
 
-double BezierEdge::distance(const Vec & pos, const Vec & range) {
+set<Vec> BezierEdge::intersection(const Vec & pos, const Vec & range) {
+	// Initialize set of intersections
+	set<Vec> intersections;
 
+	return intersections;
 }
 
 void BezierEdge::print(ostream & o, int tabs) const {
