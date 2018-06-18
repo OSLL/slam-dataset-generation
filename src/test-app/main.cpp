@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include "misc/vec.h"
-#include "world/linearedge.h"
+#include "misc/line.h"
 #include "world/world.h"
 
 using namespace std;
@@ -18,5 +19,14 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	cout << world << endl;
+	Edge * e = world.get_world_boundary()->edges.back();
+
+	/*
+	cout << *e << endl;
+	cout << r << endl;
+	cout << e->distance(r) << endl;
+	*/
+	
+	Line l({70, 90}, {90, 90});
+	cout << e->distance(l) << endl;
 }

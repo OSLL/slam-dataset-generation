@@ -17,7 +17,8 @@ using std::istreambuf_iterator;
 
 World::World() :
 	width(-1),
-	height(-1)
+	height(-1),
+	world_boundary(nullptr)
 { }
 
 World::~World() {
@@ -51,6 +52,12 @@ void World::read_from_disk(const char * source) {
 	// Parse document
 	ParsingContext parsing_context(*this);
 	parsing_context.parse(buffer);
+
+	// Check to see if world_boundary ever got populated
+	if (world_boundary == nullptr) {
+		cout << "world_boundary was never populated" << endl;
+		exit(-1);
+	}
 }
 
 // Generate svg file from current world and write to destination

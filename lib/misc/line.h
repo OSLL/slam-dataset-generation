@@ -2,12 +2,13 @@
 #define LINE_H
 
 #include "misc/observationpath.h"
+#include <iostream>
 
 class Line : public ObservationPath {
 	public:
 		Line(const Vec & start_point, const Vec & end_point);
-
-		static bool on_line(const Vec & p, const ObservationPath & op);
+		
+		void print(std::ostream & o = std::cout, int tabs = 0) const;
 };
 
 #endif

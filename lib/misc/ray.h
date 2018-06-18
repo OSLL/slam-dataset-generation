@@ -1,14 +1,20 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "misc/vec.h"
+#include "misc/observationpath.h"
 
-class Ray {
+class Ray : public ObservationPath {
+	private:
+		void update_end();
+		void update_theta();
 	public:
-		Vec start;
-		Vec direction;
+		Ray(const Vec & start_point, const double & theta_val);
 
-		Ray(const Vec & start_point, const double & direction_angle);
+		double theta;
+
+		void change_theta(double dtheta);
+		static bool on_ray(const Vec & p, const ObservationPath & op);
+		void print(std::ostream & o = std::cout, int tabs = 0) const;
 };
 
 #endif

@@ -10,7 +10,7 @@ BezierEdge::BezierEdge(const Vec & start_point, const Vec & c1, const Vec & c2, 
 	control_2(c2)
 { }
 
-set<Vec> BezierEdge::intersection(const Vec & pos, const Vec & range) {
+set<Vec> BezierEdge::linear_intersection_points(const ObservationPath & op) {
 	// Initialize set of intersections
 	set<Vec> intersections;
 

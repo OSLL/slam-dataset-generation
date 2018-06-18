@@ -1,4 +1,5 @@
 #include "world/linearedge.h"
+#include <iostream>
 #include <algorithm>
 #include <cmath>
 
@@ -6,21 +7,14 @@ using std::min;
 using std::max;
 using std::ostream;
 using std::set;
+using std::cout;
+using std::endl;
 
 LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
 	Edge(start_point, end_point)
 { }
 
-static inline bool is_on(const Vec & p, const LinearEdge & e) {
-	double x_min = min(e.start.x, e.end.x);
-	double x_max = max(e.start.x, e.end.x);
-	double y_min = min(e.start.y, e.end.y);
-	double y_max = max(e.start.y, e.end.y);
-
-	return (p.x >= x_min && p.x <= x_max) && (p.y >= y_min && p.y <= y_max);
-}
-
-set<Vec> LinearEdge::intersection(const Vec & pos, const Vec & range) {
+set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) {
 	// Initialize set of intersections
 	set<Vec> intersections;
 
@@ -30,9 +24,9 @@ set<Vec> LinearEdge::intersection(const Vec & pos, const Vec & range) {
 	double c1 = start.x*a1 + start.y*b1;
 
 	// Represent view as a2*x + b2*y = c2
-	double a2 = -range.y;
-	double b2 = range.x;
-	double c2 = pos.x*a2 + pos.y*b2;
+	double a2 = op.start.y - op.end.y;
+	double b2 = op.end.x - op.start.x;
+	double c2 = op.start.x*a2 + op.start.y*b2;
 
 	// Determinant will quickly tell us if the lines are parallel
 	double det = a1*b2 - a2*b1;
@@ -42,10 +36,9 @@ set<Vec> LinearEdge::intersection(const Vec & pos, const Vec & range) {
 		double y = (a1*c2 - a2*c1)/det;
 		Vec i {x, y};
 
-		// Check if (x,y) is on both line segments
-		if (is_on(i, {start, end}) && is_on(i, {pos, pos + range})) {
-			intersections.insert(i);
-		}
+		cout << "i = " << i << endl;
+
+		intersections.insert(i);
 	}
 	
 	return intersections;

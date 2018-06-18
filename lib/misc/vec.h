@@ -6,7 +6,10 @@
 class Vec {
 	private:
 	public:
-		Vec(double x_val = -1.0, double y_val = -1.0);
+		// Constructors
+		Vec(const double & x_val, const double & y_val);
+		Vec(const Vec &);
+
 		double x;
 		double y;
 
@@ -29,6 +32,7 @@ class Vec {
 		// Comparison
 		bool operator==(const Vec & v) const;
 		bool operator!=(const Vec & v) const;
+		bool operator<(const Vec & v) const; // For ability to compile Vecs into a set
 };
 
 // Printing a vector

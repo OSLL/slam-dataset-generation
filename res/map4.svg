@@ -55,7 +55,7 @@
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 4.5357142,293.22024 3.7797618,-10.58333 6.803571,11.33927 z"
-       id="path10"
+       id="world_boundary"
        inkscape:connector-curvature="0" />
   </g>
 </svg>

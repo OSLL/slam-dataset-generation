@@ -1,12 +1,18 @@
 #include "misc/line.h"
 #include "misc/vec.h"
 
+using std::ostream;
+
 Line::Line(const Vec & start_point, const Vec & end_point):
-	ObservationPath(start_point, end_point),
-	on_path(Line::on_line)
+	ObservationPath(start_point, end_point, nullptr)
 { }
 
-// Quickly check whether a point is on the line
-bool Line::on_line(const Vec & p, const ObservationPath & op) {
-	return true;
+void Line::print(ostream & o, int tabs) const {
+	// Print out correct number of tabs
+	for (int i = 0; i < tabs; i++) {
+		o << '\t';
+	}
+
+	// Print data
+	o << "Line : " << start << " -> " << end;
 }

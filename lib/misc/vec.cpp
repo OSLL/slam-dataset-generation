@@ -12,9 +12,14 @@ const Vec null_vector {0, 0};
 const Vec i_hat {1, 0};
 const Vec j_hat {0, 1};
 
-Vec::Vec(double x_val, double y_val) :
+Vec::Vec(const double & x_val, const double & y_val) :
 	x(x_val),
 	y(y_val)
+{ }
+
+Vec::Vec(const Vec & v) :
+	x(v.x),
+	y(v.y)
 { }
 
 /* ################# Angles ################ */
@@ -47,11 +52,11 @@ double Vec::dot(const Vec & v) {
 
 /* ############### Arithmetic ############### */
 Vec Vec::operator*(const double & scale) const {
-	return {scale*v.x, scale*v.y};
+	return {scale*x, scale*y};
 }
 
 Vec Vec::operator/(const double & scale) const {
-	return {v.x/scale, v.y/scale};
+	return {x/scale, y/scale};
 }
 
 Vec Vec::operator+(const Vec & v) const {
@@ -85,6 +90,14 @@ bool Vec::operator==(const Vec & v) const {
 
 bool Vec::operator!=(const Vec & v) const {
 	return !(*this == v);
+}
+
+bool Vec::operator<(const Vec & v) const {
+	if (x == v.x) {
+		return x < v.x;
+	} else {
+		return y < v.y;
+	}
 }
 /* ########################################## */
 
