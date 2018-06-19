@@ -14,20 +14,21 @@ class Vec {
 		double y;
 
 		// Angle
-		double radians();
-		double degrees();
+		double radians() const;
+		double degrees() const;
 
 		// Magnitude
-		double mag();
+		double mag() const;
 
 		// Dot product
-		double dot(const Vec & v);
+		double dot(const Vec & v) const;
 
 		// Arithmetic
 		Vec operator*(const double & scale) const;
 		Vec operator/(const double & scale) const;
 		Vec operator+(const Vec & v) const;
 		Vec operator-(const Vec & v) const;
+		Vec operator-() const; // Negation
 
 		// Comparison
 		bool operator==(const Vec & v) const;
@@ -41,6 +42,9 @@ std::ostream & operator<<(std::ostream & o, Vec v);
 // Reverse order scaling (cannot be member functions)
 Vec operator*(const double & scale, const Vec & v);
 Vec operator/(const double & scale, const Vec & v);
+
+// Easier to read dot product
+double dot(const Vec & v1, const Vec & v2);
 
 // Null vector returned whenever a valid vector could not be found
 extern const Vec i_hat;

@@ -12,6 +12,10 @@ class ObservationPath {
 		Vec start;
 		Vec end;
 
+		// Coefficients for the equation ax + by = c make intersection calculation easier
+		Vec ab;
+		double c;
+
 		// Note that this function only has to distinguish between lines on the line connecting
 		// the start and end; it doesn't have to check whether the point exists on the line
 		bool (*on_path)(const Vec & p, const ObservationPath & op);

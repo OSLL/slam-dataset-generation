@@ -26,6 +26,7 @@ class Edge {
 
 		// Must be defined in subclass
 		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) = 0;
+		virtual Vec get_pos(const double & t) = 0; // 0 <= t <= 1 for all adges
 
 		// No harm in exposing to public, since both are const
 		const Vec & start;

@@ -23,11 +23,11 @@ Vec::Vec(const Vec & v) :
 { }
 
 /* ################# Angles ################ */
-double Vec::radians() {
+double Vec::radians() const {
 	return atan2(y, x);
 }
 
-double Vec::degrees() {
+double Vec::degrees() const {
 	return radians() * 180.0 / M_PI;
 }
 /* ######################################### */
@@ -35,7 +35,7 @@ double Vec::degrees() {
 
 
 /* ############### Magnitude ############### */
-double Vec::mag() {
+double Vec::mag() const {
 	return sqrt(x*x + y*y);
 }
 /* ######################################### */
@@ -43,8 +43,12 @@ double Vec::mag() {
 
 
 /* ############### Dot Product ############### */
-double Vec::dot(const Vec & v) {
+double Vec::dot(const Vec & v) const {
 	return x*v.x + y*v.y;
+}
+
+double dot(const Vec & v1, const Vec & v2) {
+	return v1.dot(v2);
 }
 /* ########################################### */
 
@@ -65,6 +69,10 @@ Vec Vec::operator+(const Vec & v) const {
 
 Vec Vec::operator-(const Vec & v) const {
 	return {x - v.x, y - v.y};
+}
+
+Vec Vec::operator-() const {
+	return {-x, -y};
 }
 
 Vec operator*(const double & scale, const Vec & v) {

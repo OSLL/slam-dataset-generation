@@ -3,9 +3,22 @@
 #include <cmath>
 #include "misc/vec.h"
 #include "misc/line.h"
+#include "world/cubicbezieredge.h"
+#include "world/linearedge.h"
 #include "world/world.h"
 
 using namespace std;
+
+ostream & operator<< (ostream & o, const std::set<Vec> & s) {
+	if (!s.empty()) {
+		for (const Vec & v : s) {
+			o << v << endl;
+		}
+	} else {
+		o << "Set is empty" << endl;
+	}
+	return o;
+}
 
 int main(int argc, char ** argv) {
 	
@@ -16,17 +29,17 @@ int main(int argc, char ** argv) {
 	}
 	const char * source = argv[1];
 
-	World world;
-	world.read_from_disk(source);
+	Vec start {0, 0};
+	Vec end {100, 100};
 
-	Edge * e = world.get_world_boundary()->edges.back();
+	LinearEdge le(start, end);
+	CubicBezierEdge cbe(start, start, end, end);
 
-	/*
-	cout << *e << endl;
-	cout << r << endl;
-	cout << e->distance(r) << endl;
-	*/
+	Vec line_start {50, 50};
+	Vec line_end = line_start + Vec {0, 1};
+
+	Line l {line_start, line_end};
 	
-	Line l({70, 90}, {90, 90});
-	cout << e->distance(l) << endl;
+	//cout << le.intersection_points(l);
+	cout << cbe.intersection_points(l);
 }

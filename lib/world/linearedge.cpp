@@ -11,37 +11,47 @@ using std::cout;
 using std::endl;
 
 LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
-	Edge(start_point, end_point)
+	Edge(start_point, end_point),
+	direction(end-start)
 { }
 
 set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) {
+	
 	// Initialize set of intersections
 	set<Vec> intersections;
 
-	// Represent edge as a1*x + b1*y = c1
-	double a1 = start.y - end.y;
-	double b1 = end.x - start.x;
-	double c1 = start.x*a1 + start.y*b1;
+	// Edge is characterized by R(t) = start + direction*t
+	// ObservationPath is characterized by op.a*x + op.b*y = op.c
+	// 				    -> <op.a, op.b> dot R(t) = op.c
+	// 				    -> <op.a, op.b> dot [start + direction*t] = op.c
+	// 				    -> <op.a, op.b> dot start + <op.a, op.b> dot direction*t = op.c
+	// 				    -> t = (op.c - <op.a, op.b> dot start) / <op.a, op.b> dot direction
+	// 
+	// Note that t is only valid if denominator != 0
 
-	// Represent view as a2*x + b2*y = c2
-	double a2 = op.start.y - op.end.y;
-	double b2 = op.end.x - op.start.x;
-	double c2 = op.start.x*a2 + op.start.y*b2;
 
-	// Determinant will quickly tell us if the lines are parallel
-	double det = a1*b2 - a2*b1;
-	if (det != 0) {
-		// Calculate intersection (not guaranteed to be on line segment)
-		double x = (b2*c1 - b1*c2)/det;
-		double y = (a1*c2 - a2*c1)/det;
-		Vec i {x, y};
+	// Calculate denominator
+	double denominator = dot(op.ab, direction);
 
-		cout << "i = " << i << endl;
+	// If denominator isn't zero, we do further calculation
+	if (denominator != 0) {
+		// Calculate numerator
+		double numerator = op.c - dot(op.ab, start);
 
-		intersections.insert(i);
+		// Calculate value of t for intersection
+		double t = numerator / denominator;
+		
+		// t is only on the edge if 0 <= t <= 1
+		if (t >= 0 && t <= 1) {
+			intersections.insert(get_pos(t));
+		}
 	}
 	
 	return intersections;
+}
+
+Vec LinearEdge::get_pos(const double & t) {
+	return start + direction*t;
 }
 
 void LinearEdge::print(ostream & o, int tabs) const {

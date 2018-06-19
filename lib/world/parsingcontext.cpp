@@ -1,11 +1,15 @@
 #include "world/parsingcontext.h"
-#include "world/linearedge.h"
-#include "world/bezieredge.h"
 #include <string>
 #include <iostream>
 #include <cstdio>
+
+// Svgpp xml parsing includes
 #include <rapidxml_ns/rapidxml_ns.hpp>
 #include <svgpp/policy/xml/rapidxml_ns.hpp>
+
+// Edge types
+#include "world/linearedge.h"
+#include "world/cubicbezieredge.h"
 
 using namespace svgpp;
 using std::cout;
@@ -130,7 +134,7 @@ void ParsingContext::path_cubic_bezier_to(double x1, double y1,
 	Path * current_path = parent.all_obstacles.back();
 
 	// Add edge
-	Edge * new_edge = new BezierEdge(current_path->end(), {x1, y1}, {x2, y2}, {x, y});
+	Edge * new_edge = new CubicBezierEdge(current_path->end(), {x1, y1}, {x2, y2}, {x, y});
 	current_path->add_edge(new_edge);
 }
 
