@@ -1,24 +1,9 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include "misc/vec.h"
-#include "misc/line.h"
-#include "world/cubicbezieredge.h"
-#include "world/linearedge.h"
 #include "world/world.h"
+#include <vector>
+#include "misc/misc.h"
+#include "misc/find_roots.h"
 
 using namespace std;
-
-ostream & operator<< (ostream & o, const std::set<Vec> & s) {
-	if (!s.empty()) {
-		for (const Vec & v : s) {
-			o << v << endl;
-		}
-	} else {
-		o << "Set is empty" << endl;
-	}
-	return o;
-}
 
 int main(int argc, char ** argv) {
 	
@@ -29,17 +14,24 @@ int main(int argc, char ** argv) {
 	}
 	const char * source = argv[1];
 
-	Vec start {0, 0};
-	Vec end {100, 100};
+	const int number_of_iterations = 100000;
 
-	LinearEdge le(start, end);
-	CubicBezierEdge cbe(start, start, end, end);
+	int failures = 0;
+	for (int i = 0; i < number_of_iterations; i++) {
+		// Generate random coefficients
+		double a = generate_random_number(-10, 10);
+		double b = generate_random_number(-10, 10);
+		double c = generate_random_number(-10, 10);
+		double d = generate_random_number(-10, 10);
 
-	Vec line_start {50, 50};
-	Vec line_end = line_start + Vec {0, 1};
+		// See if find_roots could locate roots
+		set<double> roots = find_roots(a, b, c, d);	
+		if (roots.empty()) {
+			failures++;
+		}
+	}
 
-	Line l {line_start, line_end};
-	
-	//cout << le.intersection_points(l);
-	cout << cbe.intersection_points(l);
+	// Show failure rate
+	double failure_percentage = 100.0 * (double)failures / (double)number_of_iterations;
+	cout << "Failure percentage = " << failure_percentage << endl;
 }

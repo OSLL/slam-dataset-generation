@@ -1,6 +1,8 @@
 #include "misc/find_roots.h"
+#include "misc/misc.h" // for sign()
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
 #include <cmath>
 
 using std::abs;
@@ -10,7 +12,6 @@ using std::cout;
 using std::endl;
 using std::set;
 
-// A lambda for f and f' will be useful
 static double f(const double & b, const double & c, const double & d, const double & t) {
 	return t*t*t + b*t*t + c*t + d;
 }
@@ -20,21 +21,47 @@ static double f_prime(const double & b, const double & c, const double & d, cons
 }
 
 static double find_one_root(const double & b, const double & c, const double & d, set<double> & roots) {
-
-	// Uses Newton's method to search for first root
-
-	const double tolerance = 0.00001;
-	const int max_iterations = 20;
 	
-	// for x^3 + ax^2 + bx + c = 0, |x| <= max(1, |a| + |b| + |c|)
-	double right = max(1.0, abs(b) + abs(c) + abs(d));
-	double left = -right;
+	// Newton's method works well when there is only one root inside the search
+	//
+	// Thus, we use bisection to narrow the interval to an acceptable size such that we expect there to only be one root
 
-	// Initialize guess (NOTE: f_prime(b, c, d, guess) must not be 0)
-	double guess = 0;
-	while (f_prime(b, c, d, guess) == 0) {
-		guess += 0.1;
+	/* BISECTION SEARCH PORTION */
+
+	// for x^3 + ax^2 + bx + c = 0, |x| <= max(1, |a| + |b| + |c|)
+	const double max_abs_x = max(1.0, abs(b) + abs(c) + abs(d));
+
+	// Initialize right and left bounds for search interval
+	double right_bound = max_abs_x;
+	double left_bound = -max_abs_x;
+
+	// Bisect until search space is small enough to only contain one root
+	const double tolerable_search_interval_size = 0.1; // We don't expect roots to be closer than 0.1 units apart
+	while (right_bound - left_bound > tolerable_search_interval_size) {
+
+		// Generate guess
+		double guess = (left_bound + right_bound) / 2;
+
+		// Test guess
+		double f_of_guess = f(b, c, d, guess);
+		if (f_of_guess == 0) {
+			// We miraculously guessed the root.  Return it
+			return guess;
+		} else if (sign(f_of_guess) == sign( f(b, c, d, left_bound) )) {
+			left_bound = guess;
+		} else {
+			right_bound = guess;
+		}
+
 	}
+
+	/* NEWTON'S METHOD PORTION */
+
+	const double tolerance = 0.000001;
+	const int max_iterations = 20;
+
+	// Initialize guess
+	double guess = (left_bound + right_bound) / 2;
 
 	for (int iterations = 0; iterations < max_iterations; iterations++) {
 
@@ -48,38 +75,47 @@ static double find_one_root(const double & b, const double & c, const double & d
 			return guess;
 		}
 	}
+	
+	// Failed to find root
+	printf("\nCould not locate roots for t^3 + %.8ft^2 + %.8ft + %.8f\n", b, c, d);
+	printf("Searched in area [%.8f, %.8f]\n\n", -max_abs_x, max_abs_x);
+	return 0;
 }
 
 set<double> find_roots(double a, double b, double c, double d) {
 
+	// Prior to normalization
+	//printf("Finding the roots for %ft^3 + %ft^2 + %ft + %f\n", a, b, c, d);
+
 	// Normalize cubic
-	b /= a;
-	c /= a;
-	d /= a;
-	a = 1;
+	if (a != 0) {
+		b /= a;
+		c /= a;
+		d /= a;
+		a = 1;
+	}
+
+	// After normalization
+	//printf("Finding the roots for %ft^3 + %ft^2 + %ft + %f\n", a, b, c, d);
 
 	// Construct set
 	set<double> roots;
-
-	printf("Finding the roots for %ft^3 + %ft^2 + %ft + %f\n", a, b, c, d);
 
 	// Find the one real root
 	double r1 = find_one_root(b, c, d, roots);
 
 	// Check if the first root was found
 	if (roots.empty()) {
-		cout << "First root could not be found" << endl;
+		return roots;
 	} else {
-		cout << "First root found: " << r1 << endl;
+		//cout << "First root found: " << r1 << endl;
 	}
 
 	// Reduce the polynomial to a quadratic and find the rest of the roots
 	a = 1;
-	b -= r1*a;
-	c -= r1*b;
-	d -= r1*c;
-
-	cout << "Remainder: " << d << endl;
+	b += r1*a;
+	c += r1*b;
+	d += r1*c;
 
 	// Remaining quadratic is given by ax^2 + bx + c
 	//

@@ -16,10 +16,7 @@ CubicBezierEdge::CubicBezierEdge(const Vec & start_point, const Vec & c1, const 
 	B(3*start - 6*control_1 + 3*control_2),
 	C(-3*start + 3*control_1),
 	D(start)
-{
-	//cout << "get_pos(0) = " << get_pos(0) << endl;
-	//cout << "get_pos(1) = " << get_pos(1) << endl;
-}
+{ }
 
 set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op) {
 	// Initialize set of intersections
@@ -45,18 +42,10 @@ set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op)
 	// Find roots to this polynomial
 	std::set<double> roots = find_roots(a, b, c, d);
 
-	// Print out roots
-	cout << "Should be 0.5 -0.366025 1.36603" << endl;
-	cout << "Actually is ";
-	for (const double & r : roots) {
-		cout << r << " ";
-	}
-	cout << endl;
-
 	// For all the roots t where 0 <= t <= 1, fetch the position and insert it into the intersection set
-	for (const double & t : roots) {
-		if (t >= 0 && t <= 1) {
-			intersections.insert(get_pos(t));
+	for (const double & root : roots) {
+		if (root >= 0 && root <= 1) {
+			intersections.insert(get_pos(root));
 		}
 	}
 
@@ -64,7 +53,8 @@ set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op)
 }
 
 Vec CubicBezierEdge::get_pos(const double & t) {
-	return A*(t*t*t) + B*(t*t) + C*t + D;
+	Vec pos = A*(t*t*t) + B*(t*t) + C*t + D;
+	return pos;
 }
 
 void CubicBezierEdge::print(ostream & o, int tabs) const {

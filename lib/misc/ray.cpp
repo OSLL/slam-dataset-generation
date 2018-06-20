@@ -7,11 +7,9 @@ using std::endl;
 using std::ostream;
 
 Ray::Ray(const Vec & start_point, const double & theta_val) :
-	ObservationPath(start_point, {0, 0}, on_ray),
+	ObservationPath(start_point, start_point + Vec{cos(theta_val), sin(theta_val)}, on_ray),
 	theta(theta_val)
-{
-	update_end();
-}
+{ }
 
 void Ray::update_end() {
 	double x = start.x + cos(theta);
@@ -24,9 +22,21 @@ void Ray::update_theta() {
 	theta = atan2(dir.y, dir.x);
 }
 
+void Ray::update_abc() {
+	ab = Vec{start.y - end.y, end.x - start.x};
+	c = dot(start, ab);
+}
+
 void Ray::change_theta(double dtheta) {
 	theta += dtheta;
 	update_end();
+	update_abc();
+}
+
+void Ray::change_end(const Vec & v) {
+	end = v;
+	update_theta();
+	update_abc();
 }
 
 bool Ray::on_ray(const Vec & p, const ObservationPath & op) {

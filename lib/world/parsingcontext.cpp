@@ -73,7 +73,7 @@ void ParsingContext::set(tag::attribute::id, const boost::iterator_range<const c
 		Path * last_constructed_path = parent.all_obstacles.back();
 		
 		// Set id
-		last_constructed_path->set_id(id);
+		last_constructed_path->id = id;
 	}
 }
 /* #################################################################################*/
@@ -94,7 +94,7 @@ void ParsingContext::on_exit_element() {
 		Path * last_constructed_path = parent.all_obstacles.back();
 
 		// Ensure that closure of paths is enforced
-		const Vec & path_start = last_constructed_path->start();
+		const Vec & path_start = last_constructed_path->start;
 		const Vec & path_end = last_constructed_path->end();
 		if (path_start != path_end) {
 			Edge * new_edge = new LinearEdge(path_end, path_start);
@@ -102,7 +102,7 @@ void ParsingContext::on_exit_element() {
 		}
 
 		// Place a reference to the constructed path in the correct location
-		if (last_constructed_path->id() == "world_boundary") {
+		if (last_constructed_path->id == "world_boundary") {
 			parent.world_boundary = last_constructed_path;
 		} else {
 			parent.interior_obstacles.push_back(last_constructed_path);

@@ -1,4 +1,5 @@
 #include "world/path.h"
+#include "misc/ray.h"
 #include <iostream>
 #include <string>
 
@@ -7,8 +8,8 @@ using std::endl;
 using std::string;
 
 Path::Path(const Vec & start_point) :
-	_start(start_point),
-	_end_ptr(&_start)
+	start(start_point),
+	end_ptr(&start)
 { }
 
 Path::~Path() {
@@ -19,16 +20,14 @@ Path::~Path() {
 }
 
 // Getters
-const Vec & Path::start() { return _start; }
-const string & Path::id() { return _id; }
-const Vec & Path::end() { return *_end_ptr; }
+const Vec & Path::end() {
+	return *end_ptr;
+}
 
-// Setters
-void Path::set_id(const string & id_value) { _id = id_value; }
 
 void Path::add_edge(Edge * e) {
 	edges.push_back(e);
-	_end_ptr = &e->end;
+	end_ptr = &e->end;
 }
 
 void Path::print(ostream & o, int tabs) const {
@@ -38,11 +37,24 @@ void Path::print(ostream & o, int tabs) const {
 	}
 
 	// Print data
-	o << "Path: " << _id << endl;
+	o << "Path: " << id << endl;
 	for (Edge * e : edges) {
 		e->print(o, tabs + 1);
 		o << endl;
 	}
+}
+
+bool Path::is_in(const Vec & p) {
+	// Cast ray in some direction and count the total number of intersections
+	Ray ray {p, 0};
+
+	int intersections = 0;
+	for (Edge * e : edges) {
+		intersections += e->number_of_intersections(ray);
+	}
+
+	// If number of intersections the ray encountered is odd, then the point is inside the path
+	return intersections % 2 == 1;
 }
 
 ostream & operator<<(ostream & o, const Path & path) {

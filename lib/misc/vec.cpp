@@ -110,6 +110,6 @@ bool Vec::operator<(const Vec & v) const {
 /* ########################################## */
 
 ostream & operator<<(ostream & o, Vec v) {
-	printf("(%.2f, %.2f)", v.x, v.y);
+	printf("(%.8f, %.8f)", v.x, v.y);
 	return o;
 }
