@@ -2,7 +2,7 @@
 CC := g++ --std=c++11
 ##########################
 ###### TESTING ###########
-TESTING := test-app
+TESTING := test-roots-app
 PARAMETERS := res/map3.svg
 ##########################
 ###### OBJECT FILES ######

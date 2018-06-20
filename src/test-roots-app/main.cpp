@@ -14,7 +14,7 @@ int main(int argc, char ** argv) {
 	}
 	const char * source = argv[1];
 
-	const int number_of_iterations = 100000;
+	const int number_of_iterations = 1000;
 
 	int failures = 0;
 	for (int i = 0; i < number_of_iterations; i++) {

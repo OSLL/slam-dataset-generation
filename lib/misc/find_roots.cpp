@@ -7,7 +7,6 @@
 
 using std::abs;
 using std::max;
-using std::signbit;
 using std::cout;
 using std::endl;
 using std::set;
@@ -22,12 +21,6 @@ static double f_prime(const double & b, const double & c, const double & d, cons
 
 static double find_one_root(const double & b, const double & c, const double & d, set<double> & roots) {
 	
-	// Newton's method works well when there is only one root inside the search
-	//
-	// Thus, we use bisection to narrow the interval to an acceptable size such that we expect there to only be one root
-
-	/* BISECTION SEARCH PORTION */
-
 	// for x^3 + ax^2 + bx + c = 0, |x| <= max(1, |a| + |b| + |c|)
 	const double max_abs_x = max(1.0, abs(b) + abs(c) + abs(d));
 
@@ -35,17 +28,19 @@ static double find_one_root(const double & b, const double & c, const double & d
 	double right_bound = max_abs_x;
 	double left_bound = -max_abs_x;
 
-	// Bisect until search space is small enough to only contain one root
-	const double tolerable_search_interval_size = 0.1; // We don't expect roots to be closer than 0.1 units apart
-	while (right_bound - left_bound > tolerable_search_interval_size) {
+	const double tolerance = 0.000001;
+	const int max_iterations = 50;
+
+	// Bisect until interval is within tolerance or max iterations has been reached
+	for (int i = 0; i < max_iterations; i++) {
 
 		// Generate guess
 		double guess = (left_bound + right_bound) / 2;
 
 		// Test guess
 		double f_of_guess = f(b, c, d, guess);
-		if (f_of_guess == 0) {
-			// We miraculously guessed the root.  Return it
+		if (right_bound - left_bound < tolerance) {
+			roots.insert(guess);
 			return guess;
 		} else if (sign(f_of_guess) == sign( f(b, c, d, left_bound) )) {
 			left_bound = guess;
@@ -53,27 +48,6 @@ static double find_one_root(const double & b, const double & c, const double & d
 			right_bound = guess;
 		}
 
-	}
-
-	/* NEWTON'S METHOD PORTION */
-
-	const double tolerance = 0.000001;
-	const int max_iterations = 20;
-
-	// Initialize guess
-	double guess = (left_bound + right_bound) / 2;
-
-	for (int iterations = 0; iterations < max_iterations; iterations++) {
-
-		// Generate guess
-		guess -= f(b, c, d, guess) / f_prime(b, c, d, guess);
-
-		// Test guess
-		double f_guess = f(b, c, d, guess);
-		if (abs(f_guess) < tolerance) {
-			roots.insert(guess);
-			return guess;
-		}
 	}
 	
 	// Failed to find root
