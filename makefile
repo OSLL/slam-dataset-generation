@@ -2,15 +2,15 @@
 CC := g++ --std=c++11
 ##########################
 ###### TESTING ###########
-TESTING := test-roots-app
-PARAMETERS := res/map3.svg
+TESTING := test-app
+PARAMETERS := res/map2.svg
 ##########################
 ###### OBJECT FILES ######
 # Used to ignore certain directories when finding source files to compile (e.g. for unit tests in packaged with dependencies)
 SOURCE_BLACKLIST := svgpp
 
 ALL_COMMON_OBJ := $(foreach file, \
-		  $(shell find lib -name "*.cpp"), \
+		  $(shell find lib src/common_src -name "*.cpp"), \
 		  $(file:%.cpp=bin/%.o))
 COMMON_OBJ := $(strip \
 	      $(foreach o, \
@@ -21,7 +21,7 @@ COMMON_OBJ := $(strip \
 # Used to avoid creating executables from the compiled source of a given folder in src
 EXECUTABLE_BLACKLIST := generate_random_bag
 
-EXECUTABLES_UNFILTERED := $(foreach e,$(shell ls -d src/*),$(shell basename $(e)))
+EXECUTABLES_UNFILTERED := $(foreach e,$(shell ls -d src/executables/*),$(shell basename $(e)))
 EXECUTABLES := $(filter-out $(EXECUTABLE_BLACKLIST),$(EXECUTABLES_UNFILTERED))
 #########################
 ###### INCLUDE FLAGS ####
@@ -31,7 +31,7 @@ EXECUTABLES := $(filter-out $(EXECUTABLE_BLACKLIST),$(EXECUTABLES_UNFILTERED))
 #	  -I$(d))
 
 # Cheaper, you just have to specify the full relative path to your header files
-IFLAGS := -I./lib -I./lib/svgpp/include -I./lib/svgpp/third_party
+IFLAGS := -I./lib/svgpp/include -I./lib/svgpp/third_party -I./src/common_src
 #########################
 
 all : $(EXECUTABLES)
@@ -39,7 +39,7 @@ all : $(EXECUTABLES)
 # Building executables
 define build_executable =
 $(eval $(1)_OBJ = $(foreach o, \
-		  $(shell find src/$(1)/ -name "*.cpp"), \
+		  $(shell find src/executables/$(1)/ -name "*.cpp"), \
 		  $(o:%.cpp=bin/%.o)))
 $(1) : $(COMMON_OBJ) $($(1)_OBJ)
 	$(CC) -o $(1) $($(1)_OBJ) $(COMMON_OBJ)

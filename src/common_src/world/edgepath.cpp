@@ -1,0 +1,63 @@
+#include "world/edgepath.h"
+#include "observationpath/ray.h"
+#include <iostream>
+#include <string>
+
+using std::ostream;
+using std::endl;
+using std::string;
+
+EdgePath::EdgePath(const Vec & start_point) :
+	start(start_point),
+	end_ptr(&start)
+{ }
+
+EdgePath::~EdgePath() {
+	// In this case, RAII isn't really being obeyed, because dynamic allocation happens in ParsingContext, not in EdgePath
+	for (Edge * e : edges) {
+		delete e;
+	}
+}
+
+// Getters
+const Vec & EdgePath::end() {
+	return *end_ptr;
+}
+
+
+void EdgePath::add_edge(Edge * e) {
+	edges.push_back(e);
+	end_ptr = &e->end;
+}
+
+void EdgePath::print(ostream & o, int tabs) const {
+	// Print the correct number of tabs
+	for (int i = 0; i < tabs; i++) {
+		o << '\t';
+	}
+
+	// Print data
+	o << "EdgePath: " << id << endl;
+	for (Edge * e : edges) {
+		e->print(o, tabs + 1);
+		o << endl;
+	}
+}
+
+bool EdgePath::is_in(const Vec & p) {
+	// Cast ray in some direction and count the total number of intersections
+	Ray ray {p, 0};
+
+	int intersections = 0;
+	for (Edge * e : edges) {
+		intersections += e->number_of_intersections(ray);
+	}
+
+	// If number of intersections the ray encountered is odd, then the point is inside the path
+	return intersections % 2 == 1;
+}
+
+ostream & operator<<(ostream & o, const EdgePath & path) {
+	path.print();
+	return o;
+}

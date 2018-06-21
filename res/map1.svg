@@ -9,29 +9,30 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="100mm"
-   height="100mm"
-   viewBox="0 0 354.33071 354.33071"
+   width="500cm"
+   height="500cm"
+   viewBox="0 0 17716.536 17716.537"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="map2.svg">
+   sodipodi:docname="map1.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
+     bordercolor="#000000"
+     borderopacity="1"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="176.70864"
-     inkscape:cy="159.14201"
-     inkscape:document-units="px"
+     inkscape:zoom="0.056568542"
+     inkscape:cx="8610.3851"
+     inkscape:cy="7724.2364"
+     inkscape:document-units="m"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1918"
+     units="m"
+     inkscape:window-width="3838"
      inkscape:window-height="2132"
      inkscape:window-x="0"
      inkscape:window-y="26"
@@ -52,16 +53,18 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-698.0315)">
+     transform="translate(0,16664.174)">
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 50.507627,737.6997 21.970818,253.80083 229.052095,25.00127 0.75761,-281.58002 z"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:70.86615018;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 2138.997,-2412.462 0,-11189.965 1758.9281,-1758.928 10438.6639,0 2016.923,1164.471 0,11890.488 -1476.92,1476.92 -11606.2241,0 z"
        id="world_boundary"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:label="world_boundary" />
     <path
-       id="path3357"
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 144.19928,874.32283 182.08,806.39007 207.08127,879.12106 Z"
-       inkscape:connector-curvature="0" />
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:70.8661499;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 12162.235,-5612.1198 c 0,0 -1149.048,-3288.0471 -5020.4574,-848.5288 -3871.4096,2439.519 -3453.8879,-3237.9686 -1078.3381,-4154.2524 2474.8737,-954.594 4877.0835,-299.772 6363.9615,654.074 2810.75,1803.1223 -265.166,4348.7072 -265.166,4348.7072 z"
+       id="path4528"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssc" />
   </g>
 </svg>
