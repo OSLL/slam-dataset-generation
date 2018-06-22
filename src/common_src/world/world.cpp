@@ -56,7 +56,7 @@ void World::read_from_disk(const char * source) {
 	// Check to see if world_boundary ever got populated
 	if (world_boundary == nullptr) {
 		cout << "world_boundary was never populated" << endl;
-		exit(-1);
+		//exit(-1);
 	}
 }
 
@@ -72,9 +72,13 @@ void World::print(ostream & o, int tabs) const {
 	}
 
 	// Print data
-	o << "World:" << endl;
-	for (const EdgePath * path : all_obstacles) {
-		path->print(o, tabs + 1);
+	if (all_obstacles.size() != 0) {
+		o << "World:" << endl;
+		for (const EdgePath * path : all_obstacles) {
+			path->print(o, tabs + 1);
+		}
+	} else {
+		o << "World is empty" << endl;
 	}
 }
 

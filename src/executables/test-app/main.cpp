@@ -17,5 +17,5 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	cout << world << endl;
+	//cout << world << endl;
 }

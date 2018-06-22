@@ -18,31 +18,47 @@ using std::endl;
 using std::string;
 using std::ostream;
 using boost::mpl::pair;
+using boost::mpl::set;
+using boost::mpl::insert;
+using boost::mpl::fold;
+using boost::mpl::protect;
+using boost::mpl::joint_view;
 
 // Define processable elements in svg
-typedef boost::mpl::set<
-//	tag::element::svg,
+typedef set<
+	tag::element::svg,
 	tag::element::g,
 	tag::element::path
 >::type processed_elements_t;
 
 // Define processable attributes in svg elements
-typedef boost::mpl::insert<
-	traits::shapes_attributes_by_element,
-	tag::attribute::id,
-//	pair<tag::element::path, tag::attribute::id>,
-	tag::attribute::transform
+typedef set<
+	// Transform
+	tag::attribute::transform,
+
+	// Viewport
+	tag::attribute::x,
+	tag::attribute::y,
+	tag::attribute::width,
+	tag::attribute::height,
+	tag::attribute::viewBox,
+	tag::attribute::preserveAspectRatio,
+
+	// Path
+	pair<tag::element::path, tag::attribute::id>,
+	pair<tag::element::path, tag::attribute::d>
 >::type processed_attributes_t;
 
 // xml_element_t typedef
 typedef rapidxml_ns::xml_node<> const * xml_element_t;
 
+static const Matrix identity_matrix {1, 0, 0, 1, 0, 0};
 
 ParsingContext::ParsingContext(World & parent_obj) :
 	parent(parent_obj),
 	current_path(nullptr),
 	parsing_path(false),
-	transformation_matrix({1, 0, 0, 0, 1, 0}) // identity matrix
+	current_transform_matrix(identity_matrix)
 { }
 
 void ParsingContext::parse(char * buffer) {
@@ -55,7 +71,8 @@ void ParsingContext::parse(char * buffer) {
 	if (svg_root) {
 		document_traversal<
 			processed_elements<processed_elements_t>,
-			processed_attributes<processed_attributes_t>
+			processed_attributes<processed_attributes_t>,
+			viewport_policy<policy::viewport::as_transform>
 		>::load_document(svg_root, *this);
 	} else {
 		cout << "Could not extract svg root node from file." << endl;
@@ -65,7 +82,7 @@ void ParsingContext::parse(char * buffer) {
 
 
 /* ########################### Keep track of path ids ############################# */
-void ParsingContext::set(tag::attribute::id, const boost::iterator_range<const char *> & value) {
+void ParsingContext::set(tag::attribute::id &, const boost::iterator_range<const char *> & value) {
 
 	// Associate id with path
 	if (parsing_path) {
@@ -85,12 +102,26 @@ void ParsingContext::set(tag::attribute::id, const boost::iterator_range<const c
 
 
 
-
 /* ###################### Determine beginning and end of path ######################*/
+
+ostream & operator<<(ostream & o, const Matrix & m) {
+	printf("\n"
+	       "[%f, %f, %f]\n"
+	       "[%f, %f, %f]\n"
+	       "[%f, %f, %f]\n",
+	       m[0], m[2], m[4],
+	       m[1], m[3], m[5],
+	       0.0f, 0.0f, 1.0f
+	);
+	return o;
+}
+
 void ParsingContext::path_move_to(double x, double y, tag::coordinate::absolute) {
 	parsing_path = true;
-	EdgePath * new_path = new EdgePath({x, y});
+	EdgePath * new_path = new EdgePath(transform({x, y}));
 	parent.all_obstacles.push_back(new_path);
+
+	cout << "Right now, transform_matrix is " << current_transform_matrix << endl;
 }
 
 void ParsingContext::on_exit_element() {
@@ -116,19 +147,105 @@ void ParsingContext::on_exit_element() {
 		// We are no longer parsing a path
 		parsing_path = false;
 	}
+
+	// Remove transform
+	pop_transform();
 }
 /* ################################################################################ */
 
 
 
 /* ####################### Handling coordinate tranformation ###################### */
-void ParsingContext::transform_matrix(const boost::array<double, 6> & matrix) {
-	transformation_matrix = matrix;
+Matrix multiply_matrix(const Matrix & m1, const Matrix & m2) {
+	Matrix result;
+
+	int a = 0;
+	int b = 1;
+	int c = 2;
+	int d = 3;
+	int e = 4;
+	int f = 5;
+
+	result[a] = m1[a]*m2[a] + m1[c]*m2[b];		// a = a1*a2 + c1*b2
+	result[b] = m1[b]*m2[a] + m1[d]*m2[b];		// b = b1*a2 + d1*b2
+	result[c] = m1[a]*m2[c] + m1[c]*m2[d];		// c = a1*c2 + c1*d2
+	result[d] = m1[b]*m2[c] + m1[d]*m2[d];		// d = b1*c2 + d1*d2
+	result[e] = m1[a]*m2[e] + m1[c]*m2[f] + m1[e];  // e = a1*e2 + c1*f2 + e1
+	result[f] = m1[b]*m2[e] + m1[d]*m2[f] + m1[f];	// f = b1*e2 + d1*f2 + f1
+
+	//cout << "Matrix was " << m1 << "now is" << result << endl;
+
+	return result;
+}
+
+void ParsingContext::push_identity_transform() {
+	transform_matrices.push_back(identity_matrix);
+}
+
+void ParsingContext::pop_transform() {
+	// If last matrix in transform_matrices isn't the identity matrix, update transform_matrix
+	const Matrix & last_matrix = transform_matrices.back();
+	if (last_matrix != Matrix{1, 0, 0, 1, 0, 0}) {
+
+		transform_matrices.pop_back();
+
+		// The best thing to do scaling wise would be to find the inverse of this matrix and multiply
+		// transform_matrix by it.  However, that would take a lot of code.
+		//
+		// For now, I just multiple all the prior matrices together to get the new transformation_matrix
+		current_transform_matrix = identity_matrix;
+		for (const Matrix & m : transform_matrices) {
+			current_transform_matrix = multiply_matrix(current_transform_matrix, m);
+		}
+	} else {
+		transform_matrices.pop_back();
+	}
 }
 
 Vec ParsingContext::transform(const Vec & v) {
-	boost::array<double, 6> & a = transformation_matrix;
-	return {a[0]*v.x + a[1]*v.y + a[2], a[3]*v.x + a[4]*v.y + a[5]};
+	// Create succinct reference for transformation matrix
+	const Matrix & m = current_transform_matrix;
+
+	Vec result {m[0]*v.x + m[2]*v.y + m[4], m[1]*v.x + m[3]*v.y + m[5]};
+
+	// Flip and scale down
+	
+	double width = 500;
+	double height = 500;
+
+	result.x *= width / viewport_width;
+	result.x = (viewport_height - result.y) * height / viewport_height;
+
+	cout << v << " transformed to " << result << endl;
+
+	return result;
+}
+
+void ParsingContext::transform_matrix(const Matrix & m) {
+	// When we entered the current element, we pushed on an identity matrix
+	// We need to copy this matrix into that one
+	//cout << "transform_matrix(" << m << ")" << endl;
+	cout << "transform_matrix(" << m << ")" << endl;
+
+	if (transform_matrices.size() != 0) {
+		transform_matrices.back() = m;
+	} else {
+		transform_matrices.push_back(m);
+	}
+
+
+	current_transform_matrix = multiply_matrix(current_transform_matrix, m);
+}
+
+void ParsingContext::on_enter_element(tag::element::any) {
+	// Push on an identity matrix onto the stack of transformation matrices
+	// If the element actually contains a transform, ParsingContext::transform_matrix will correct it
+	push_identity_transform();
+}
+void ParsingContext::on_enter_element(tag::element::path) {
+	// Push on an identity matrix onto the stack of transformation matrices
+	// If the element actually contains a transform, ParsingContext::transform_matrix will correct it
+	push_identity_transform();
 }
 /* ################################################################################ */
 
@@ -178,7 +295,18 @@ void ParsingContext::path_elliptical_arc_to(double rx, double ry, double x_axis_
 
 
 /* ############################## Unneeded functions ############################## */
-void ParsingContext::on_enter_element(tag::element::any) {}
+void ParsingContext::set_viewport(double x, double y, double width, double height) {
+	viewport_x = x;
+	viewport_y = y;
+	viewport_width = width;
+	viewport_height = height;
+}
+
+void ParsingContext::set_viewbox_size(double width, double height) {
+	printf("Viewbox: %f x %f\n", width, height);
+}
+
+void ParsingContext::disable_rendering() {}
 
 void ParsingContext::path_exit() { }
 
