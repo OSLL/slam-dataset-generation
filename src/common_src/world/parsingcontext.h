@@ -13,8 +13,12 @@ class ParsingContext {
 		// Reference to World parent
 		World & parent;
 
-		double viewport_x;
-		double viewport_y;
+		// Canvas
+		double canvas_width = 5;
+		double canvas_height = 5;
+
+		// Viewport
+		Vec viewport_location;
 		double viewport_width;
 		double viewport_height;
 		

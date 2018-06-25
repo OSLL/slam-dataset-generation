@@ -58,6 +58,7 @@ ParsingContext::ParsingContext(World & parent_obj) :
 	parent(parent_obj),
 	current_path(nullptr),
 	parsing_path(false),
+	viewport_location(0, 0),
 	current_transform_matrix(identity_matrix)
 { }
 
@@ -120,8 +121,6 @@ void ParsingContext::path_move_to(double x, double y, tag::coordinate::absolute)
 	parsing_path = true;
 	EdgePath * new_path = new EdgePath(transform({x, y}));
 	parent.all_obstacles.push_back(new_path);
-
-	cout << "Right now, transform_matrix is " << current_transform_matrix << endl;
 }
 
 void ParsingContext::on_exit_element() {
@@ -206,17 +205,17 @@ Vec ParsingContext::transform(const Vec & v) {
 	// Create succinct reference for transformation matrix
 	const Matrix & m = current_transform_matrix;
 
+	// Transform vector relative to current  viewport
 	Vec result {m[0]*v.x + m[2]*v.y + m[4], m[1]*v.x + m[3]*v.y + m[5]};
 
-	// Flip and scale down
-	
-	double width = 500;
-	double height = 500;
+	// Scale vector by viewport size, flip y coordinate
+	result.x = result.x / viewport_width * canvas_width;
+	result.y = -result.y / viewport_height * canvas_height;
 
-	result.x *= width / viewport_width;
-	result.x = (viewport_height - result.y) * height / viewport_height;
+	// Add viewport offset
+	result = result + viewport_location;
 
-	cout << v << " transformed to " << result << endl;
+	//cout << v << " transformed to " << result << endl;
 
 	return result;
 }
@@ -225,7 +224,6 @@ void ParsingContext::transform_matrix(const Matrix & m) {
 	// When we entered the current element, we pushed on an identity matrix
 	// We need to copy this matrix into that one
 	//cout << "transform_matrix(" << m << ")" << endl;
-	cout << "transform_matrix(" << m << ")" << endl;
 
 	if (transform_matrices.size() != 0) {
 		transform_matrices.back() = m;
@@ -296,15 +294,12 @@ void ParsingContext::path_elliptical_arc_to(double rx, double ry, double x_axis_
 
 /* ############################## Unneeded functions ############################## */
 void ParsingContext::set_viewport(double x, double y, double width, double height) {
-	viewport_x = x;
-	viewport_y = y;
+	viewport_location = {x, canvas_height - y};
 	viewport_width = width;
 	viewport_height = height;
 }
 
-void ParsingContext::set_viewbox_size(double width, double height) {
-	printf("Viewbox: %f x %f\n", width, height);
-}
+void ParsingContext::set_viewbox_size(double width, double height) { }
 
 void ParsingContext::disable_rendering() {}
 
