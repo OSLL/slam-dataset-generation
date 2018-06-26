@@ -5,6 +5,9 @@
 #include "world/edgepath.h"
 #include <svgpp/svgpp.hpp>
 #include <vector>
+#include "world/parsing/lengthfactory.h"
+
+#include "misc/misc.h"
 
 typedef boost::array<double, 6> Matrix;
 
@@ -13,14 +16,21 @@ class ParsingContext {
 		// Reference to World parent
 		World & parent;
 
+		// Length policy
+		LengthFactory length_factory_;
+
 		// Canvas
-		double canvas_width = 5;
-		double canvas_height = 5;
+		double canvas_width;
+		double canvas_height;
 
 		// Viewport
 		Vec viewport_location;
 		double viewport_width;
 		double viewport_height;
+
+		// Viewbox
+		double viewbox_width;
+		double viewbox_height;
 		
 		// EdgePath being currently constructed
 		EdgePath * current_path;
@@ -48,17 +58,14 @@ class ParsingContext {
 		void set_viewbox_size(double width, double size);
 		void disable_rendering();
 
-		// Process id
+		// Length factory
+		const LengthFactory & length_factory();
+
+		// Attribute processing
 		void set(svgpp::tag::attribute::id &, const boost::iterator_range<const char *> & value);
-
-		// Delineate the start and end of paths
-		void path_move_to(double x, double y, svgpp::tag::coordinate::absolute);
-		void on_exit_element();
-
-		// Update transformation matrix
 		void transform_matrix(const Matrix & m);
 
-		// Add edges
+		/* ##################### Add edges ################### */
 		void path_line_to(double x, double y, svgpp::tag::coordinate::absolute);
 		void path_cubic_bezier_to(double x1, double y1,
 					  double x2, double y2,
@@ -71,11 +78,20 @@ class ParsingContext {
 					    bool large_arc_flag, bool sweep_flag,
 					    double x, double y,
 					    svgpp::tag::coordinate::absolute);
+		/* ################################################### */
 
+
+
+		/* ################################################### */
+		void path_move_to(double x, double y, svgpp::tag::coordinate::absolute);
+		void on_exit_element();
 		void on_enter_element(svgpp::tag::element::any);
 		void on_enter_element(svgpp::tag::element::path);
 		void path_exit();
 		void path_close_subpath();
+		/* ################################################### */
+
+		friend class LengthFactory;
 };
 
 #endif

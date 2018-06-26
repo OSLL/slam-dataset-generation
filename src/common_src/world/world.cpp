@@ -1,6 +1,6 @@
 #include "world/world.h"
 #include "world/edgepath.h"
-#include "world/parsingcontext.h"
+#include "world/parsing/parsingcontext.h"
 #include "misc/vec.h"
 #include <iostream>
 #include <string>
@@ -30,11 +30,24 @@ World::~World() {
 const EdgePath * World::get_world_boundary() {
 	return world_boundary;
 }
+
 const vector<EdgePath *> & World::get_obstacles() {
 	return interior_obstacles;
 }
+
 const vector<EdgePath *> & World::get_all_obstacles() {
 	return all_obstacles;
+}
+
+const EdgePath * World::get_obstacle_by_id(string id) {
+
+	for (EdgePath * p : all_obstacles) {
+		if (p->id == id) {
+			return p;
+		}
+	}
+
+	return nullptr;
 }
 
 void World::read_from_disk(const char * source) {
@@ -56,7 +69,7 @@ void World::read_from_disk(const char * source) {
 	// Check to see if world_boundary ever got populated
 	if (world_boundary == nullptr) {
 		cout << "world_boundary was never populated" << endl;
-		//exit(-1);
+		exit(-1);
 	}
 }
 
@@ -80,6 +93,23 @@ void World::print(ostream & o, int tabs) const {
 	} else {
 		o << "World is empty" << endl;
 	}
+}
+
+bool World::is_valid(const Vec & pos) {
+	// Check if point isn't inside world
+	if (!world_boundary->is_in(pos)) {
+		return false;
+	}
+
+	// Check if point is in any of the interior obstacles
+	for (EdgePath * path : interior_obstacles) {
+		if (path->is_in(pos)) {
+			return false;
+		}
+	}
+
+	// The point passed all tests, so it's valid
+	return true;
 }
 
 ostream & operator<<(ostream & o, const World & world) {

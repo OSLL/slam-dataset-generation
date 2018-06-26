@@ -32,8 +32,8 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      units="m"
-     inkscape:window-width="1918"
-     inkscape:window-height="1065"
+     inkscape:window-width="3838"
+     inkscape:window-height="2132"
      inkscape:window-x="0"
      inkscape:window-y="26"
      inkscape:window-maximized="0" />
@@ -56,7 +56,7 @@
      transform="translate(0,16664.174)">
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:70.8661499;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 1378.8571,-2218.0076 760.1399,-11384.4194 1758.9281,-1758.928 10438.6639,0 2016.923,1164.471 0,11890.488 -1476.92,1476.92 -11606.2241,0 z"
+       d="m 2103.6416,-2341.7513 35.3554,-11260.6757 1758.9281,-1758.928 10438.6639,0 2016.923,1164.471 0,11890.488 -1476.92,1476.92 -11606.2241,0 z"
        id="world_boundary"
        inkscape:connector-curvature="0"
        inkscape:label="world_boundary"

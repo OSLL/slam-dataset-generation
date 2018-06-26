@@ -1,4 +1,4 @@
-#include "world/parsingcontext.h"
+#include "world/parsing/parsingcontext.h"
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -58,8 +58,9 @@ ParsingContext::ParsingContext(World & parent_obj) :
 	parent(parent_obj),
 	current_path(nullptr),
 	parsing_path(false),
-	viewport_location(0, 0),
-	current_transform_matrix(identity_matrix)
+	current_transform_matrix(identity_matrix),
+	viewport_location(-1, -1),
+	length_factory_(*this)
 { }
 
 void ParsingContext::parse(char * buffer) {
@@ -73,16 +74,21 @@ void ParsingContext::parse(char * buffer) {
 		document_traversal<
 			processed_elements<processed_elements_t>,
 			processed_attributes<processed_attributes_t>,
-			viewport_policy<policy::viewport::as_transform>
+			viewport_policy<policy::viewport::as_transform>,
+			length_policy<policy::length::forward_to_method<ParsingContext, LengthFactory const>>
 		>::load_document(svg_root, *this);
 	} else {
 		cout << "Could not extract svg root node from file." << endl;
 	}
 }
 
+const LengthFactory & ParsingContext::length_factory() {
+	return length_factory_;
+}
 
 
-/* ########################### Keep track of path ids ############################# */
+
+/* ############################## Attribute parsing ############################### */
 void ParsingContext::set(tag::attribute::id &, const boost::iterator_range<const char *> & value) {
 
 	// Associate id with path
@@ -102,21 +108,21 @@ void ParsingContext::set(tag::attribute::id &, const boost::iterator_range<const
 /* #################################################################################*/
 
 
-
-/* ###################### Determine beginning and end of path ######################*/
-
 ostream & operator<<(ostream & o, const Matrix & m) {
-	printf("\n"
-	       "[%f, %f, %f]\n"
-	       "[%f, %f, %f]\n"
-	       "[%f, %f, %f]\n",
-	       m[0], m[2], m[4],
-	       m[1], m[3], m[5],
-	       0.0f, 0.0f, 1.0f
+	printf(
+		"\n"
+		"[%f, %f, %f]\n"
+		"[%f, %f, %f]\n"
+		"[%f, %f, %f]\n",
+		m[0], m[2], m[4],
+		m[1], m[3], m[5],
+		0.0f, 0.0f, 1.0f
 	);
 	return o;
 }
 
+
+/* ###################### Determine beginning and end of path ######################*/
 void ParsingContext::path_move_to(double x, double y, tag::coordinate::absolute) {
 	parsing_path = true;
 	EdgePath * new_path = new EdgePath(transform({x, y}));
@@ -154,8 +160,23 @@ void ParsingContext::on_exit_element() {
 
 
 
-/* ####################### Handling coordinate tranformation ###################### */
-Matrix multiply_matrix(const Matrix & m1, const Matrix & m2) {
+/* ############################## Viewport & Viewbox ############################## */
+void ParsingContext::set_viewport(double x, double y, double width, double height) {
+	viewport_location = {x, viewport_height - y};
+	viewport_width = width;
+	viewport_height = height;
+}
+
+void ParsingContext::set_viewbox_size(double width, double height) {
+	viewbox_width = width;
+	viewbox_height = height;
+}
+/* ################################################################################ */
+
+
+
+/* ########################### Coordinate transformation ########################## */
+static Matrix multiply_matrix(const Matrix & m1, const Matrix & m2) {
 	Matrix result;
 
 	int a = 0;
@@ -171,8 +192,6 @@ Matrix multiply_matrix(const Matrix & m1, const Matrix & m2) {
 	result[d] = m1[b]*m2[c] + m1[d]*m2[d];		// d = b1*c2 + d1*d2
 	result[e] = m1[a]*m2[e] + m1[c]*m2[f] + m1[e];  // e = a1*e2 + c1*f2 + e1
 	result[f] = m1[b]*m2[e] + m1[d]*m2[f] + m1[f];	// f = b1*e2 + d1*f2 + f1
-
-	//cout << "Matrix was " << m1 << "now is" << result << endl;
 
 	return result;
 }
@@ -201,6 +220,18 @@ void ParsingContext::pop_transform() {
 	}
 }
 
+void ParsingContext::transform_matrix(const Matrix & m) {
+	// When we entered the current element, we pushed on an identity matrix
+	// We need to copy this matrix into that one
+	if (transform_matrices.size() != 0) {
+		transform_matrices.back() = m;
+	} else {
+		transform_matrices.push_back(m);
+	}
+
+	current_transform_matrix = multiply_matrix(current_transform_matrix, m);
+}
+
 Vec ParsingContext::transform(const Vec & v) {
 	// Create succinct reference for transformation matrix
 	const Matrix & m = current_transform_matrix;
@@ -208,32 +239,12 @@ Vec ParsingContext::transform(const Vec & v) {
 	// Transform vector relative to current  viewport
 	Vec result {m[0]*v.x + m[2]*v.y + m[4], m[1]*v.x + m[3]*v.y + m[5]};
 
-	// Scale vector by viewport size, flip y coordinate
-	result.x = result.x / viewport_width * canvas_width;
-	result.y = -result.y / viewport_height * canvas_height;
-
-	// Add viewport offset
-	result = result + viewport_location;
-
-	//cout << v << " transformed to " << result << endl;
+	// Flip y coordinate so that the axis system is like a traditional cartesian coordinate system
+	result.y = viewport_height - result.y;
 
 	return result;
 }
 
-void ParsingContext::transform_matrix(const Matrix & m) {
-	// When we entered the current element, we pushed on an identity matrix
-	// We need to copy this matrix into that one
-	//cout << "transform_matrix(" << m << ")" << endl;
-
-	if (transform_matrices.size() != 0) {
-		transform_matrices.back() = m;
-	} else {
-		transform_matrices.push_back(m);
-	}
-
-
-	current_transform_matrix = multiply_matrix(current_transform_matrix, m);
-}
 
 void ParsingContext::on_enter_element(tag::element::any) {
 	// Push on an identity matrix onto the stack of transformation matrices
@@ -293,13 +304,7 @@ void ParsingContext::path_elliptical_arc_to(double rx, double ry, double x_axis_
 
 
 /* ############################## Unneeded functions ############################## */
-void ParsingContext::set_viewport(double x, double y, double width, double height) {
-	viewport_location = {x, canvas_height - y};
-	viewport_width = width;
-	viewport_height = height;
-}
 
-void ParsingContext::set_viewbox_size(double width, double height) { }
 
 void ParsingContext::disable_rendering() {}
 
