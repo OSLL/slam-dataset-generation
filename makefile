@@ -7,7 +7,7 @@ PARAMETERS := res/map1.svg
 ##########################
 ###### OBJECT FILES ######
 # Used to ignore certain directories when finding source files to compile (e.g. for unit tests in packaged with dependencies)
-SOURCE_BLACKLIST := svgpp pathfinding
+SOURCE_BLACKLIST := svgpp
 
 ALL_COMMON_OBJ := $(foreach file, \
 		  $(shell find lib src/common_src -name "*.cpp"), \

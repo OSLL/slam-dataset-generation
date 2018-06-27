@@ -1,6 +1,7 @@
 #include "pathfinding/motionvalidator.h"
 
-MotionValidator::MotionValidator(World & world_ref) :
+MotionValidator::MotionValidator(const ompl::base::SpaceInformationPtr & si, World & world_ref) :
+	ompl::base::MotionValidator(si),
 	world(world_ref)
 { }
 
