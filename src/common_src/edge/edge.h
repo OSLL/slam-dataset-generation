@@ -17,16 +17,16 @@ class Edge {
 		Edge(const Vec & start_point, const Vec & end);
 
 		// Defined in Edge
-		std::set<Vec> intersection_points(const ObservationPath &);
-		double distance(const ObservationPath &);
+		std::set<Vec> intersection_points(const ObservationPath &) const;
+		double distance(const ObservationPath &) const;
 
 		// Can be defined in subclass
-		int number_of_intersections(const ObservationPath &);
+		int number_of_intersections(const ObservationPath &) const;
 		virtual void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		// Must be defined in subclass
-		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) = 0;
-		virtual Vec get_pos(const double & t) = 0; // 0 <= t <= 1 for all adges
+		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) const = 0;
+		virtual Vec get_pos(const double & t) const = 0; // 0 <= t <= 1 for all adges
 
 		// No harm in exposing to public, since both are const
 		const Vec & start;

@@ -36,13 +36,13 @@ static double closest_distance(const Vec & p, const set<Vec> & s) {
 	}
 }
 
-double Edge::distance(const ObservationPath & op) {
+double Edge::distance(const ObservationPath & op) const {
 	set<Vec> path_intersection_points = intersection_points(op);
 
 	return closest_distance(op.start, path_intersection_points);
 }
 
-std::set<Vec> Edge::intersection_points(const ObservationPath & op) {
+std::set<Vec> Edge::intersection_points(const ObservationPath & op) const {
 	// Obtain set of intersection points as though op was a Line
 	set<Vec> line_intersection_points = linear_intersection_points(op);
 
@@ -67,7 +67,7 @@ std::set<Vec> Edge::intersection_points(const ObservationPath & op) {
 // If there is a faster way for a particular edge type to accomplish this,
 // these are virtual and can be defined in a subclass
 
-int Edge::number_of_intersections(const ObservationPath & op) {
+int Edge::number_of_intersections(const ObservationPath & op) const {
 	return intersection_points(op).size();
 }
 

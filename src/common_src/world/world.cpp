@@ -112,6 +112,24 @@ bool World::is_valid(const Vec & pos) {
 	return true;
 }
 
+double World::distance(const ObservationPath & op) const {
+
+	double closest_distance = -1;
+
+	for (const EdgePath * p : all_obstacles) {
+
+		double distance_to_path = p->distance(op);
+
+		if (distance_to_path != -1) {
+			if (distance_to_path < closest_distance || closest_distance == -1) {
+				closest_distance = distance_to_path;
+			}
+		}
+	}
+
+	return closest_distance;
+}
+
 ostream & operator<<(ostream & o, const World & world) {
 	world.print(o);
 	return o;

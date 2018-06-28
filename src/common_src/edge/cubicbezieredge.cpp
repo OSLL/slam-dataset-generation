@@ -18,7 +18,7 @@ CubicBezierEdge::CubicBezierEdge(const Vec & start_point, const Vec & c1, const 
 	D(start)
 { }
 
-set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op) {
+set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op) const {
 	// Initialize set of intersections
 	set<Vec> intersections;
 
@@ -52,7 +52,7 @@ set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op)
 	return intersections;
 }
 
-Vec CubicBezierEdge::get_pos(const double & t) {
+Vec CubicBezierEdge::get_pos(const double & t) const {
 	Vec pos = A*(t*t*t) + B*(t*t) + C*t + D;
 	return pos;
 }

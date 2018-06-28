@@ -15,7 +15,7 @@ LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
 	direction(end-start)
 { }
 
-set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) {
+set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) const {
 	
 	// Initialize set of intersections
 	set<Vec> intersections;
@@ -50,7 +50,7 @@ set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) {
 	return intersections;
 }
 
-Vec LinearEdge::get_pos(const double & t) {
+Vec LinearEdge::get_pos(const double & t) const {
 	return start + direction*t;
 }
 

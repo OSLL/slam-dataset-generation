@@ -2,6 +2,7 @@
 #define EDGEPATH_H
 
 #include "edge/edge.h"
+#include "observationpath/observationpath.h"
 #include <vector>
 #include <iostream>
 
@@ -22,7 +23,10 @@ class EdgePath {
 
 		void add_edge(Edge * e);
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
+
+		// Raytracing
 		bool is_in(const Vec & p);
+		double distance(const ObservationPath & op) const;
 };
 
 std::ostream & operator<<(std::ostream & o, const EdgePath & path);

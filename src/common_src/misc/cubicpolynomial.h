@@ -7,11 +7,11 @@ struct CubicPolynomial {
 	double c;
 	double d;
 
-	double operator()(double t) {
+	double operator()(double t) const {
 		return a*t*t*t + b*t*t + c*t + d;
 	}
 
-	double derivative(double t) {
+	double derivative(double t) const {
 		return 3*a*t*t + 2*b*t + c;
 	}
 };

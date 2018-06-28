@@ -4,6 +4,7 @@
 #include <string>
 
 using std::ostream;
+using std::cout;
 using std::endl;
 using std::string;
 
@@ -55,6 +56,24 @@ bool EdgePath::is_in(const Vec & p) {
 
 	// If number of intersections the ray encountered is odd, then the point is inside the path
 	return intersections % 2 == 1;
+}
+
+double EdgePath::distance(const ObservationPath & op) const {
+	
+	double closest_distance = -1;
+
+	for (const Edge * e : edges) {
+
+		double distance_to_edge = e->distance(op);
+
+		if (distance_to_edge != -1) {
+			if (distance_to_edge < closest_distance || closest_distance == -1) {
+				closest_distance = distance_to_edge;
+			}
+		}
+	}
+
+	return closest_distance;
 }
 
 ostream & operator<<(ostream & o, const EdgePath & path) {

@@ -11,10 +11,10 @@ class HermitePath {
 	public:
 		HermitePath(const std::vector<Pose> & intermediate_poses);
 		
-		double t_min() {return 0.0f;}
-		double t_max() {return (double)edges.size() + 1.0f;}
+		double t_min() const;
+		double t_max() const;
 
-		Pose operator()(double t);
+		Pose operator()(double t) const;
 };
 
 #endif

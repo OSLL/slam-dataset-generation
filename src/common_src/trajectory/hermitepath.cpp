@@ -17,7 +17,15 @@ HermitePath::HermitePath(const vector<Pose> & intermediate_poses) {
 	}
 }
 
-Pose HermitePath::operator()(double t) {
+double HermitePath::t_min() const {
+	return 0.0f;
+}
+
+double HermitePath::t_max() const {
+	return (double)edges.size() + 1.0f;
+}
+
+Pose HermitePath::operator()(double t) const {
 
 	int edge_index;
 

@@ -45,16 +45,6 @@ Trajectory find_trajectory(const World & world, const critical_poses_t & critica
 		intermediate_poses.push_back({pos, theta});
 	}
 
-
-
-	for (const Pose & pose : intermediate_poses) {
-		cout << pose << endl;
-	}
-
-	cout << endl;
-	cout << endl;
-	cout << endl;
-
 	Trajectory trajectory(intermediate_poses);
 	return trajectory;
 }

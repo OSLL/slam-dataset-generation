@@ -28,10 +28,10 @@ HermiteEdge::HermiteEdge(const Pose & pose1, const Pose & pose2) {
 	y.d = D.y;
 }
 
-Vec HermiteEdge::derivative(double t) {
+Vec HermiteEdge::derivative(double t) const {
 	return {x.derivative(t), y.derivative(t)};
 }
 
-Vec HermiteEdge::operator()(double t) {
+Vec HermiteEdge::operator()(double t) const {
 	return {x(t), y(t)};
 }

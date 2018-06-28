@@ -12,8 +12,8 @@ class LinearEdge : public Edge {
 	
 		const Vec direction;
 
-		std::set<Vec> linear_intersection_points(const ObservationPath & op);
-		Vec get_pos(const double & t);
+		std::set<Vec> linear_intersection_points(const ObservationPath & op) const;
+		Vec get_pos(const double & t) const;
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 };

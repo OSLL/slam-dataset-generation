@@ -8,6 +8,9 @@
 class Trajectory : public HermitePath {
 	public:
 		Trajectory(std::vector<Pose> intermediate_poses);
+
+		Pose begin() const;
+		Pose end() const;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "world/edgepath.h"
+#include "observationpath/observationpath.h"
 
 class World {
 	private:
@@ -32,6 +33,9 @@ class World {
 		static World generate_world();
 
 		bool is_valid(const Vec & p);
+
+		// Raytracing
+		double distance(const ObservationPath & op) const;
 
 		friend class ParsingContext;
 };
