@@ -1,0 +1,7 @@
+<launch>
+  <machine name="local" address="localhost" default="true" />
+
+  <node name="test_app" pkg="slam-dataset-generator" type="test_app"
+        args="--clock" />
+
+</launch>
