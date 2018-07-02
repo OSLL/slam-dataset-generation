@@ -4,6 +4,6 @@
 #include "pathfinding/find_critical_poses.h"
 #include "trajectory/trajectory.h"
 
-Trajectory find_trajectory(const World & world, const critical_poses_t & critical_poses);
+Trajectory find_trajectory(World & world, const critical_poses_t & critical_poses);
 
 #endif

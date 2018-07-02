@@ -6,8 +6,7 @@
 #include "misc/pose.h"
 #include <cmath>
 
-#include <ros/ros.h>
-//#include <rosbag/bag.h>
+#include <rosbag/bag.h>
 #include <sensor_msgs/LaserScan.h>
 #include <tf/tfMessage.h>
 
@@ -17,42 +16,34 @@ class Robot {
 		const World & world;
 		const Trajectory & trajectory;
 
-		// Timestep
-		const double time_step = 0.1;
-		ros::Rate rate;
+		// Bag file
+		rosbag::Bag bag;
 
-		// Position/Time state
+		// Robot time & location
 		double t;
+		ros::Time ros_time;
+		const double time_step = 0.01;
 		Pose last_pose;
 		Pose current_pose;
 
-		// Bag file
-		//rosbag::Bag bag;
-
-		ros::NodeHandle node_handle;
-
-		// Robot properties
-		const double requested_fov = 180.0f * M_PI / 180.0f;
+		// Laser sweep properties
 		const double angle_step = 0.5f * M_PI / 180.0f;
+		const double requested_fov = 180.0f * M_PI / 180.0f;
 		const double laser_range = 2.0f; // in meters
-
-		// Timekeeping
-		void publish_clock();
-
-		// Odometry
-		tf::tfMessage odometry();
-
-		// Laser sweep
 		const int number_of_observations = static_cast<int>(requested_fov/angle_step) + 1;
 		const double actual_fov = (number_of_observations - 1) * angle_step;
-		sensor_msgs::LaserScan laser_sweep();
+
+		geometry_msgs::TransformStamped generate_stamped_transform(const char * frame_id, const char * child_frame_id, const Pose & p);
+
+		// Measurements
+		void laser_sweep();
+		void odometry();
+
+		void step();
 	public:
 		Robot(const World & world_val, const Trajectory & trajectory_val);
-		~Robot();
 
-		void simulate();
-		void step();
-
+		void simulate(const char * filename);
 };
 
 #endif

@@ -12,10 +12,11 @@ class World {
 		double width;
 		double height;
 
+	public:
+
 		EdgePath * world_boundary;
 		std::vector<EdgePath *> interior_obstacles;
 		std::vector<EdgePath *> all_obstacles;
-	public:
 
 		World();
 		~World();

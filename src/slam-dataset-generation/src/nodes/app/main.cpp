@@ -7,10 +7,6 @@
 #include "pathfinding/find_critical_poses.h"
 #include "pathfinding/find_trajectory.h"
 
-#include <std_msgs/String.h>
-
-#include <ros/ros.h>
-
 using namespace std;
 
 int main(int argc, char ** argv) {
@@ -21,8 +17,6 @@ int main(int argc, char ** argv) {
 		return -1;
 	}
 
-	ros::init(argc, argv, "test_app");
-
 	const char * source = argv[1];
 
 	World world;
@@ -32,7 +26,5 @@ int main(int argc, char ** argv) {
 	Trajectory trajectory = find_trajectory(world, critical_poses);
 
 	Robot robot(world, trajectory);
-	robot.simulate();
-
-	cout << "Completed simulating" << endl;
+	robot.simulate("data.bag");
 }
