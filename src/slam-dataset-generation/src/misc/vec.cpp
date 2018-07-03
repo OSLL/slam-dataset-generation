@@ -5,6 +5,7 @@
 using std::ostream;
 using std::cout;
 using std::endl;
+using std::abs;
 
 // Null vector returned whenever a valid vector could not be found
 const Vec null_vector {0, 0};
@@ -88,10 +89,11 @@ Vec operator/(const double & scale, const Vec & v) {
 
 /* ############### Comparison ############### */
 bool Vec::operator==(const Vec & v) const {
+
 	double dx = abs(v.x - x);
 	double dy = abs(v.y - y);
 
-	const double epsilon = 0.05;
+	const double epsilon = 0.00001;
 
 	return (dx < epsilon) && (dy < epsilon);
 }

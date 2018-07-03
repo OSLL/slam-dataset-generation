@@ -21,19 +21,19 @@ class World {
 		World();
 		~World();
 
-		const EdgePath * get_world_boundary();
-		const std::vector<EdgePath *> & get_obstacles();
-		const std::vector<EdgePath *> & get_all_obstacles();
-		const EdgePath * get_obstacle_by_id(std::string id);
+		const EdgePath * get_world_boundary() const;
+		const std::vector<EdgePath *> & get_obstacles() const;
+		const std::vector<EdgePath *> & get_all_obstacles() const;
+		const EdgePath * get_obstacle_by_id(std::string id) const;
 
 		void read_from_disk(const char * source);
-		void write_to_disk(const char * destination);
+		void write_to_disk(const char * destination) const;
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		static World generate_world();
 
-		bool is_valid(const Vec & p);
+		bool is_valid(const Vec & p) const;
 
 		// Raytracing
 		double distance(const ObservationPath & op) const;

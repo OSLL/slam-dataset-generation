@@ -27,19 +27,19 @@ World::~World() {
 	}
 }
 
-const EdgePath * World::get_world_boundary() {
+const EdgePath * World::get_world_boundary() const {
 	return world_boundary;
 }
 
-const vector<EdgePath *> & World::get_obstacles() {
+const vector<EdgePath *> & World::get_obstacles() const {
 	return interior_obstacles;
 }
 
-const vector<EdgePath *> & World::get_all_obstacles() {
+const vector<EdgePath *> & World::get_all_obstacles() const {
 	return all_obstacles;
 }
 
-const EdgePath * World::get_obstacle_by_id(string id) {
+const EdgePath * World::get_obstacle_by_id(string id) const {
 
 	for (EdgePath * p : all_obstacles) {
 		if (p->id == id) {
@@ -74,7 +74,7 @@ void World::read_from_disk(const char * source) {
 }
 
 // Generate svg file from current world and write to destination
-void World::write_to_disk(const char * destination) {
+void World::write_to_disk(const char * destination) const {
 	// Not implemented
 }
 
@@ -95,7 +95,7 @@ void World::print(ostream & o, int tabs) const {
 	}
 }
 
-bool World::is_valid(const Vec & pos) {
+bool World::is_valid(const Vec & pos) const {
 	// Check if point isn't inside world
 	if (!world_boundary->is_in(pos)) {
 		return false;

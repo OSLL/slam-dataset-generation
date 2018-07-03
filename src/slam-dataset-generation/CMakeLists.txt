@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
 )
 
+find_package(PythonLibs 2.7 REQUIRED)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -120,7 +122,9 @@ catkin_package(
 include_directories(
 # include
   lib/svgpp/include
+  ${PYTHON_INCLUDE_DIRS}
   lib/svgpp/third_party
+  lib
   src
   ${catkin_INCLUDE_DIRS}
 )
@@ -163,7 +167,7 @@ add_library(helper
 ## The recommended prefix ensures that target names across packages don't collide
 
 add_executable(app src/nodes/app/main.cpp)
-target_link_libraries(app helper ${rosbag_LIBRARIES} ${tf_LIBRARIES})
+target_link_libraries(app helper ${rosbag_LIBRARIES} ${tf_LIBRARIES} ${PYTHON_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

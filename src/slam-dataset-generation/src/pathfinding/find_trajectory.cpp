@@ -24,6 +24,7 @@ Trajectory find_trajectory(World & world, const critical_poses_t & critical_pose
 	}
 
 	if (linear_trajectory == nullptr) {
+		cout << "Could not locate path with id=\"linear_trajectory\"" << endl;
 		exit(-1);
 	} else {
 		// Remove linear_trajectory from world.interior_obstacles
@@ -31,10 +32,17 @@ Trajectory find_trajectory(World & world, const critical_poses_t & critical_pose
 		world.interior_obstacles.erase(pos);
 	}
 
-	cout << world << endl;
+	
 
 	vector<Vec> intermediate_points;
+	intermediate_points.reserve(linear_trajectory->edges.size() + 1);
 
+	intermediate_points.push_back(linear_trajectory->start);
+	for (Edge * e : linear_trajectory->edges) {
+		intermediate_points.push_back(e->end);
+	}
+
+	delete linear_trajectory;
 
 	vector<Pose> intermediate_poses;
 	for (vector<Vec>::iterator itr = intermediate_points.begin(); itr != intermediate_points.end(); itr++) {
@@ -52,6 +60,11 @@ Trajectory find_trajectory(World & world, const critical_poses_t & critical_pose
 		}
 
 		intermediate_poses.push_back({pos, theta});
+	}
+
+
+	for (const Pose & pose : intermediate_poses) {
+		//cout << pose << endl;
 	}
 
 	Trajectory trajectory(intermediate_poses);

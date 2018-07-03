@@ -33,8 +33,9 @@ length_type LengthFactory::create_length(number_type number, tag::length_units::
 }
 
 length_type LengthFactory::create_length(number_type number, tag::length_units::pt) const {
-	cout << "Units pt used to specify length.  Cannot convert." << endl;
-	exit(-1);
+	//cout << "Units pt used to specify length.  Cannot convert." << endl;
+	//exit(-1);
+	return number;
 }
 
 length_type LengthFactory::create_length(number_type number, tag::length_units::none) const {

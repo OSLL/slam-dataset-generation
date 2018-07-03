@@ -1,7 +1,6 @@
 #include "world/world.h"
 #include <vector>
 #include "misc/misc.h"
-#include "misc/find_roots.h"
 #include "simulation/robot.h"
 
 #include "pathfinding/find_critical_poses.h"
@@ -25,6 +24,8 @@ int main(int argc, char ** argv) {
 	critical_poses_t critical_poses = find_critical_poses(world);
 	Trajectory trajectory = find_trajectory(world, critical_poses);
 
+	//draw_world_and_trajectory(world, trajectory, "map.png");
+	
 	Robot robot(world, trajectory);
 	robot.simulate("data.bag");
 }

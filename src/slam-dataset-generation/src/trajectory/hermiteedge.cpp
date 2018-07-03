@@ -7,8 +7,8 @@ HermiteEdge::HermiteEdge(const Pose & pose1, const Pose & pose2) {
 	const Vec & p2 = pose2.pos;
 
 	// Form m1 and m2 vectors
-	const Vec m1 {cos(pose1.theta), sin(pose1.theta)};
-	const Vec m2 {cos(pose2.theta), sin(pose2.theta)};
+	const Vec m1 = 0.2f * Vec {cos(pose1.theta), sin(pose1.theta)};
+	const Vec m2 = 0.2f * Vec {cos(pose2.theta), sin(pose2.theta)};
 
 	// Make vector equation r(t) = At^3 + Bt^2 + Ct + D
 	Vec A = 2*p1 + m1 - 2*p2 + m2;

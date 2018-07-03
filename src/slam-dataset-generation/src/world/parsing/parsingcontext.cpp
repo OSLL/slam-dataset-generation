@@ -134,12 +134,15 @@ void ParsingContext::on_exit_element() {
 		// Obtain pointer to recently constructed EdgePath
 		EdgePath * last_constructed_path = parent.all_obstacles.back();
 
-		// Ensure that closure of paths is enforced
-		const Vec & path_start = last_constructed_path->start;
-		const Vec & path_end = last_constructed_path->end();
-		if (path_start != path_end) {
-			Edge * new_edge = new LinearEdge(path_end, path_start);
-			last_constructed_path->add_edge(new_edge);
+		// Selectively enforce closure of paths
+		if (last_constructed_path->id != "linear_trajectory") {
+			const Vec & path_start = last_constructed_path->start;
+			const Vec & path_end = last_constructed_path->end();
+
+			if (path_start != path_end) {
+				Edge * new_edge = new LinearEdge(path_end, path_start);
+				last_constructed_path->add_edge(new_edge);
+			}
 		}
 
 		// Place a reference to the constructed path in the correct location

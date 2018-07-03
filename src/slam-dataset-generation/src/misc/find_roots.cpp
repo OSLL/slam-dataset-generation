@@ -29,10 +29,10 @@ static double find_one_root(const double & b, const double & c, const double & d
 	double left_bound = -max_abs_x;
 
 	const double tolerance = 0.000001;
-	const int max_iterations = 50;
+	const uint32_t max_iterations = 999999999999; // I WANT THAT ANSWER DAMNIT
 
 	// Bisect until interval is within tolerance or max iterations has been reached
-	for (int i = 0; i < max_iterations; i++) {
+	for (uint32_t i = 0; i < max_iterations; i++) {
 
 		// Generate guess
 		double guess = (left_bound + right_bound) / 2;
@@ -40,6 +40,7 @@ static double find_one_root(const double & b, const double & c, const double & d
 		// Test guess
 		double f_of_guess = f(b, c, d, guess);
 		if (right_bound - left_bound < tolerance) {
+			cout << "Found root: " << guess << endl;
 			roots.insert(guess);
 			return guess;
 		} else if (sign(f_of_guess) == sign( f(b, c, d, left_bound) )) {
@@ -49,7 +50,7 @@ static double find_one_root(const double & b, const double & c, const double & d
 		}
 
 	}
-	
+
 	// Failed to find root
 	printf("\nCould not locate roots for t^3 + %.8ft^2 + %.8ft + %.8f\n", b, c, d);
 	printf("Searched in area [%.8f, %.8f]\n\n", -max_abs_x, max_abs_x);

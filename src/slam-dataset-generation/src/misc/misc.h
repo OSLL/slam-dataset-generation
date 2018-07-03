@@ -8,6 +8,8 @@
 #include <set>
 #include <typeinfo>
 #include <iostream>
+#include "world/world.h"
+#include "trajectory/trajectory.h"
 
 // Demangle g++ type information
 std::string demangle(const char * name);
@@ -52,5 +54,8 @@ int sign(T value) {
 
 double generate_random_number(const double & min, const double & max);
 
+void draw_world(const World & world, const char * filename);
+void draw_trajectory(const World & world, const Trajectory & trajectory, const char * filename);
+void draw_world_and_trajectory(const World & world, const Trajectory & trajectory, const char * filename);
 
 #endif
