@@ -1,3 +1,4 @@
+/*
 #include "world/world.h"
 #include <vector>
 #include "misc/misc.h"
@@ -5,11 +6,18 @@
 
 #include "pathfinding/find_critical_poses.h"
 #include "pathfinding/find_trajectory.h"
+*/
+
+
+#include <iostream>
+#include "math/function.h"
+#include "math/cubicpolynomial.h"
 
 using namespace std;
 
 int main(int argc, char ** argv) {
 	
+	/*
 	// Quickly parse command line arguments
 	if (argc != 2) {
 		cout << "USAGE: test <in.svg>" << endl;
@@ -28,4 +36,12 @@ int main(int argc, char ** argv) {
 	
 	Robot robot(world, trajectory);
 	robot.simulate("data.bag");
+	*/
+
+	math::Function<CubicPolynomial> f(1, 2, 3, 4);
+	auto zeros = f.zeros();
+
+	for (auto & zero : zeros) {
+		cout << "Zero: " << zero << endl;
+	}
 }
