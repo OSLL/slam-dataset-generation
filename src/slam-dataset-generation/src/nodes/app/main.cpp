@@ -10,8 +10,7 @@
 
 
 #include <iostream>
-#include "math/function.h"
-#include "math/cubicpolynomial.h"
+#include "math/polynomial.h"
 
 using namespace std;
 
@@ -38,8 +37,8 @@ int main(int argc, char ** argv) {
 	robot.simulate("data.bag");
 	*/
 
-	math::Function<CubicPolynomial> f(1, 2, 3, 4);
-	auto zeros = f.zeros();
+	math::Polynomial<4> f({1, 2, 3, 4, "t"});
+	auto zeros = f.roots();
 
 	for (auto & zero : zeros) {
 		cout << "Zero: " << zero << endl;
