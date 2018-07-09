@@ -10,3 +10,6 @@ simulate : build
 
 draw : build
 	rosrun slam-dataset-generation draw_world $(WORLD_FILE)
+
+test : build
+	rosrun slam-dataset-generation test_app $(WORLD_FILE)
