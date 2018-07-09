@@ -1,22 +1,12 @@
-/*
 #include "world/world.h"
-#include <vector>
-#include "misc/misc.h"
 #include "simulation/robot.h"
-
 #include "pathfinding/find_critical_poses.h"
 #include "pathfinding/find_trajectory.h"
-*/
-
-
-#include <iostream>
-#include "math/polynomial.h"
 
 using namespace std;
 
 int main(int argc, char ** argv) {
 	
-	/*
 	// Quickly parse command line arguments
 	if (argc != 2) {
 		cout << "USAGE: test <in.svg>" << endl;
@@ -31,16 +21,6 @@ int main(int argc, char ** argv) {
 	critical_poses_t critical_poses = find_critical_poses(world);
 	Trajectory trajectory = find_trajectory(world, critical_poses);
 
-	//draw_world_and_trajectory(world, trajectory, "map.png");
-	
 	Robot robot(world, trajectory);
 	robot.simulate("data.bag");
-	*/
-
-	math::Polynomial<4> f({1, 2, 3, 4, "t"});
-	auto zeros = f.roots();
-
-	for (auto & zero : zeros) {
-		cout << "Zero: " << zero << endl;
-	}
 }

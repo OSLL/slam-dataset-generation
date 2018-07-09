@@ -166,8 +166,11 @@ add_library(helper
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 
-add_executable(app src/nodes/app/main.cpp)
-target_link_libraries(app helper ${rosbag_LIBRARIES} ${tf_LIBRARIES} ${PYTHON_LIBRARIES})
+add_executable(simulate_world src/nodes/simulate_world/main.cpp)
+target_link_libraries(simulate_world helper ${rosbag_LIBRARIES} ${tf_LIBRARIES})
+
+add_executable(draw_world src/nodes/draw_world/main.cpp src/nodes/draw_world/draw_world.cpp)
+target_link_libraries(draw_world helper ${rosbag_LIBRARIES} ${tf_LIBRARIES} ${PYTHON_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

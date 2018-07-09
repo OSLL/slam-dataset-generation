@@ -8,7 +8,7 @@ template <int degree>
 template <typename ... Args>
 math::Polynomial<degree>::Polynomial(Args ... args)
 	// Call to check validity does some static_asserts to make sure template parameter pack is valid
-	: data_((check_validity<Args ...>(), coefficients_t {static_cast<double>(args) ...}))
+	: data_( ( check_validity<Args ...>(), std::move(coefficients_t { static_cast<double>(args) ... } ) ) )
 { }
 
 template<typename... Conds>
@@ -97,11 +97,15 @@ roots_t math::Polynomial<1>::roots()
 	
 	roots_t roots;
 
-	roots[0] = 0; // Assume no roots initially
-
+	// Check for actual degree of polynomial
 	if (a != 0)
 	{
+		roots[0] = 1;
 		roots[1] = -b/a;
+	}
+	else
+	{
+		roots[0] = 0;
 	}
 
 	return roots;
@@ -117,7 +121,13 @@ roots_t math::Polynomial<2>::roots()
 
 	roots_t roots;
 
-	roots[0] = 0; // Assume no roots initially
+
+	// Check for actual degree of polynomial
+	if (a != 0)
+	{
+		roots[1] = -b/a;
+	}
+
 
 	double discriminant = b*b - 4.0f*a*c;
 

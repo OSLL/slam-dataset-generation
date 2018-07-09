@@ -40,7 +40,6 @@ static double find_one_root(const double & b, const double & c, const double & d
 		// Test guess
 		double f_of_guess = f(b, c, d, guess);
 		if (right_bound - left_bound < tolerance) {
-			cout << "Found root: " << guess << endl;
 			roots.insert(guess);
 			return guess;
 		} else if (sign(f_of_guess) == sign( f(b, c, d, left_bound) )) {

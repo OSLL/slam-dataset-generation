@@ -6,6 +6,7 @@
 // Svgpp xml parsing includes
 #include <rapidxml_ns/rapidxml_ns.hpp>
 #include <svgpp/policy/xml/rapidxml_ns.hpp>
+#include "world/parsing/attribute_traversal.h"
 
 // Edge types
 #include "edge/edge.h"
@@ -75,7 +76,8 @@ void ParsingContext::parse(char * buffer) {
 			processed_elements<processed_elements_t>,
 			processed_attributes<processed_attributes_t>,
 			viewport_policy<policy::viewport::as_transform>,
-			length_policy<policy::length::forward_to_method<ParsingContext, LengthFactory const>>
+			length_policy<policy::length::forward_to_method<ParsingContext, LengthFactory const>>,
+			attribute_traversal_policy<custom_attribute_traversal_policy>
 		>::load_document(svg_root, *this);
 	} else {
 		cout << "Could not extract svg root node from file." << endl;

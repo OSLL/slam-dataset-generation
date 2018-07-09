@@ -1,5 +1,12 @@
-all :
+WORLD_FILE := res/map1.svg
+
+.PHONY: build simulate print
+
+build :
 	catkin_make
-	#-rm result.bag
-	rosrun slam-dataset-generation app res/svg_no_style/kirill.svg
-	#rosrun slam-dataset-generation app res/svg/kirill.svg
+
+simulate : build
+	rosrun slam-dataset-generation simulate_world $(WORLD_FILE)
+
+draw : build
+	rosrun slam-dataset-generation draw_world $(WORLD_FILE)
