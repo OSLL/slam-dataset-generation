@@ -1,6 +1,6 @@
 WORLD_FILE := res/map1.svg
 
-.PHONY: build simulate print
+.PHONY: build simulate draw test test_roots
 
 build :
 	catkin_make
@@ -13,3 +13,6 @@ draw : build
 
 test : build
 	rosrun slam-dataset-generation test_app $(WORLD_FILE)
+
+test_roots : build
+	rosrun slam-dataset-generation test_roots $(WORLD_FILE)

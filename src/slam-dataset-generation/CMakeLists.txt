@@ -12,22 +12,20 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
 )
 
+message("Before finding it, ${PYTHONLIBS_FOUND} ${PYTHONLIBS_VERSION_STRING} ${PYTHON_LIBRARIES}")
+
 find_package(PythonLibs 2.7 REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
 
-# DEPENDS: system dependencies of this project that dependent projects also need
-#catkin_package(
-#  INCLUDE_DIRS include lib
-#  LIBRARIES slam-dataset-generation
-#  CATKIN_DEPENDS rosbag roscpp std_msgs
-#  DEPENDS system_lib
-#)
+if(NOT ${PYTHONLIBS_FOUND})
+  message(FATAL_ERROR "PythonLibs cannot be found")
+else()
+  message("Found PythonLibs ${PYTHONLIBS_VERSION_STRING}")
+  message("\t${PYTHON_LIBRARIES}")
+endif()
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
-# include
   lib/svgpp/include
-  ${PYTHON_INCLUDE_DIRS}
   lib/svgpp/third_party
   lib
   src
@@ -63,11 +61,21 @@ add_library(helper
  src/edge/cubicbezieredge.cpp
 )
 
+catkin_package(
+	INCLUDE_DIRS include
+	LIBRARIES ${PROJECT_NAME}
+	CATKIN_DEPENDS roscpp tf rosbag std_msgs sensor_msgs
+	DEPENDS
+)
+
 add_executable(simulate_world src/nodes/simulate_world/main.cpp)
 target_link_libraries(simulate_world helper ${rosbag_LIBRARIES} ${tf_LIBRARIES})
 
 add_executable(draw_world src/nodes/draw_world/main.cpp src/nodes/draw_world/draw_world.cpp)
 target_link_libraries(draw_world helper ${rosbag_LIBRARIES} ${tf_LIBRARIES} ${PYTHON_LIBRARIES})
+
+add_executable(test_roots src/nodes/test_roots/main.cpp src/nodes/test_roots/test_roots.cpp)
+target_link_libraries(test_roots helper ${rosbag_LIBRARIES} ${tf_LIBRARIES})
 
 add_executable(test_app src/nodes/test_app/main.cpp)
 target_link_libraries(test_app helper ${rosbag_LIBRARIES} ${tf_LIBRARIES})

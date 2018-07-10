@@ -25,6 +25,8 @@ namespace math
 		double derivative(double t) const;
 		
 		roots_t roots() const;
+
+		void print(std::ostream & o = std::cout) const;
 	private:
 		// An n-degree polynomial needs n + 1 coefficients because of the constant term
 		coefficients_t coefficients_;
@@ -150,6 +152,29 @@ typename math::Polynomial<degree>::roots_t math::Polynomial<degree>::roots() con
 			std::cout << "Rootfinding for polynomials of degree " << degree << " not implemented.  Returning empty set." << std::endl;
 			return {};
 	}
+}
+/* ============================================================================ */
+
+
+/* ================================= Printing ================================= */
+template <int degree>
+void math::Polynomial<degree>::print(std::ostream & o) const
+{
+	for (int i = degree; i > 0; i--)
+	{
+		if (i == 1)
+			o << coefficients_[i] << "t + ";
+		else
+			o << coefficients_[i] << "t^" << i << " + ";
+	}
+	o << coefficients_[0];
+}
+
+template <int degree>
+std::ostream & operator<<(std::ostream & o, const math::Polynomial<degree> f)
+{
+	f.print(o);
+	return o;
 }
 /* ============================================================================ */
 

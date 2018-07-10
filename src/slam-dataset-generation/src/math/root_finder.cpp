@@ -7,6 +7,10 @@ using std::abs;
 using std::max;
 using std::vector;
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 vector<double> math::RootFinder::linear(const double * coefficients)
 {
 	// at + b = 0
@@ -69,44 +73,49 @@ vector<double> math::RootFinder::cubic(const double * coefficients)
 	double & c = copy_of_coefficients[1];
 	double & d = copy_of_coefficients[0];
 
-	// Force a to be positive
-	if (a < 0.0f)
-	{
-		a *= -1.0f;
-		b *= -1.0f;
-		c *= -1.0f;
-		d *= -1.0f;
-	}
+	// Normalize the cubic
+	b /= a;
+	c /= a;
+	d /= a;
+	a = 1;
 
-	auto f = [&](const double & t) {return a*t*t*t + b*t*t + c*t + d;};
+	auto f = [&](const double & t) {return t*t*t + b*t*t + c*t + d;};
+	auto f_prime = [&](const double & t) {return 3*t*t + 2*b*t + c;};
 
-	const double tolerance = 0.00001;
+	const double search_window = 0.000001;
 
-	// for ax^3 + bx^2 + cx + d = 0, |x| <= max(1, ( |b| + |c| + |d| ) / a)
-	const double max_abs_x = max((double)1.0f, ( abs(b) + abs(c) + abs(d) ) / a );
+	// for x^3 + bx^2 + cx + d = 0, |x| <= max(1, |b| + |c| + |d| )
+	const double max_abs_x = max(1.0, abs(b) + abs(c) + abs(d));
 
 	// Initialize right and left bounds for search interval
 	double right_bound = max_abs_x;
 	double left_bound = -max_abs_x;
 
+	double guess = (left_bound + right_bound) / 2;
+	double f_guess = f(guess);
 
-	// Bisect until interval is within tolerance or max iterations has been reached
-	double guess;
-	double f_guess;
-	while (right_bound - left_bound > tolerance) {
-
-		// Generate guess
-		guess = (left_bound + right_bound) / 2.0f;
-
-		// Test guess
-		f_guess = f(guess);
-		if (f_guess < 0.0f) {
+	// Bisect until search interval is small enough for newton's method to take over
+	while (right_bound - left_bound > search_window)
+	{
+		if (f_guess < 0) {
 			left_bound = guess;
 		} else {
 			right_bound = guess;
 		}
 
+		guess = (left_bound + right_bound) / 2;
+		f_guess = f(guess);
 	}
+
+	// Guess is accurate enough to perform Newton's method
+	/*
+	const double tolerance = 0.000001;
+	while (abs(f_guess) > tolerance)
+	{
+		guess -= f_guess / f_prime(guess);
+		f_guess = f(guess);
+	}
+	*/
 
 	// Now, we have the first root
 	//
