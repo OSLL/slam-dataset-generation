@@ -1,4 +1,4 @@
-#include "world/parsing/lengthfactory.h"
+#include "world/parsing/LengthFactory.h"
 #include <iostream>
 
 typedef LengthFactory::length_type length_type;
@@ -8,7 +8,7 @@ using namespace svgpp;
 using std::cout;
 using std::endl;
 
-LengthFactory::LengthFactory(const ParsingContext & parent_val) :
+LengthFactory::LengthFactory(const SvgParser & parent_val) :
 	parent(parent_val)
 { }
 

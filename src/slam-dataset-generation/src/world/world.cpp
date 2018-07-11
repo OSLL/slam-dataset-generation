@@ -1,11 +1,12 @@
 #include "world/world.h"
 #include "world/edgepath.h"
-#include "world/parsing/parsingcontext.h"
 #include "misc/vec.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <cstdlib>
+
+#include "world/parsing/SvgParser.h"
 
 using std::cout;
 using std::endl;
@@ -50,21 +51,9 @@ const EdgePath * World::get_obstacle_by_id(string id) const {
 	return nullptr;
 }
 
-void World::read_from_disk(const char * source) {
-	// Check if file can be read
-	ifstream file (source);
-	if (!file.good()) {
-		cout << "Problem opening file at " << source << "...\n";
-		exit(-1);
-	}
+void World::read_from_disk(const char * filename) {
 
-	// Dump file into char buffer
-	string file_contents((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-	char * buffer = (char *)file_contents.c_str();
-
-	// Parse document
-	ParsingContext parsing_context(*this);
-	parsing_context.parse(buffer);
+	SvgParser::parse(filename, *this);
 
 	// Check to see if world_boundary ever got populated
 	if (world_boundary == nullptr) {

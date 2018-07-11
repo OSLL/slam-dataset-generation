@@ -1,18 +1,18 @@
-#ifndef LENGTHFACTORY_H
-#define LENGTHFACTORY_H
+#ifndef WORLD_PARSING_LENGTHFACTORY_H
+#define WORLD_PARSING_LENGTHFACTORY_H
 
-#include <svgpp/svgpp.hpp>
+#include <svgpp/definitions.hpp>
 
-class ParsingContext;
+class SvgParser;
 
 struct LengthFactory {
 	
 	typedef double length_type;
 	typedef double number_type;
 
-	LengthFactory(const ParsingContext & parent_val);
+	LengthFactory(const SvgParser & parent_val);
 
-	const ParsingContext & parent;
+	const SvgParser & parent;
 
 	length_type create_length(number_type number, svgpp::tag::length_units::em) const;
 	length_type create_length(number_type number, svgpp::tag::length_units::ex) const;
@@ -31,7 +31,5 @@ struct LengthFactory {
 	length_type length_to_user_coordinate(number_type number, svgpp::tag::length_dimension::width) const;
 	length_type length_to_user_coordinate(number_type number, svgpp::tag::length_dimension::height) const;
 };
-
-#include "world/parsing/parsingcontext.h"
 
 #endif
