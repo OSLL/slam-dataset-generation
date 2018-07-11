@@ -3,21 +3,18 @@
 
 #include "world/world.h"
 #include "world/parsing/LengthFactory.h"
+#include "world/parsing/SvgTransformHandler.h"
 #include <vector>
 
 #include <boost/array.hpp>
 #include <boost/range/iterator_range.hpp>
-
-typedef boost::array<double, 6> Matrix;
 
 class SvgParser
 {
 public:
 	SvgParser(World & parent_obj);
 
-	// See "world/parsing/SvgParser_parse.cpp" for implementation
 	static void parse(const char * filename, World & world);
-
 
 	/* ################## Document info ################## */
 	void set_viewport(double x, double y, double width, double height);
@@ -28,7 +25,7 @@ public:
 
 
 	/* ################ Transform handling ############### */
-	void transform_matrix(const Matrix & m);
+	void transform_matrix(const SvgTransformHandler::Tranform & t);
 	void on_enter_element(svgpp::tag::element::any);
 	/* ################################################### */
 
@@ -73,6 +70,9 @@ private:
 	// Length policy
 	LengthFactory length_factory_;
 
+	// Transform handling
+	SvgTransformHandler transform_handler_;
+
 	/* ################## Document info ################## */
 	double canvas_width;
 	double canvas_height;
@@ -97,16 +97,6 @@ private:
 	
 	/* ################# Path detection ################## */
 	EdgePath * current_path;
-	/* ################################################### */
-
-
-
-	/* ################ Transform handling ############### */
-	std::vector<Matrix> transform_matrices;
-	Matrix current_transform_matrix;
-	void push_identity_transform();
-	void pop_transform();
-	Vec transform(const Vec & v);
 	/* ################################################### */
 };
 

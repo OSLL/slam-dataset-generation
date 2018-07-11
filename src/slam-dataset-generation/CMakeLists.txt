@@ -50,6 +50,7 @@ add_library(libsimulator
   src/world/generate_world.cpp
   src/world/parsing/SvgParser.cpp
   src/world/parsing/SvgParser_parse.cpp
+  src/world/parsing/SvgTransformHandler.cpp
   src/world/parsing/LengthFactory.cpp
   src/world/world.cpp
   src/world/edgepath.cpp

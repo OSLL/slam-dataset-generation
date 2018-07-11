@@ -2,20 +2,34 @@
 #define WORLD_PARSING_SVGTRANSFORMHANDLER_H
 
 #include "misc/vec.h"
+#include <boost/array.hpp>
+#include <vector>
 
-class SvgTransformHolder
+class SvgParser;
+
+class SvgTransformHandler
 {
 public:
-	SvgTransformHolder();
+	SvgTransformHandler(const SvgParser & parser_val);
+
+	typedef boost::array<double, 6> Transform;
 
 	void enterElement();
 	void exitElement();
 
-	void receiveTransform();
+	void receiveTransform(Transform transform);
 
 	Vec operator()(const Vec & v);
 private:
-	int elements_deep;
+	int depth_;
+
+	const SvgParser & parser_;
+
+	Transform current_transform_;
+
+	std::vector<Transform> transforms_;
+	std::vector<int> transform_depths_;
+
 };
 
 #endif
