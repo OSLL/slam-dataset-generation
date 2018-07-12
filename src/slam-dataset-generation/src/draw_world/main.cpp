@@ -1,4 +1,4 @@
-#include "world/world.h"
+#include "world/World.h"
 #include "pathfinding/find_trajectory.h"
 #include "draw_world.h"
 

@@ -8,8 +8,6 @@
 #include <set>
 #include <typeinfo>
 #include <iostream>
-#include "world/world.h"
-#include "trajectory/trajectory.h"
 
 // Demangle g++ type information
 std::string demangle(const char * name);

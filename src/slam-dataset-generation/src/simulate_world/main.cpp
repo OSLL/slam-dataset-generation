@@ -1,5 +1,5 @@
-#include "world/world.h"
-#include "simulation/robot.h"
+#include "world/World.h"
+#include "simulation/Robot.h"
 #include "pathfinding/find_trajectory.h"
 
 using namespace std;

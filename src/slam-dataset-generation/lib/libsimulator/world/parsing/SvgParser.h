@@ -1,7 +1,7 @@
 #ifndef WORLD_PARSING_SVGPARSER_H
 #define WORLD_PARSING_SVGPARSER_H
 
-#include "world/world.h"
+#include "world/World.h"
 #include "world/parsing/LengthFactory.h"
 #include "world/parsing/SvgTransformHandler.h"
 #include "world/parsing/SvgppForwardDeclarations.h"

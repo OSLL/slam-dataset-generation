@@ -1,6 +1,6 @@
 #include "pathfinding/find_trajectory.h"
 
-#include "misc/vec.h"
+#include "math/Vec.h"
 #include <vector>
 #include <iostream>
 

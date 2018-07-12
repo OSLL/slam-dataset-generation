@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include "misc/misc.h"
-#include "math/polynomial.h"
+#include "math/Polynomial.h"
 
 using namespace std;
 

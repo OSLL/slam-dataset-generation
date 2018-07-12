@@ -1,7 +1,7 @@
 #ifndef WORLD_PARSING_SVGTRANSFORMHANDLER_H
 #define WORLD_PARSING_SVGTRANSFORMHANDLER_H
 
-#include "misc/vec.h"
+#include "math/Vec.h"
 #include <boost/array.hpp>
 #include <vector>
 

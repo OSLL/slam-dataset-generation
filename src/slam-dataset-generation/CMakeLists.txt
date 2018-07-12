@@ -33,39 +33,38 @@ include_directories(
 
 # libsimulator contains all helper code that makes writing the nodes simple
 add_library(libsimulator
-  lib/libsimulator/pathfinding/find_trajectory.cpp
-  lib/libsimulator/pathfinding/motionvalidator.cpp
-  lib/libsimulator/pathfinding/statevaliditychecker.cpp
+  lib/libsimulator/edge/non_observable/HermiteEdge.cpp
+  lib/libsimulator/edge/observable/Edge.cpp
+  lib/libsimulator/edge/observable/LinearEdge.cpp
+  lib/libsimulator/edge/observable/CubicBezierEdge.cpp
 
-  lib/libsimulator/simulation/robot.cpp
+  lib/libsimulator/math/root_finder.cpp
+  lib/libsimulator/math/find_roots.cpp
+  lib/libsimulator/math/Pose.cpp
+  lib/libsimulator/math/Vec.cpp
 
   lib/libsimulator/misc/misc.cpp
-  lib/libsimulator/misc/pose.cpp
-  lib/libsimulator/misc/vec.cpp
 
-  lib/libsimulator/misc/find_roots.cpp
+  lib/libsimulator/observationpath/Ray.cpp
+  lib/libsimulator/observationpath/Line.cpp
+  lib/libsimulator/observationpath/LineSegment.cpp
+  lib/libsimulator/observationpath/ObservationPath.cpp
+
+  lib/libsimulator/path/non_observable/HermitePath.cpp
+  lib/libsimulator/path/non_observable/Trajectory.cpp
+  lib/libsimulator/path/observable/EdgePath.cpp
+
+  lib/libsimulator/pathfinding/find_trajectory.cpp
+  lib/libsimulator/pathfinding/MotionValidator.cpp
+  lib/libsimulator/pathfinding/StateValidityChecker.cpp
+
+  lib/libsimulator/simulation/Robot.cpp
 
   lib/libsimulator/world/parsing/SvgParser.cpp
   lib/libsimulator/world/parsing/SvgParser_parse.cpp
   lib/libsimulator/world/parsing/SvgTransformHandler.cpp
   lib/libsimulator/world/parsing/LengthFactory.cpp
-  lib/libsimulator/world/world.cpp
-  lib/libsimulator/world/edgepath.cpp
-
-  lib/libsimulator/trajectory/hermiteedge.cpp
-  lib/libsimulator/trajectory/hermitepath.cpp
-  lib/libsimulator/trajectory/trajectory.cpp
-
-  lib/libsimulator/observationpath/ray.cpp
-  lib/libsimulator/observationpath/line.cpp
-  lib/libsimulator/observationpath/linesegment.cpp
-  lib/libsimulator/observationpath/observationpath.cpp
-
-  lib/libsimulator/math/root_finder.cpp
-
-  lib/libsimulator/edge/linearedge.cpp
-  lib/libsimulator/edge/edge.cpp
-  lib/libsimulator/edge/cubicbezieredge.cpp
+  lib/libsimulator/world/World.cpp
 )
 
 catkin_package(

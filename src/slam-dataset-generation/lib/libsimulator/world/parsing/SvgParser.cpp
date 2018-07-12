@@ -11,10 +11,10 @@ using std::ostream;
 
 using namespace svgpp;
 
-// Edge types
-#include "edge/edge.h"
-#include "edge/linearedge.h"
-#include "edge/cubicbezieredge.h"
+// Obstacle edge types
+#include "edge/observable/Edge.h"
+#include "edge/observable/LinearEdge.h"
+#include "edge/observable/CubicBezierEdge.h"
 
 SvgParser::SvgParser(World & world_ref)
 	: world(world_ref)
