@@ -12,8 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
 )
 
-message("Before finding it, ${PYTHONLIBS_FOUND} ${PYTHONLIBS_VERSION_STRING} ${PYTHON_LIBRARIES}")
-
 find_package(PythonLibs 2.7 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
@@ -25,50 +23,51 @@ else()
 endif()
 
 include_directories(
+  lib
   lib/svgpp/include
   lib/svgpp/third_party
-  lib
+  lib/libsimulator
   src
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
+# libsimulator contains all helper code that makes writing the nodes simple
 add_library(libsimulator
-  src/pathfinding/find_trajectory.cpp
-  src/pathfinding/motionvalidator.cpp
-  src/pathfinding/find_critical_poses.cpp
-  src/pathfinding/statevaliditychecker.cpp
+  lib/libsimulator/pathfinding/find_trajectory.cpp
+  lib/libsimulator/pathfinding/motionvalidator.cpp
+  lib/libsimulator/pathfinding/find_critical_poses.cpp
+  lib/libsimulator/pathfinding/statevaliditychecker.cpp
 
-  src/simulation/robot.cpp
+  lib/libsimulator/simulation/robot.cpp
 
-  src/misc/misc.cpp
-  src/misc/pose.cpp
-  src/misc/vec.cpp
+  lib/libsimulator/misc/misc.cpp
+  lib/libsimulator/misc/pose.cpp
+  lib/libsimulator/misc/vec.cpp
 
-  src/misc/find_roots.cpp
+  lib/libsimulator/misc/find_roots.cpp
 
-  src/world/generate_world.cpp
-  src/world/parsing/SvgParser.cpp
-  src/world/parsing/SvgParser_parse.cpp
-  src/world/parsing/SvgTransformHandler.cpp
-  src/world/parsing/LengthFactory.cpp
-  src/world/world.cpp
-  src/world/edgepath.cpp
+  lib/libsimulator/world/generate_world.cpp
+  lib/libsimulator/world/parsing/SvgParser.cpp
+  lib/libsimulator/world/parsing/SvgParser_parse.cpp
+  lib/libsimulator/world/parsing/SvgTransformHandler.cpp
+  lib/libsimulator/world/parsing/LengthFactory.cpp
+  lib/libsimulator/world/world.cpp
+  lib/libsimulator/world/edgepath.cpp
 
-  src/trajectory/hermiteedge.cpp
-  src/trajectory/hermitepath.cpp
-  src/trajectory/trajectory.cpp
+  lib/libsimulator/trajectory/hermiteedge.cpp
+  lib/libsimulator/trajectory/hermitepath.cpp
+  lib/libsimulator/trajectory/trajectory.cpp
 
-  src/observationpath/ray.cpp
-  src/observationpath/line.cpp
-  src/observationpath/linesegment.cpp
-  src/observationpath/observationpath.cpp
+  lib/libsimulator/observationpath/ray.cpp
+  lib/libsimulator/observationpath/line.cpp
+  lib/libsimulator/observationpath/linesegment.cpp
+  lib/libsimulator/observationpath/observationpath.cpp
 
-  src/math/root_finder.cpp
+  lib/libsimulator/math/root_finder.cpp
 
-  src/edge/linearedge.cpp
-  src/edge/edge.cpp
-  src/edge/cubicbezieredge.cpp
+  lib/libsimulator/edge/linearedge.cpp
+  lib/libsimulator/edge/edge.cpp
+  lib/libsimulator/edge/cubicbezieredge.cpp
 )
 
 catkin_package(
@@ -78,14 +77,14 @@ catkin_package(
 	DEPENDS
 )
 
-add_executable(simulate_world src/nodes/simulate_world/main.cpp)
+add_executable(simulate_world src/simulate_world/main.cpp)
 target_link_libraries(simulate_world libsimulator ${rosbag_LIBRARIES} ${tf_LIBRARIES})
 
-add_executable(draw_world src/nodes/draw_world/main.cpp src/nodes/draw_world/draw_world.cpp)
+add_executable(draw_world src/draw_world/main.cpp src/draw_world/draw_world.cpp)
 target_link_libraries(draw_world libsimulator ${rosbag_LIBRARIES} ${tf_LIBRARIES} ${PYTHON_LIBRARIES})
 
-add_executable(test_roots src/nodes/test_roots/main.cpp src/nodes/test_roots/test_roots.cpp)
+add_executable(test_roots src/test_roots/main.cpp src/test_roots/test_roots.cpp)
 target_link_libraries(test_roots libsimulator ${rosbag_LIBRARIES} ${tf_LIBRARIES})
 
-add_executable(test_app src/nodes/test_app/main.cpp)
+add_executable(test_app src/test_app/main.cpp)
 target_link_libraries(test_app libsimulator ${rosbag_LIBRARIES} ${tf_LIBRARIES})
