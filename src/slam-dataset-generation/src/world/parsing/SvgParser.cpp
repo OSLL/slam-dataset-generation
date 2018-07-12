@@ -4,8 +4,6 @@
 #include <iostream>
 #include <cstdio>
 
-#include <svgpp/definitions.hpp>
-
 using std::cout;
 using std::endl;
 using std::string;
@@ -23,7 +21,6 @@ SvgParser::SvgParser(World & world_ref)
 	, current_path(nullptr)
 	, parsing_path(false)
 	, viewport_location(-1, -1)
-	, length_factory_(*this)
 { }
 
 /* ======================================== Document information ======================================== */
@@ -49,7 +46,7 @@ void SvgParser::transform_matrix(const SvgTransformHandler::Transform & t) {
 	transform_handler_.receiveTransform(t);
 }
 
-void SvgParser::on_enter_element(tag::element::any) {
+void SvgParser::on_enter_element(const tag::element::any &) {
 	transform_handler_.enterElement();
 }
 /* ====================================================================================================== */
@@ -57,7 +54,7 @@ void SvgParser::on_enter_element(tag::element::any) {
 
 
 /* =========================================== Path detection =========================================== */
-void SvgParser::path_move_to(double x, double y, tag::coordinate::absolute) {
+void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {
 	parsing_path = true;
 	EdgePath * new_path = new EdgePath(transform_handler_({x, y}));
 	world.all_obstacles.push_back(new_path);
@@ -94,7 +91,7 @@ void SvgParser::on_exit_element() {
 	transform_handler_.exitElement();
 }
 
-void SvgParser::set(tag::attribute::id &, const boost::iterator_range<const char *> & value) {
+void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<const char *> & value) {
 
 	// Associate id with path
 	if (parsing_path) {
@@ -115,7 +112,7 @@ void SvgParser::set(tag::attribute::id &, const boost::iterator_range<const char
 
 
 /* =========================================== Edge detection =========================================== */
-void SvgParser::path_line_to(double x, double y, tag::coordinate::absolute) {
+void SvgParser::path_line_to(double x, double y, const tag::coordinate::absolute &) {
 	// Determine which path this edge should be added to
 	EdgePath * current_path = world.all_obstacles.back();
 
@@ -130,7 +127,7 @@ void SvgParser::path_line_to(double x, double y, tag::coordinate::absolute) {
 void SvgParser::path_cubic_bezier_to(double x1, double y1,
 					  double x2, double y2,
 					  double x, double y,
-					  tag::coordinate::absolute) {
+					  const tag::coordinate::absolute &) {
 	// Determine which path this edge should be added to
 	EdgePath * current_path = world.all_obstacles.back();
 
@@ -148,10 +145,10 @@ void SvgParser::path_cubic_bezier_to(double x1, double y1,
 
 void SvgParser::path_quadratic_bezier_to(double x1, double y1,
 					      double x, double y,
-					      tag::coordinate::absolute) { }
+					      const tag::coordinate::absolute &) { }
 
 void SvgParser::path_elliptical_arc_to(double rx, double ry, double x_axis_rotation,
 					    bool large_arc_flag, bool sweep_flag,
 					    double x, double y,
-					    tag::coordinate::absolute) { }
+					    const tag::coordinate::absolute &) { }
 /* ====================================================================================================== */

@@ -8,7 +8,6 @@ using std::ostream;
 
 typedef SvgTransformHandler::Transform Transform;
 
-
 static void operator*=(Transform & t1, const Transform & t2);
 static Transform inverse(const Transform & t);
 static ostream & operator<<(ostream & o, const Transform & m);

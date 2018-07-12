@@ -4,13 +4,10 @@
 #include "world/world.h"
 #include "world/parsing/LengthFactory.h"
 #include "world/parsing/SvgTransformHandler.h"
+#include "world/parsing/SvgppForwardDeclarations.h"
 #include <vector>
 
-#include <boost/array.hpp>
 #include <boost/range/iterator_range.hpp>
-
-#include <iostream>
-#include "misc/misc.h"
 
 class SvgParser
 {
@@ -29,31 +26,31 @@ public:
 
 	/* ################ Transform handling ############### */
 	void transform_matrix(const SvgTransformHandler::Transform & t);
-	void on_enter_element(svgpp::tag::element::any);
+	void on_enter_element(const svgpp::tag::element::any &);
 	/* ################################################### */
 
 
 	
 	/* ################# Edge detection ################## */
-	void path_line_to(double x, double y, svgpp::tag::coordinate::absolute);
+	void path_line_to(double x, double y, const svgpp::tag::coordinate::absolute &);
 	void path_cubic_bezier_to(double x1, double y1,
 				  double x2, double y2,
 				  double x, double y,
-				  svgpp::tag::coordinate::absolute);
+				  const svgpp::tag::coordinate::absolute &);
 	void path_quadratic_bezier_to(double x1, double y1,
 				      double x, double y,
-				      svgpp::tag::coordinate::absolute);
+				      const svgpp::tag::coordinate::absolute &);
 	void path_elliptical_arc_to(double rx, double ry, double x_axis_rotation,
 				    bool large_arc_flag, bool sweep_flag,
 				    double x, double y,
-				    svgpp::tag::coordinate::absolute);
+				    const svgpp::tag::coordinate::absolute &);
 	/* ################################################### */
 
 
 	
 	/* ################# Path detection ################## */
-	void set(svgpp::tag::attribute::id &, const boost::iterator_range<const char *> & value);
-	void path_move_to(double x, double y, svgpp::tag::coordinate::absolute);
+	void set(const svgpp::tag::attribute::id &, const boost::iterator_range<const char *> & value);
+	void path_move_to(double x, double y, const svgpp::tag::coordinate::absolute &);
 	void on_exit_element();
 	/* ################################################### */
 
