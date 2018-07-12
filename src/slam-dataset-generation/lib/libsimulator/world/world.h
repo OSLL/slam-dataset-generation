@@ -31,8 +31,6 @@ class World {
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
-		static World generate_world();
-
 		bool is_valid(const Vec & p) const;
 
 		// Raytracing
