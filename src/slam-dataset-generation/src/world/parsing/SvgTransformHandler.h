@@ -10,7 +10,7 @@ class SvgParser;
 class SvgTransformHandler
 {
 public:
-	SvgTransformHandler(const SvgParser & parser_val);
+	SvgTransformHandler();
 
 	typedef boost::array<double, 6> Transform;
 
@@ -19,11 +19,13 @@ public:
 
 	void receiveTransform(Transform transform);
 
+	void setViewportHeight(const double & viewport_height_val);
+
 	Vec operator()(const Vec & v);
 private:
 	int depth_;
 
-	const SvgParser & parser_;
+	double viewport_height_;
 
 	Transform current_transform_;
 

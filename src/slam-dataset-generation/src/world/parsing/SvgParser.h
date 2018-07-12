@@ -9,6 +9,9 @@
 #include <boost/array.hpp>
 #include <boost/range/iterator_range.hpp>
 
+#include <iostream>
+#include "misc/misc.h"
+
 class SvgParser
 {
 public:
@@ -25,7 +28,7 @@ public:
 
 
 	/* ################ Transform handling ############### */
-	void transform_matrix(const SvgTransformHandler::Tranform & t);
+	void transform_matrix(const SvgTransformHandler::Transform & t);
 	void on_enter_element(svgpp::tag::element::any);
 	/* ################################################### */
 

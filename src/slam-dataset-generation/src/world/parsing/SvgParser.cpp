@@ -24,8 +24,6 @@ SvgParser::SvgParser(World & world_ref)
 	, parsing_path(false)
 	, viewport_location(-1, -1)
 	, length_factory_(*this)
-	, transform_handler_(*this)
-
 { }
 
 /* ======================================== Document information ======================================== */
@@ -33,6 +31,9 @@ void SvgParser::set_viewport(double x, double y, double width, double height) {
 	viewport_location = {x, viewport_height - y};
 	viewport_width = width;
 	viewport_height = height;
+
+	// Inform transform handler of viewport height
+	transform_handler_.setViewportHeight(viewport_height);
 }
 
 void SvgParser::set_viewbox_size(double width, double height) {
@@ -154,6 +155,3 @@ void SvgParser::path_elliptical_arc_to(double rx, double ry, double x_axis_rotat
 					    double x, double y,
 					    tag::coordinate::absolute) { }
 /* ====================================================================================================== */
-
-
-

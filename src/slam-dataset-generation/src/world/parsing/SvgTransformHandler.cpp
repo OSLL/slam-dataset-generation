@@ -1,8 +1,11 @@
 #include "world/parsing/SvgTransformHandler.h"
 #include <iostream>
 
+using std::cout;
+using std::endl;
 
 using std::ostream;
+
 typedef SvgTransformHandler::Transform Transform;
 
 
@@ -21,11 +24,15 @@ enum TransformationIndex
 };
 
 
-SvgTransformHandler::SvgTransformHandler(const SvgParser & parser_val)
-	: parser_(parser_val)
-	, depth_(0)
+SvgTransformHandler::SvgTransformHandler()
+	: depth_(0)
 	, current_transform_(Transform {1, 0, 0, 1, 0, 0}) // Identity transform
 { }
+
+void SvgTransformHandler::setViewportHeight(const double & viewport_height_val)
+{
+	viewport_height_ = viewport_height_val;
+}
 
 void SvgTransformHandler::enterElement()
 {
@@ -34,9 +41,10 @@ void SvgTransformHandler::enterElement()
 
 void SvgTransformHandler::exitElement()
 {
-	if (depth_ = transform_depths_.back())
+	if (depth_ == transform_depths_.back())
 	{
-		const Transform & expired_transform = transforms_.pop_back();
+		const Transform & expired_transform = transforms_.back();
+
 		current_transform_ *= inverse(expired_transform);
 
 		// Remove transforms
@@ -64,7 +72,7 @@ Vec SvgTransformHandler::operator()(const Vec & v)
 	Vec result {t[a]*v.x + t[c]*v.y + t[e], t[b]*v.x + t[d]*v.y + t[f]};
 
 	// Flip y coordinate so that the axis system is like a traditional cartesian coordinate system
-	result.y = parser_.viewport_height - result.y;
+	result.y = viewport_height_ - result.y;
 
 	return result;
 }
@@ -83,7 +91,7 @@ void operator*=(Transform & t1, const Transform & t2)
 
 Transform inverse(const Transform & t)
 {
-	double det = t[a]*t[d] - t[b]*t[c];
+	const double det = t[a]*t[d] - t[b]*t[c];
 
 	Transform i
 	{
