@@ -1,5 +1,4 @@
 #include "world/world.h"
-#include "pathfinding/find_critical_poses.h"
 #include "pathfinding/find_trajectory.h"
 #include "draw_world.h"
 
@@ -18,8 +17,7 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	critical_poses_t critical_poses = find_critical_poses(world);
-	Trajectory trajectory = find_trajectory(world, critical_poses);
+	Trajectory trajectory = find_trajectory(world, {});
 
 	draw_world_and_trajectory(world, trajectory, "map.png");
 }

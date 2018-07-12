@@ -10,7 +10,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-Trajectory find_trajectory(World & world, const critical_poses_t & critical_poses) {
+Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 
 	EdgePath * linear_trajectory = nullptr;
 

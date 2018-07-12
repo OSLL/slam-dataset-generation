@@ -35,7 +35,6 @@ include_directories(
 add_library(libsimulator
   lib/libsimulator/pathfinding/find_trajectory.cpp
   lib/libsimulator/pathfinding/motionvalidator.cpp
-  lib/libsimulator/pathfinding/find_critical_poses.cpp
   lib/libsimulator/pathfinding/statevaliditychecker.cpp
 
   lib/libsimulator/simulation/robot.cpp
@@ -46,7 +45,6 @@ add_library(libsimulator
 
   lib/libsimulator/misc/find_roots.cpp
 
-  lib/libsimulator/world/generate_world.cpp
   lib/libsimulator/world/parsing/SvgParser.cpp
   lib/libsimulator/world/parsing/SvgParser_parse.cpp
   lib/libsimulator/world/parsing/SvgTransformHandler.cpp
