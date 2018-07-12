@@ -6,5 +6,5 @@ StateValidityChecker::StateValidityChecker(const ompl::base::SpaceInformationPtr
 { }
 
 bool StateValidityChecker::isValid(const ompl::base::State * s) const {
-	//
+	return true;
 }

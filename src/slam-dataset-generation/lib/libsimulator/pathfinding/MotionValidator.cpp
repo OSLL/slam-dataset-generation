@@ -6,5 +6,5 @@ MotionValidator::MotionValidator(const ompl::base::SpaceInformationPtr & si, Wor
 { }
 
 bool MotionValidator::checkMotion(const ompl::base::State * s1, const ompl::base::State * s2) const {
-	//
+	return true;
 }

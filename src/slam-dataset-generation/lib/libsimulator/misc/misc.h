@@ -42,6 +42,8 @@ std::ostream & operator<<(std::ostream & o, std::set<T> s) {
 	}
 
 	o << "}";
+
+	return o;
 }
 
 // Get signum of a value
