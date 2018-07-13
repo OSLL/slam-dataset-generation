@@ -96,7 +96,7 @@ private:
 
 	
 	/* ################# Path detection ################## */
-	EdgePath * current_path;
+	Obstacle * current_path;
 	/* ################################################### */
 };
 

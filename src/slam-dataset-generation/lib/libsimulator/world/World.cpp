@@ -21,26 +21,26 @@ World::World() :
 { }
 
 World::~World() {
-	for (EdgePath * p : all_obstacles) {
+	for (Obstacle * p : all_obstacles) {
 		delete p;
 	}
 }
 
-const EdgePath * World::get_world_boundary() const {
+const Obstacle * World::get_world_boundary() const {
 	return world_boundary;
 }
 
-const vector<EdgePath *> & World::get_obstacles() const {
+const vector<Obstacle *> & World::get_obstacles() const {
 	return interior_obstacles;
 }
 
-const vector<EdgePath *> & World::get_all_obstacles() const {
+const vector<Obstacle *> & World::get_all_obstacles() const {
 	return all_obstacles;
 }
 
-const EdgePath * World::get_obstacle_by_id(string id) const {
+const Obstacle * World::get_obstacle_by_id(string id) const {
 
-	for (EdgePath * p : all_obstacles) {
+	for (Obstacle * p : all_obstacles) {
 		if (p->id == id) {
 			return p;
 		}
@@ -74,7 +74,7 @@ void World::print(ostream & o, int tabs) const {
 	// Print data
 	if (all_obstacles.size() != 0) {
 		o << "World:" << endl;
-		for (const EdgePath * path : all_obstacles) {
+		for (const Obstacle * path : all_obstacles) {
 			path->print(o, tabs + 1);
 		}
 	} else {
@@ -89,7 +89,7 @@ bool World::is_valid(const Vec & pos) const {
 	}
 
 	// Check if point is in any of the interior obstacles
-	for (EdgePath * path : interior_obstacles) {
+	for (Obstacle * path : interior_obstacles) {
 		if (path->is_in(pos)) {
 			return false;
 		}
@@ -103,7 +103,7 @@ double World::distance(const ObservationPath & op) const {
 
 	double closest_distance = -1;
 
-	for (const EdgePath * p : all_obstacles) {
+	for (const Obstacle * p : all_obstacles) {
 
 		double distance_to_path = p->distance(op);
 

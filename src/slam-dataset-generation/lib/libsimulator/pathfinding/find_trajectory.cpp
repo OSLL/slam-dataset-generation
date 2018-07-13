@@ -12,7 +12,7 @@ using std::endl;
 
 Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 
-	EdgePath * linear_trajectory = nullptr;
+	Obstacle * linear_trajectory = nullptr;
 
 	for (auto itr = world.all_obstacles.begin(); itr != world.all_obstacles.end(); itr++) {
 
@@ -28,7 +28,7 @@ Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 		exit(-1);
 	} else {
 		// Remove linear_trajectory from world.interior_obstacles
-		vector<EdgePath *>::iterator pos = std::find(world.interior_obstacles.begin(), world.interior_obstacles.end(), linear_trajectory);
+		vector<Obstacle *>::iterator pos = std::find(world.interior_obstacles.begin(), world.interior_obstacles.end(), linear_trajectory);
 		world.interior_obstacles.erase(pos);
 	}
 

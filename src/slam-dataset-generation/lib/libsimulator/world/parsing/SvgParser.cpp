@@ -56,14 +56,14 @@ void SvgParser::on_enter_element(const tag::element::any &) {
 /* =========================================== Path detection =========================================== */
 void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {
 	parsing_path = true;
-	EdgePath * new_path = new EdgePath(transform_handler_({x, y}));
+	Obstacle * new_path = new Obstacle(transform_handler_({x, y}));
 	world.all_obstacles.push_back(new_path);
 }
 
 void SvgParser::on_exit_element() {
 	if (parsing_path) {
-		// Obtain pointer to recently constructed EdgePath
-		EdgePath * last_constructed_path = world.all_obstacles.back();
+		// Obtain pointer to recently constructed Obstacle
+		Obstacle * last_constructed_path = world.all_obstacles.back();
 
 		// Selectively enforce closure of paths
 		if (last_constructed_path->id != "linear_trajectory") {
@@ -101,7 +101,7 @@ void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<cons
 		id.assign(boost::begin(value), boost::end(value));
 
 		// Obtain pointer to constructed path
-		EdgePath * last_constructed_path = world.all_obstacles.back();
+		Obstacle * last_constructed_path = world.all_obstacles.back();
 		
 		// Set id
 		last_constructed_path->id = id;
@@ -114,7 +114,7 @@ void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<cons
 /* =========================================== Edge detection =========================================== */
 void SvgParser::path_line_to(double x, double y, const tag::coordinate::absolute &) {
 	// Determine which path this edge should be added to
-	EdgePath * current_path = world.all_obstacles.back();
+	Obstacle * current_path = world.all_obstacles.back();
 
 	// Transform coordinates
 	Vec end = transform_handler_({x, y}); 
@@ -129,7 +129,7 @@ void SvgParser::path_cubic_bezier_to(double x1, double y1,
 					  double x, double y,
 					  const tag::coordinate::absolute &) {
 	// Determine which path this edge should be added to
-	EdgePath * current_path = world.all_obstacles.back();
+	Obstacle * current_path = world.all_obstacles.back();
 
 	// Transform coordinates
 	Vec control_1 = transform_handler_({x1, y1}); 

@@ -46,7 +46,7 @@ add_library(libsimulator
   lib/libsimulator/observationpath/LineSegment.cpp
   lib/libsimulator/observationpath/ObservationPath.cpp
 
-  lib/libsimulator/obstacle/EdgePath.cpp
+  lib/libsimulator/obstacle/Obstacle.cpp
   lib/libsimulator/obstacle/ObstacleEdge.cpp
   lib/libsimulator/obstacle/LinearEdge.cpp
   lib/libsimulator/obstacle/CubicBezierEdge.cpp

@@ -1,17 +1,17 @@
-#ifndef EDGEPATH_H
-#define EDGEPATH_H
+#ifndef OBSTACLE_OBSTACLE_H
+#define OBSTACLE_OBSTACLE_H
 
 #include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <vector>
 #include <iostream>
 
-class EdgePath {
+class Obstacle {
 	private:
 		const Vec * end_ptr;
 	public:
-		EdgePath(const Vec & start_point);
-		~EdgePath();
+		Obstacle(const Vec & start_point);
+		~Obstacle();
 
 		const Vec start;
 		std::string id;
@@ -29,6 +29,6 @@ class EdgePath {
 		double distance(const ObservationPath & op) const;
 };
 
-std::ostream & operator<<(std::ostream & o, const EdgePath & path);
+std::ostream & operator<<(std::ostream & o, const Obstacle & path);
 
 #endif

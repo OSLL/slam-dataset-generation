@@ -1,4 +1,4 @@
-#include "obstacle/EdgePath.h"
+#include "obstacle/Obstacle.h"
 #include "observationpath/Ray.h"
 #include <iostream>
 #include <string>
@@ -8,44 +8,44 @@ using std::cout;
 using std::endl;
 using std::string;
 
-EdgePath::EdgePath(const Vec & start_point) :
+Obstacle::Obstacle(const Vec & start_point) :
 	start(start_point),
 	end_ptr(&start)
 { }
 
-EdgePath::~EdgePath() {
-	// In this case, RAII isn't really being obeyed, because dynamic allocation happens in ParsingContext, not in EdgePath
+Obstacle::~Obstacle() {
+	// In this case, RAII isn't really being obeyed, because dynamic allocation happens in ParsingContext, not in Obstacle
 	for (ObstacleEdge * e : edges) {
 		delete e;
 	}
 }
 
 // Getters
-const Vec & EdgePath::end() {
+const Vec & Obstacle::end() {
 	return *end_ptr;
 }
 
 
-void EdgePath::add_edge(ObstacleEdge * e) {
+void Obstacle::add_edge(ObstacleEdge * e) {
 	edges.push_back(e);
 	end_ptr = &e->end;
 }
 
-void EdgePath::print(ostream & o, int tabs) const {
+void Obstacle::print(ostream & o, int tabs) const {
 	// Print the correct number of tabs
 	for (int i = 0; i < tabs; i++) {
 		o << '\t';
 	}
 
 	// Print data
-	o << "EdgePath: " << id << endl;
+	o << "Obstacle: " << id << endl;
 	for (ObstacleEdge * e : edges) {
 		e->print(o, tabs + 1);
 		o << endl;
 	}
 }
 
-bool EdgePath::is_in(const Vec & p) {
+bool Obstacle::is_in(const Vec & p) {
 	// Cast ray in some direction and count the total number of intersections
 	Ray ray {p, 0};
 
@@ -58,7 +58,7 @@ bool EdgePath::is_in(const Vec & p) {
 	return intersections % 2 == 1;
 }
 
-double EdgePath::distance(const ObservationPath & op) const {
+double Obstacle::distance(const ObservationPath & op) const {
 	
 	double closest_distance = -1;
 
@@ -76,7 +76,7 @@ double EdgePath::distance(const ObservationPath & op) const {
 	return closest_distance;
 }
 
-ostream & operator<<(ostream & o, const EdgePath & path) {
+ostream & operator<<(ostream & o, const Obstacle & path) {
 	path.print();
 	return o;
 }

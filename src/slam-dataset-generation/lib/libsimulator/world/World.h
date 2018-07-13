@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "obstacle/EdgePath.h"
+#include "obstacle/Obstacle.h"
 #include "observationpath/ObservationPath.h"
 
 class World {
@@ -14,17 +14,17 @@ class World {
 
 	public:
 
-		EdgePath * world_boundary;
-		std::vector<EdgePath *> interior_obstacles;
-		std::vector<EdgePath *> all_obstacles;
+		Obstacle * world_boundary;
+		std::vector<Obstacle *> interior_obstacles;
+		std::vector<Obstacle *> all_obstacles;
 
 		World();
 		~World();
 
-		const EdgePath * get_world_boundary() const;
-		const std::vector<EdgePath *> & get_obstacles() const;
-		const std::vector<EdgePath *> & get_all_obstacles() const;
-		const EdgePath * get_obstacle_by_id(std::string id) const;
+		const Obstacle * get_world_boundary() const;
+		const std::vector<Obstacle *> & get_obstacles() const;
+		const std::vector<Obstacle *> & get_all_obstacles() const;
+		const Obstacle * get_obstacle_by_id(std::string id) const;
 
 		void read_from_disk(const char * source);
 		void write_to_disk(const char * destination) const;
