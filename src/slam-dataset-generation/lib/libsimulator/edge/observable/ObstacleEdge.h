@@ -1,5 +1,5 @@
-#ifndef EDGE_H
-#define EDGE_H
+#ifndef EDGE_OBSERVABLE_OBSTACLEEDGE_H
+#define EDGE_OBSERVABLE_OBSTACLEEDGE_H
 
 #include "math/Vec.h"
 #include "observationpath/ObservationPath.h"
@@ -12,9 +12,9 @@
  * It should only contain the interface necessary for all edges to have.
  */
 
-class Edge {
+class ObstacleEdge {
 	public:
-		Edge(const Vec & start_point, const Vec & end);
+		ObstacleEdge(const Vec & start_point, const Vec & end);
 
 		// Defined in Edge
 		std::set<Vec> intersection_points(const ObservationPath &) const;
@@ -35,6 +35,6 @@ class Edge {
 		friend class Path;
 };
 
-std::ostream & operator<<(std::ostream & o, const Edge & e);
+std::ostream & operator<<(std::ostream & o, const ObstacleEdge & e);
 
 #endif

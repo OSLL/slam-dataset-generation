@@ -20,7 +20,7 @@ void draw_world(const World & world, const char * filename) {
 	vector<GraphSegment> segments;
 
 	for (const EdgePath * p : world.get_all_obstacles()) {
-		for (const Edge * e : p->edges) {
+		for (const ObstacleEdge * e : p->edges) {
 			GraphSegment new_segment;
 
 			// Draw the entire edge, from t = 0 to t = 1

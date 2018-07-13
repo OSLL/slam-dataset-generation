@@ -1,11 +1,11 @@
 #ifndef CUBICBEZIEREDGE_H
 #define CUBICBEZIEREDGE_H
 
-#include "edge/observable/Edge.h"
+#include "edge/observable/ObstacleEdge.h"
 #include <iostream>
 #include <set>
 
-class CubicBezierEdge : public Edge {
+class CubicBezierEdge : public ObstacleEdge {
 	public:
 		CubicBezierEdge(const Vec & start_point, const Vec & c1, const Vec & c2, const Vec & end_point);
 

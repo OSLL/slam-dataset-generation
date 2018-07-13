@@ -1,11 +1,11 @@
-#include "edge/observable/Edge.h"
+#include "edge/observable/ObstacleEdge.h"
 
 using std::ostream;
 using std::cout;
 using std::endl;
 using std::set;
 
-Edge::Edge(const Vec & start_point, const Vec & end_point) :
+ObstacleEdge::ObstacleEdge(const Vec & start_point, const Vec & end_point) :
 	start(start_point),
 	end(end_point)
 { }
@@ -36,13 +36,13 @@ static double closest_distance(const Vec & p, const set<Vec> & s) {
 	}
 }
 
-double Edge::distance(const ObservationPath & op) const {
+double ObstacleEdge::distance(const ObservationPath & op) const {
 	set<Vec> path_intersection_points = intersection_points(op);
 
 	return closest_distance(op.start, path_intersection_points);
 }
 
-std::set<Vec> Edge::intersection_points(const ObservationPath & op) const {
+std::set<Vec> ObstacleEdge::intersection_points(const ObservationPath & op) const {
 	// Obtain set of intersection points as though op was a Line
 	set<Vec> line_intersection_points = linear_intersection_points(op);
 
@@ -67,21 +67,21 @@ std::set<Vec> Edge::intersection_points(const ObservationPath & op) const {
 // If there is a faster way for a particular edge type to accomplish this,
 // these are virtual and can be defined in a subclass
 
-int Edge::number_of_intersections(const ObservationPath & op) const {
+int ObstacleEdge::number_of_intersections(const ObservationPath & op) const {
 	return intersection_points(op).size();
 }
 
-void Edge::print(ostream & o, int tabs) const {
+void ObstacleEdge::print(ostream & o, int tabs) const {
 	// Print out the correct number of tabs
 	for (int i = 0; i < tabs; i++) {
 		cout << '\t';
 	}
 
 	// Print edge information
-	o << "Edge: " << start << " -> " << end;
+	o << "ObstacleEdge: " << start << " -> " << end;
 }
 
-ostream & operator<<(ostream & o, const Edge & e) {
+ostream & operator<<(ostream & o, const ObstacleEdge & e) {
 	e.print(o);
 	return o;
 }

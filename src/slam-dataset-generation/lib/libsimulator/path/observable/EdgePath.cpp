@@ -15,7 +15,7 @@ EdgePath::EdgePath(const Vec & start_point) :
 
 EdgePath::~EdgePath() {
 	// In this case, RAII isn't really being obeyed, because dynamic allocation happens in ParsingContext, not in EdgePath
-	for (Edge * e : edges) {
+	for (ObstacleEdge * e : edges) {
 		delete e;
 	}
 }
@@ -26,7 +26,7 @@ const Vec & EdgePath::end() {
 }
 
 
-void EdgePath::add_edge(Edge * e) {
+void EdgePath::add_edge(ObstacleEdge * e) {
 	edges.push_back(e);
 	end_ptr = &e->end;
 }
@@ -39,7 +39,7 @@ void EdgePath::print(ostream & o, int tabs) const {
 
 	// Print data
 	o << "EdgePath: " << id << endl;
-	for (Edge * e : edges) {
+	for (ObstacleEdge * e : edges) {
 		e->print(o, tabs + 1);
 		o << endl;
 	}
@@ -50,7 +50,7 @@ bool EdgePath::is_in(const Vec & p) {
 	Ray ray {p, 0};
 
 	int intersections = 0;
-	for (Edge * e : edges) {
+	for (ObstacleEdge * e : edges) {
 		intersections += e->number_of_intersections(ray);
 	}
 
@@ -62,7 +62,7 @@ double EdgePath::distance(const ObservationPath & op) const {
 	
 	double closest_distance = -1;
 
-	for (const Edge * e : edges) {
+	for (const ObstacleEdge * e : edges) {
 
 		double distance_to_edge = e->distance(op);
 

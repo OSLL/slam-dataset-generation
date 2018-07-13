@@ -38,7 +38,7 @@ Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 	intermediate_points.reserve(linear_trajectory->edges.size() + 1);
 
 	intermediate_points.push_back(linear_trajectory->start);
-	for (Edge * e : linear_trajectory->edges) {
+	for (ObstacleEdge * e : linear_trajectory->edges) {
 		intermediate_points.push_back(e->end);
 	}
 

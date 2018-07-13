@@ -1,7 +1,7 @@
 #ifndef EDGEPATH_H
 #define EDGEPATH_H
 
-#include "edge/observable/Edge.h"
+#include "edge/observable/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <vector>
 #include <iostream>
@@ -19,9 +19,9 @@ class EdgePath {
 		const Vec & end();
 
 
-		std::vector<Edge *> edges;
+		std::vector<ObstacleEdge *> edges;
 
-		void add_edge(Edge * e);
+		void add_edge(ObstacleEdge * e);
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		// Raytracing

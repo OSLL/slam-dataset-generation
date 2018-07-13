@@ -34,7 +34,7 @@ include_directories(
 # libsimulator contains all helper code that makes writing the nodes simple
 add_library(libsimulator
   lib/libsimulator/edge/non_observable/HermiteEdge.cpp
-  lib/libsimulator/edge/observable/Edge.cpp
+  lib/libsimulator/edge/observable/ObstacleEdge.cpp
   lib/libsimulator/edge/observable/LinearEdge.cpp
   lib/libsimulator/edge/observable/CubicBezierEdge.cpp
 

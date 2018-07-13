@@ -12,7 +12,7 @@ using std::ostream;
 using namespace svgpp;
 
 // Obstacle edge types
-#include "edge/observable/Edge.h"
+#include "edge/observable/ObstacleEdge.h"
 #include "edge/observable/LinearEdge.h"
 #include "edge/observable/CubicBezierEdge.h"
 
@@ -71,7 +71,7 @@ void SvgParser::on_exit_element() {
 			const Vec & path_end = last_constructed_path->end();
 
 			if (path_start != path_end) {
-				Edge * new_edge = new LinearEdge(path_end, path_start);
+				ObstacleEdge * new_edge = new LinearEdge(path_end, path_start);
 				last_constructed_path->add_edge(new_edge);
 			}
 		}
@@ -120,7 +120,7 @@ void SvgParser::path_line_to(double x, double y, const tag::coordinate::absolute
 	Vec end = transform_handler_({x, y}); 
 
 	// Add edge
-	Edge * new_edge = new LinearEdge(current_path->end(), end);
+	ObstacleEdge * new_edge = new LinearEdge(current_path->end(), end);
 	current_path->add_edge(new_edge);
 }
 
@@ -137,7 +137,7 @@ void SvgParser::path_cubic_bezier_to(double x1, double y1,
 	Vec end = transform_handler_({x, y}); 
 
 	// Add edge
-	Edge * new_edge = new CubicBezierEdge(current_path->end(), control_1, control_2, end);
+	ObstacleEdge * new_edge = new CubicBezierEdge(current_path->end(), control_1, control_2, end);
 	current_path->add_edge(new_edge);
 }
 

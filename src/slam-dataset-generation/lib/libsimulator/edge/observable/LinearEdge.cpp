@@ -11,7 +11,7 @@ using std::cout;
 using std::endl;
 
 LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
-	Edge(start_point, end_point),
+	ObstacleEdge(start_point, end_point),
 	direction(end-start)
 { }
 

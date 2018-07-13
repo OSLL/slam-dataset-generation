@@ -1,12 +1,12 @@
 #ifndef LINEAREDGE_H
 #define LINEAREDGE_H
 
-#include "edge/observable/Edge.h"
+#include "edge/observable/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <iostream>
 #include <set>
 
-class LinearEdge : public Edge {
+class LinearEdge : public ObstacleEdge {
 	public:
 		LinearEdge(const Vec & start_point, const Vec & end_point);
 	
