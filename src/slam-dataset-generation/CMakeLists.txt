@@ -38,7 +38,7 @@ add_library(libsimulator
   lib/libsimulator/edge/observable/LinearEdge.cpp
   lib/libsimulator/edge/observable/CubicBezierEdge.cpp
 
-  lib/libsimulator/math/root_finder.cpp
+  lib/libsimulator/math/RootFinder.cpp
   lib/libsimulator/math/find_roots.cpp
   lib/libsimulator/math/Pose.cpp
   lib/libsimulator/math/Vec.cpp

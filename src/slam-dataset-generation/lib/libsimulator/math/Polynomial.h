@@ -5,47 +5,45 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
-#include "math/root_finder.h"
+#include "math/RootFinder.h"
 
-namespace math
+template <int degree>
+class Polynomial
 {
-	template <int degree>
-	class Polynomial
-	{
-	public:
-		using coefficients_t = std::array<double, degree + 1>;
-		using roots_t = std::vector<double>;
+public:
+	using coefficients_t = std::array<double, degree + 1>;
+	using roots_t = std::vector<double>;
 
-		template <typename ... Args>
-		Polynomial(Args ... args);
+	Polynomial() = default;
 
-		double operator()(double t) const;
+	template <typename ... Args>
+	Polynomial(Args ... args);
 
-		template <int n = 1>
-		double derivative(double t) const;
-		
-		roots_t roots() const;
+	double operator()(double t) const;
 
-		void print(std::ostream & o = std::cout) const;
-	private:
-		// An n-degree polynomial needs n + 1 coefficients because of the constant term
-		coefficients_t coefficients_;
+	double derivative(double t, int n = 1) const;
+	
+	roots_t roots() const;
 
-		// A Polynomial<n> can hold a polynomial of up to degree n
-		// Knowing the actual order of the stored polynomial allows dynamic dispatch to the correct root-finding procedure
-		void updateActualOrder();
-		int actual_order_;
+	void print(std::ostream & o = std::cout) const;
+private:
+	// An n-degree polynomial needs n + 1 coefficients because of the constant term
+	coefficients_t coefficients_;
 
-		// Check template parameters to ensure Polynomial is well-formed
-		template <typename ... Args>
-		void checkValidity();
-	};
-}
+	// A Polynomial<n> can hold a polynomial of up to degree n
+	// Knowing the actual order of the stored polynomial allows dynamic dispatch to the correct root-finding procedure
+	void updateActualOrder();
+	int actual_order_;
+
+	// Check template parameters to ensure Polynomial is well-formed
+	template <typename ... Args>
+	void checkValidity();
+};
 
 /* ==================== Constructor and argument validation =================== */
 template <int degree>
 template <typename ... Args>
-math::Polynomial<degree>::Polynomial(Args ... args)
+Polynomial<degree>::Polynomial(Args ... args)
 	// Call to check validity does some static_asserts to make sure template parameter pack is valid
 	: coefficients_(
 		(
@@ -69,7 +67,7 @@ struct and_<Cond, Conds...>
 
 template <int degree>
 template <typename ... Args>
-void math::Polynomial<degree>::checkValidity()
+void Polynomial<degree>::checkValidity()
 {
 	static_assert(degree >= 0, "Cannot instantiate a Polynomial of degree < 0.");
 	static_assert(sizeof...(Args) == degree + 1, "Incorrect number of parameters for Polynomial constructor");
@@ -77,7 +75,7 @@ void math::Polynomial<degree>::checkValidity()
 }
 
 template <int degree>
-void math::Polynomial<degree>::updateActualOrder()
+void Polynomial<degree>::updateActualOrder()
 {
 	actual_order_ = degree;
 
@@ -95,7 +93,7 @@ void math::Polynomial<degree>::updateActualOrder()
 
 /* ====================== Function operator & derivative ====================== */
 template <int degree>
-double math::Polynomial<degree>::operator()(double t) const
+double Polynomial<degree>::operator()(double t) const
 {
 	double sum = 0;
 
@@ -113,8 +111,7 @@ inline constexpr int f(int i, int n)
 }
 
 template <int degree>
-template <int n>
-double math::Polynomial<degree>::derivative(double t) const
+double Polynomial<degree>::derivative(double t, int n) const
 {
 	double sum = 0;
 
@@ -136,18 +133,18 @@ double math::Polynomial<degree>::derivative(double t) const
 
 /* =============================== Root finding =============================== */
 template <int degree>
-typename math::Polynomial<degree>::roots_t math::Polynomial<degree>::roots() const
+typename Polynomial<degree>::roots_t Polynomial<degree>::roots() const
 {
 	switch (actual_order_)
 	{
 		case 0:
 			return {};
 		case 1:
-			return math::RootFinder::linear(coefficients_.data());
+			return RootFinder::linear(coefficients_.data());
 		case 2:
-			return math::RootFinder::quadratic(coefficients_.data());
+			return RootFinder::quadratic(coefficients_.data());
 		case 3:
-			return math::RootFinder::cubic(coefficients_.data());
+			return RootFinder::cubic(coefficients_.data());
 		default:
 			std::cout << "Rootfinding for polynomials of degree " << degree << " not implemented.  Returning empty set." << std::endl;
 			return {};
@@ -158,7 +155,7 @@ typename math::Polynomial<degree>::roots_t math::Polynomial<degree>::roots() con
 
 /* ================================= Printing ================================= */
 template <int degree>
-void math::Polynomial<degree>::print(std::ostream & o) const
+void Polynomial<degree>::print(std::ostream & o) const
 {
 	for (int i = degree; i > 0; i--)
 	{
@@ -171,7 +168,7 @@ void math::Polynomial<degree>::print(std::ostream & o) const
 }
 
 template <int degree>
-std::ostream & operator<<(std::ostream & o, const math::Polynomial<degree> f)
+std::ostream & operator<<(std::ostream & o, const Polynomial<degree> f)
 {
 	f.print(o);
 	return o;

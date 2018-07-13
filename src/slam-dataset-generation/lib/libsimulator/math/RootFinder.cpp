@@ -1,5 +1,4 @@
-#include "math/root_finder.h"
-//#include "math/find_roots.h"
+#include "math/RootFinder.h"
 #include <cstdlib>
 #include <cmath>
 
@@ -11,7 +10,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-vector<double> math::RootFinder::linear(const double * coefficients)
+vector<double> RootFinder::linear(const double * coefficients)
 {
 	// at + b = 0
 	const double & a = coefficients[1];
@@ -28,7 +27,7 @@ vector<double> math::RootFinder::linear(const double * coefficients)
 	return roots;
 }
 
-vector<double> math::RootFinder::quadratic(const double * coefficients)
+vector<double> RootFinder::quadratic(const double * coefficients)
 {
 	// at^2 + bt + c = 0
 	const double & a = coefficients[2];
@@ -54,14 +53,14 @@ vector<double> math::RootFinder::quadratic(const double * coefficients)
 	return roots;
 }
 
-vector<double> math::RootFinder::cubic(const double * coefficients)
+vector<double> RootFinder::cubic(const double * coefficients)
 {
 	// at^3 + bt^2 + ct + d = 0
 	//
 	// Note: we create a copy of the coefficients because we will do synthetic divison to reduce to
 	// a quadratic after we locate the first root and we don't want to modify the original polynomial.
 	//
-	// They're gathered in an array so that we can call math::RootFinder::quadratic(const double *)
+	// They're gathered in an array so that we can call RootFinder::quadratic(const double *)
 	double copy_of_coefficients[4] {
 		coefficients[0],
 		coefficients[1],

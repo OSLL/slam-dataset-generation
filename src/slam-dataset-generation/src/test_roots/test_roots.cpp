@@ -8,7 +8,6 @@
 #include "math/Polynomial.h"
 
 using namespace std;
-using namespace math;
 
 struct FailureReason
 {
@@ -66,7 +65,7 @@ void test_roots(const int number_of_iterations) {
 		c = generate_random_number(-20, 20);
 		d = generate_random_number(-20, 20);
 
-		math::Polynomial<3> f(d, c, b, a);
+		Polynomial<3> f(d, c, b, a);
 
 		auto roots = f.roots();
 

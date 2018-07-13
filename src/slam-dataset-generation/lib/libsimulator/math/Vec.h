@@ -10,6 +10,8 @@ class Vec {
 		Vec(const double & x_val, const double & y_val);
 		Vec(const Vec &);
 
+		static Vec Polar(const double & r, const double & theta);
+
 		double x;
 		double y;
 

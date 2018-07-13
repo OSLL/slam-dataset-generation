@@ -23,6 +23,11 @@ Vec::Vec(const Vec & v) :
 	y(v.y)
 { }
 
+Vec Vec::Polar(const double & r, const double & theta)
+{
+	return r * Vec {cos(theta), sin(theta)};
+}
+
 /* ################# Angles ################ */
 double Vec::radians() const {
 	return atan2(y, x);
