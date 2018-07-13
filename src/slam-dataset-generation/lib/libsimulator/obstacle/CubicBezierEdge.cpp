@@ -1,4 +1,4 @@
-#include "edge/observable/CubicBezierEdge.h"
+#include "obstacle/CubicBezierEdge.h"
 #include "math/find_roots.h"
 #include <iostream>
 #include <cmath>

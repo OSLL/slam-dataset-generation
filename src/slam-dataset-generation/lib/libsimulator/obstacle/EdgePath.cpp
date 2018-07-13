@@ -1,4 +1,4 @@
-#include "path/observable/EdgePath.h"
+#include "obstacle/EdgePath.h"
 #include "observationpath/Ray.h"
 #include <iostream>
 #include <string>

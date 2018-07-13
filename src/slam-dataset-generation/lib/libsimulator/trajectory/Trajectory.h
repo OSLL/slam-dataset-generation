@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "math/Pose.h"
-#include "path/non_observable/HermitePath.h"
+#include "trajectory/HermitePath.h"
 
 class Trajectory : public HermitePath {
 	public:

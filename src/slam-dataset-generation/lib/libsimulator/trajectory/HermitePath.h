@@ -2,7 +2,7 @@
 #define HERMITEPATH_H
 
 #include <vector>
-#include "edge/non_observable/HermiteEdge.h"
+#include "trajectory/HermiteEdge.h"
 #include "math/Pose.h"
 
 class HermitePath {

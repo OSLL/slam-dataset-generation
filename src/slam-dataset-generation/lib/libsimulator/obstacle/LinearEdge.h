@@ -1,7 +1,7 @@
 #ifndef LINEAREDGE_H
 #define LINEAREDGE_H
 
-#include "edge/observable/ObstacleEdge.h"
+#include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <iostream>
 #include <set>

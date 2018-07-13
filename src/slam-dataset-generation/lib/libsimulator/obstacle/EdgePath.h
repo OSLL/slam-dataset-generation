@@ -1,7 +1,7 @@
 #ifndef EDGEPATH_H
 #define EDGEPATH_H
 
-#include "edge/observable/ObstacleEdge.h"
+#include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <vector>
 #include <iostream>

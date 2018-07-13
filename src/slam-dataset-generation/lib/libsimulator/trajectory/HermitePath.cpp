@@ -1,4 +1,4 @@
-#include "path/non_observable/HermitePath.h"
+#include "trajectory/HermitePath.h"
 #include <iostream>
 #include <cmath>
 

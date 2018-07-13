@@ -1,4 +1,4 @@
-#include "edge/observable/ObstacleEdge.h"
+#include "obstacle/ObstacleEdge.h"
 
 using std::ostream;
 using std::cout;

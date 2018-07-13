@@ -1,7 +1,7 @@
 #ifndef CUBICBEZIEREDGE_H
 #define CUBICBEZIEREDGE_H
 
-#include "edge/observable/ObstacleEdge.h"
+#include "obstacle/ObstacleEdge.h"
 #include <iostream>
 #include <set>
 

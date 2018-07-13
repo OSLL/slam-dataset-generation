@@ -33,10 +33,6 @@ include_directories(
 
 # libsimulator contains all helper code that makes writing the nodes simple
 add_library(libsimulator
-  lib/libsimulator/edge/non_observable/HermiteEdge.cpp
-  lib/libsimulator/edge/observable/ObstacleEdge.cpp
-  lib/libsimulator/edge/observable/LinearEdge.cpp
-  lib/libsimulator/edge/observable/CubicBezierEdge.cpp
 
   lib/libsimulator/math/RootFinder.cpp
   lib/libsimulator/math/find_roots.cpp
@@ -50,9 +46,10 @@ add_library(libsimulator
   lib/libsimulator/observationpath/LineSegment.cpp
   lib/libsimulator/observationpath/ObservationPath.cpp
 
-  lib/libsimulator/path/non_observable/HermitePath.cpp
-  lib/libsimulator/path/non_observable/Trajectory.cpp
-  lib/libsimulator/path/observable/EdgePath.cpp
+  lib/libsimulator/obstacle/EdgePath.cpp
+  lib/libsimulator/obstacle/ObstacleEdge.cpp
+  lib/libsimulator/obstacle/LinearEdge.cpp
+  lib/libsimulator/obstacle/CubicBezierEdge.cpp
 
   lib/libsimulator/pathfinding/find_trajectory.cpp
   lib/libsimulator/pathfinding/MotionValidator.cpp
@@ -60,11 +57,16 @@ add_library(libsimulator
 
   lib/libsimulator/simulation/Robot.cpp
 
+  lib/libsimulator/trajectory/Trajectory.cpp
+  lib/libsimulator/trajectory/HermitePath.cpp
+  lib/libsimulator/trajectory/HermiteEdge.cpp
+
   lib/libsimulator/world/parsing/SvgParser.cpp
   lib/libsimulator/world/parsing/SvgParser_parse.cpp
   lib/libsimulator/world/parsing/SvgTransformHandler.cpp
   lib/libsimulator/world/parsing/LengthFactory.cpp
   lib/libsimulator/world/World.cpp
+
 )
 
 catkin_package(

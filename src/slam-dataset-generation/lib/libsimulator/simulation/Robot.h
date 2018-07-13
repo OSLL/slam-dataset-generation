@@ -2,7 +2,7 @@
 #define ROBOT_H
 
 #include "world/World.h"
-#include "path/non_observable/Trajectory.h"
+#include "trajectory/Trajectory.h"
 #include "math/Pose.h"
 #include <cmath>
 

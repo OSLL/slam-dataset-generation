@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "path/observable/EdgePath.h"
+#include "obstacle/EdgePath.h"
 #include "observationpath/ObservationPath.h"
 
 class World {

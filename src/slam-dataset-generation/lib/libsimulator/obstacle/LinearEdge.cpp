@@ -1,4 +1,4 @@
-#include "edge/observable/LinearEdge.h"
+#include "obstacle/LinearEdge.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>

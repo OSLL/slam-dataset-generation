@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "world/World.h"
-#include "path/non_observable/Trajectory.h"
+#include "trajectory/Trajectory.h"
 
 Trajectory find_trajectory(World & world, const std::vector<Pose> & critical_poses);
 

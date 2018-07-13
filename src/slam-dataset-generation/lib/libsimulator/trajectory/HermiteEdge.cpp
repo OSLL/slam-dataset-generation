@@ -1,4 +1,4 @@
-#include "edge/non_observable/HermiteEdge.h"
+#include "trajectory/HermiteEdge.h"
 
 HermiteEdge::HermiteEdge(const Pose & start_pose, const Pose & end_pose)
 	: HermiteEdge(
