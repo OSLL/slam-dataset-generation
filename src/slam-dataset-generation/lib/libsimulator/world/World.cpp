@@ -49,6 +49,10 @@ const Obstacle * World::get_obstacle_by_id(string id) const {
 	return nullptr;
 }
 
+void World::addObstacle(unique_ptr<Obstacle> obstacle) {
+	
+}
+
 void World::read_from_disk(const char * filename) {
 
 	SvgParser::parse(filename, *this);

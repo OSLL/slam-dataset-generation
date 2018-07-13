@@ -1,37 +1,58 @@
 #ifndef WORLD_PARSING_SVGPARSER_H
 #define WORLD_PARSING_SVGPARSER_H
 
+#include <vector>
+#include <string>
+#include <memory>
+#include <boost/range/iterator_range.hpp>
+
 #include "world/World.h"
 #include "world/parsing/LengthFactory.h"
 #include "world/parsing/SvgTransformHandler.h"
 #include "world/parsing/SvgppForwardDeclarations.h"
-#include <vector>
-
-#include <boost/range/iterator_range.hpp>
 
 class SvgParser
 {
 public:
 	SvgParser(World & parent_obj);
 
+	// See world/parsing/SvgParser_parse.cpp for implementation of SvgParser::parse(const char *, World &)
+	//
+	// It's segregated into its own translation unit because it brings in two heavy compile-time dependencies:
+	// 	- Svgpp
+	// 	- RapidXML
+	// These are heavily templated libraries and significantly increase compilation time.
+	//
+	// I had entertained segregating the functionality from the parsing context entirely so that
+	// it doesn't recompile when this header file is updated, but that would involve creating a
+	// intermediary class that forwards methods to this class and I figured it wasn't worth it.
 	static void parse(const char * filename, World & world);
 
-	/* ################## Document info ################## */
+	/* ==================================== Document info ==================================== */
 	void set_viewport(double x, double y, double width, double height);
 	void set_viewbox_size(double width, double size);
 	const LengthFactory & length_factory() {return length_factory_;};
-	/* ################################################### */
+	/* ======================================================================================= */
 
 
 
-	/* ################ Transform handling ############### */
+	/* ================================== Transform handling ================================= */
 	void transform_matrix(const SvgTransformHandler::Transform & t);
 	void on_enter_element(const svgpp::tag::element::any &);
-	/* ################################################### */
+	void on_exit_element();
+	/* ======================================================================================= */
 
 
-	
-	/* ################# Edge detection ################## */
+
+	/* =================================== Path detection ==================================== */
+	void set(const svgpp::tag::attribute::id &, const boost::iterator_range<const char *> & value);
+	void path_move_to(double x, double y, const svgpp::tag::coordinate::absolute &);
+	void path_exit();
+	/* ======================================================================================= */
+
+
+
+	/* ================================== Edge detection ===================================== */
 	void path_line_to(double x, double y, const svgpp::tag::coordinate::absolute &);
 	void path_cubic_bezier_to(double x1, double y1,
 				  double x2, double y2,
@@ -44,36 +65,22 @@ public:
 				    bool large_arc_flag, bool sweep_flag,
 				    double x, double y,
 				    const svgpp::tag::coordinate::absolute &);
-	/* ################################################### */
-
-
-	
-	/* ################# Path detection ################## */
-	void set(const svgpp::tag::attribute::id &, const boost::iterator_range<const char *> & value);
-	void path_move_to(double x, double y, const svgpp::tag::coordinate::absolute &);
-	void on_exit_element();
-	/* ################################################### */
+	/* ======================================================================================= */
 
 
 
-	/* ################ Unused functions ################# */
-	void disable_rendering()  { }
-	void path_exit()	  { }
-	void path_close_subpath() { }
-	/* ################################################### */
+	/* ======================== Unused functions (required by svgpp) ========================= */
+	void disable_rendering() {}
+	void path_close_subpath() {}
+	/* ======================================================================================= */
 
 	friend class LengthFactory;
 private:
 	// Reference to World parent
 	World & world;
 
-	// Length policy
-	LengthFactory length_factory_;
 
-	// Transform handling
-	SvgTransformHandler transform_handler_;
-
-	/* ################## Document info ################## */
+	/* ==================================== Document info ==================================== */
 	double canvas_width;
 	double canvas_height;
 
@@ -85,19 +92,28 @@ private:
 	// Viewbox
 	double viewbox_width;
 	double viewbox_height;
-	/* ################################################### */
+
+	// Length policy
+	LengthFactory length_factory_;
+	/* ======================================================================================= */
 
 
 
-	/* ################# Edge detection ################## */
-	bool parsing_path;
-	/* ################################################### */
+	/* ================================== Transform handling ================================= */
+	SvgTransformHandler transform_handler_;
+	/* ======================================================================================= */
 
 
 	
-	/* ################# Path detection ################## */
-	Obstacle * current_path;
-	/* ################################################### */
+	/* =================================== Path detection ==================================== */
+	std::string id_;
+	std::unique_ptr<Obstacle> temporary_obstacle_;
+	/* ======================================================================================= */
+
+
+
+	/* =================================== Edge detection ==================================== */
+	/* ======================================================================================= */
 };
 
 #endif

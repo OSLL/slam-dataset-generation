@@ -12,12 +12,10 @@ class World {
 		double width;
 		double height;
 
-	public:
-
 		Obstacle * world_boundary;
 		std::vector<Obstacle *> interior_obstacles;
-		std::vector<Obstacle *> all_obstacles;
-
+		std::vector<Obstacle *> obstacles;
+	public:
 		World();
 		~World();
 
@@ -25,6 +23,8 @@ class World {
 		const std::vector<Obstacle *> & get_obstacles() const;
 		const std::vector<Obstacle *> & get_all_obstacles() const;
 		const Obstacle * get_obstacle_by_id(std::string id) const;
+
+		void addObstacle(std::unique_ptr<Obstacle> obstacle);
 
 		void read_from_disk(const char * source);
 		void write_to_disk(const char * destination) const;

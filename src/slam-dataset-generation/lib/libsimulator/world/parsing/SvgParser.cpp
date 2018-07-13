@@ -19,7 +19,6 @@ using namespace svgpp;
 SvgParser::SvgParser(World & world_ref)
 	: world(world_ref)
 	, current_path(nullptr)
-	, parsing_path(false)
 	, viewport_location(-1, -1)
 { }
 
@@ -49,63 +48,37 @@ void SvgParser::transform_matrix(const SvgTransformHandler::Transform & t) {
 void SvgParser::on_enter_element(const tag::element::any &) {
 	transform_handler_.enterElement();
 }
+
+void SvgParser::on_exit_element() {
+	transform_handler_.exitElement();
+}
 /* ====================================================================================================== */
 
 
 
 /* =========================================== Path detection =========================================== */
-void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {
-	parsing_path = true;
-	Obstacle * new_path = new Obstacle(transform_handler_({x, y}));
-	world.all_obstacles.push_back(new_path);
-}
-
-void SvgParser::on_exit_element() {
-	if (parsing_path) {
-		// Obtain pointer to recently constructed Obstacle
-		Obstacle * last_constructed_path = world.all_obstacles.back();
-
-		// Selectively enforce closure of paths
-		if (last_constructed_path->id != "linear_trajectory") {
-			const Vec & path_start = last_constructed_path->start;
-			const Vec & path_end = last_constructed_path->end();
-
-			if (path_start != path_end) {
-				ObstacleEdge * new_edge = new LinearEdge(path_end, path_start);
-				last_constructed_path->add_edge(new_edge);
-			}
-		}
-
-		// Place a reference to the constructed path in the correct location
-		if (last_constructed_path->id == "world_boundary") {
-			world.world_boundary = last_constructed_path;
-		} else {
-			world.interior_obstacles.push_back(last_constructed_path);
-		}
-
-		// We are no longer parsing a path
-		parsing_path = false;
-	}
-
-	// Remove transform
-	transform_handler_.exitElement();
-}
-
 void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<const char *> & value) {
+	id_.assign(boost::begin(value), boost::end(value));
+}
 
-	// Associate id with path
-	if (parsing_path) {
+void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {
+	Vec start_point = transform_handler_({x, y});
 
-		// Harvest id from weird container
-		string id;
-		id.assign(boost::begin(value), boost::end(value));
+	temporary_obstacle_ = make_shared<Obstacle>(start_point);
 
-		// Obtain pointer to constructed path
-		Obstacle * last_constructed_path = world.all_obstacles.back();
-		
-		// Set id
-		last_constructed_path->id = id;
-	}
+	// If an id was found, assign it to the obstacle
+	temporary_obstacle->setId(id_);
+}
+
+void SvgParser::path_exit() {
+
+
+	
+	// Path processing is complete.  Move temporary_obstacle_ to the world
+
+	world.
+
+	// Reset 
 }
 /* ====================================================================================================== */
 

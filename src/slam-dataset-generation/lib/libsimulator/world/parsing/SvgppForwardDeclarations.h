@@ -39,6 +39,7 @@ namespace svgpp
 		namespace element
 		{
 			struct any;
+			struct path;
 		}
 
 		namespace attribute

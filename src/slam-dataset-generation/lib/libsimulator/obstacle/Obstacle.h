@@ -4,24 +4,27 @@
 #include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
 #include <vector>
+#include <string>
+#include <memory>
 #include <iostream>
 
 class Obstacle {
 	private:
+		std::string id;
+
 		const Vec * end_ptr;
 	public:
 		Obstacle(const Vec & start_point);
-		~Obstacle();
 
 		const Vec start;
-		std::string id;
 
 		const Vec & end();
+		
+		void setId(std::string id_val) { id = std::move(id_val);}
 
+		std::vector<std::unique_ptr<ObstacleEdge>> edges;
 
-		std::vector<ObstacleEdge *> edges;
-
-		void add_edge(ObstacleEdge * e);
+		void add_edge(std::unique_ptr<ObstacleEdge> e);
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		// Raytracing
