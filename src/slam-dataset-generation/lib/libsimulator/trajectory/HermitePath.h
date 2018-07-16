@@ -6,8 +6,6 @@
 #include "math/Pose.h"
 
 class HermitePath {
-	protected:
-		std::vector<HermiteEdge> edges;
 	public:
 		HermitePath(const std::vector<Pose> & intermediate_poses);
 		
@@ -15,6 +13,8 @@ class HermitePath {
 		double t_max() const;
 
 		Pose operator()(double t) const;
+	protected:
+		std::vector<HermiteEdge> edges;
 };
 
 #endif

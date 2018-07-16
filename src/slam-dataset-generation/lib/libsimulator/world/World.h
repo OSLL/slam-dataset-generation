@@ -11,12 +11,6 @@
 #include "trajectory/Trajectory.h"
 
 class World {
-	private:
-		double width;
-		double height;
-
-		std::unique_ptr<Obstacle> world_boundary;
-		std::vector<std::unique_ptr<Obstacle>> obstacles;
 	public:
 		World();
 
@@ -35,6 +29,12 @@ class World {
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		friend class ParsingContext;
+	private:
+		double width;
+		double height;
+
+		std::unique_ptr<Obstacle> world_boundary;
+		std::vector<std::unique_ptr<Obstacle>> obstacles;
 };
 
 std::ostream & operator<<(std::ostream & o, const World & world);

@@ -11,6 +11,10 @@
 #include <tf/tfMessage.h>
 
 class Robot {
+	public:
+		Robot(const World & world_val, const Trajectory & trajectory_val);
+
+		void simulate(const char * filename);
 	private:
 		// References to external information
 		const World & world;
@@ -40,10 +44,6 @@ class Robot {
 		void odometry();
 
 		void step();
-	public:
-		Robot(const World & world_val, const Trajectory & trajectory_val);
-
-		void simulate(const char * filename);
 };
 
 #endif

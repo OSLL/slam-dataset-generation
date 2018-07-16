@@ -19,10 +19,10 @@ Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 	unique_ptr<Obstacle> linear_trajectory = world.extractLinearTrajectory();
 
 	vector<Vec> intermediate_points;
-	intermediate_points.reserve(linear_trajectory->edges.size() + 1);
+	intermediate_points.reserve(linear_trajectory->getEdges().size() + 1);
 
 	intermediate_points.push_back(linear_trajectory->getStart());
-	for (const auto & edge : linear_trajectory->edges) {
+	for (const auto & edge : linear_trajectory->getEdges()) {
 		intermediate_points.push_back(edge->getEnd());
 	}
 

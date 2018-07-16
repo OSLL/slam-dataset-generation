@@ -4,7 +4,6 @@
 #include <iostream>
 
 class Vec {
-	private:
 	public:
 		// Constructors
 		Vec(const double & x_val, const double & y_val);
