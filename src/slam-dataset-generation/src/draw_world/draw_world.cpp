@@ -42,7 +42,6 @@ static void draw_obstacle(const Obstacle & obstacle) {
 void draw_world(const World & world, const char * filename) {
 	
 
-	draw_obstacle(*world.getWorldBoundary());
 	for (const auto & obstacle : world.getObstacles()) {
 		draw_obstacle(*obstacle);
 	}

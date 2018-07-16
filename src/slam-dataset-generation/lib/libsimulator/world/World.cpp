@@ -22,7 +22,7 @@ void World::addObstacle(unique_ptr<Obstacle> obstacle) {
 	
 	if (obstacle->getId() == "world_boundary")
 	{
-		world_boundary = std::move(obstacle);
+		obstacles.insert(obstacles.begin(), std::move(obstacle));
 	}
 	else
 	{
@@ -55,22 +55,35 @@ void World::read_from_disk(const char * filename) {
 
 	SvgParser::parse(filename, *this);
 
-	if (!world_boundary)
+	if (obstacles.size() <= 0)
 	{
-		cout << "World boundary wasn't populated." << endl;
+		cout << "No obstacles detected" << endl;
+		exit(-1);
+	}
+
+	if (obstacles[0]->getId() != "world_boundary")
+	{
+		cout << "World_boundary not populated" << endl;
 		exit(-1);
 	}
 }
 
 bool World::is_valid(const Vec & pos) const {
 
-	if (!world_boundary->is_in(pos))
-		return false;
-
-	for (const auto & obstacle : obstacles)
+	for (auto itr = obstacles.begin(); itr != obstacles.end(); itr++)
 	{
-		if (obstacle->is_in(pos))
-			return false;
+		bool is_in = (*itr)->is_in(pos);
+
+		if (itr == obstacles.begin()) // itr points to the world boundary
+		{
+			if (!is_in)
+				return false;
+		}
+		else
+		{
+			if (is_in)
+				return false;
+		}
 	}
 
 	// The point passed all tests, so it's valid
@@ -104,7 +117,6 @@ void World::print(ostream & o, int tabs) const {
 	// Print data
 	if (obstacles.size() != 0) {
 		o << "World:" << endl;
-		world_boundary->print(o, tabs + 1);
 		for (const auto & obstacle : obstacles) {
 			obstacle->print(o, tabs + 1);
 		}

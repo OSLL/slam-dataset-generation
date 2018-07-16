@@ -14,7 +14,7 @@ class World {
 	public:
 		World();
 
-		const std::unique_ptr<Obstacle> & getWorldBoundary() const {return world_boundary;}
+		const std::unique_ptr<Obstacle> & getWorldBoundary() const {return obstacles[0];}
 		const std::vector<std::unique_ptr<Obstacle>> & getObstacles() const {return obstacles;}
 
 		void addObstacle(std::unique_ptr<Obstacle> obstacle);
@@ -33,7 +33,6 @@ class World {
 		double width;
 		double height;
 
-		std::unique_ptr<Obstacle> world_boundary;
 		std::vector<std::unique_ptr<Obstacle>> obstacles;
 };
 
