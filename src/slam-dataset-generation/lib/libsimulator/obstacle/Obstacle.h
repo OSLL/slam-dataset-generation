@@ -12,14 +12,16 @@ class Obstacle {
 	private:
 		std::string id;
 
+		const Vec start;
 		const Vec * end_ptr;
 	public:
 		Obstacle(const Vec & start_point);
 
-		const Vec start;
+		const Vec & getStart() const {return start;}
+		const Vec & getEnd() const {return *end_ptr;}
+		const std::string & getId() const {return id;}
+		const std::vector<std::unique_ptr<ObstacleEdge>> & getEdges() const {return edges;}
 
-		const Vec & end();
-		
 		void setId(std::string id_val) { id = std::move(id_val);}
 
 		std::vector<std::unique_ptr<ObstacleEdge>> edges;

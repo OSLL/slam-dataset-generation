@@ -74,18 +74,13 @@ public:
 	void path_close_subpath() {}
 	/* ======================================================================================= */
 
-	friend class LengthFactory;
 private:
 	// Reference to World parent
 	World & world;
 
 
 	/* ==================================== Document info ==================================== */
-	double canvas_width;
-	double canvas_height;
-
 	// Viewport
-	Vec viewport_location;
 	double viewport_width;
 	double viewport_height;
 
@@ -107,7 +102,7 @@ private:
 	
 	/* =================================== Path detection ==================================== */
 	std::string id_;
-	std::unique_ptr<Obstacle> temporary_obstacle_;
+	std::unique_ptr<Obstacle> obstacle_;
 	/* ======================================================================================= */
 
 

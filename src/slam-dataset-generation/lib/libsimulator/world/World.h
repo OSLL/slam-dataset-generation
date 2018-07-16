@@ -4,37 +4,35 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <memory>
 #include "obstacle/Obstacle.h"
 #include "observationpath/ObservationPath.h"
+
+#include "trajectory/Trajectory.h"
 
 class World {
 	private:
 		double width;
 		double height;
 
-		Obstacle * world_boundary;
-		std::vector<Obstacle *> interior_obstacles;
-		std::vector<Obstacle *> obstacles;
+		std::unique_ptr<Obstacle> world_boundary;
+		std::vector<std::unique_ptr<Obstacle>> obstacles;
 	public:
 		World();
-		~World();
 
-		const Obstacle * get_world_boundary() const;
-		const std::vector<Obstacle *> & get_obstacles() const;
-		const std::vector<Obstacle *> & get_all_obstacles() const;
-		const Obstacle * get_obstacle_by_id(std::string id) const;
+		const std::unique_ptr<Obstacle> & getWorldBoundary() const {return world_boundary;}
+		const std::vector<std::unique_ptr<Obstacle>> & getObstacles() const {return obstacles;}
 
 		void addObstacle(std::unique_ptr<Obstacle> obstacle);
+		std::unique_ptr<Obstacle> extractLinearTrajectory();
 
 		void read_from_disk(const char * source);
-		void write_to_disk(const char * destination) const;
-
-		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		bool is_valid(const Vec & p) const;
 
-		// Raytracing
 		double distance(const ObservationPath & op) const;
+
+		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		friend class ParsingContext;
 };

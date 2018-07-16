@@ -2,6 +2,9 @@
 #include <vector>
 #include "matplotlib/matplotlib.h"
 
+#include "obstacle/Obstacle.h"
+#include "obstacle/ObstacleEdge.h"
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -13,29 +16,35 @@ struct GraphSegment {
 	vector<double> y;
 };
 
-void draw_world(const World & world, const char * filename) {
-	
+static void draw_obstacle(const Obstacle & obstacle) {
 	const double timestep = 0.001;
 
 	vector<GraphSegment> segments;
 
-	for (const Obstacle * p : world.get_all_obstacles()) {
-		for (const ObstacleEdge * e : p->edges) {
-			GraphSegment new_segment;
+	for (const auto & edge : obstacle.getEdges()) {
+		GraphSegment new_segment;
 
-			// Draw the entire edge, from t = 0 to t = 1
-			for (double t = 0.0f; t < 1.0f; t += timestep) {
-				Vec pos = e->get_pos(t);
-				new_segment.x.push_back(pos.x);
-				new_segment.y.push_back(pos.y);
-			}
-
-			segments.push_back(new_segment);
+		// Draw the entire edge, from t = 0 to t = 1
+		for (double t = 0.0f; t < 1.0f; t += timestep) {
+			Vec pos = edge->get_pos(t);
+			new_segment.x.push_back(pos.x);
+			new_segment.y.push_back(pos.y);
 		}
+
+		segments.push_back(new_segment);
 	}
 
-	for (const GraphSegment & segment : segments) {
+	for (const auto & segment : segments) {
 		plot::plot(segment.x, segment.y, "k-");
+	}
+}
+
+void draw_world(const World & world, const char * filename) {
+	
+
+	draw_obstacle(*world.getWorldBoundary());
+	for (const auto & obstacle : world.getObstacles()) {
+		draw_obstacle(*obstacle);
 	}
 
 	if (filename != nullptr) {

@@ -16,6 +16,9 @@ class ObstacleEdge {
 	public:
 		ObstacleEdge(const Vec & start_point, const Vec & end);
 
+		const Vec & getStart() const {return start;}
+		const Vec & getEnd() const {return end;}
+
 		// Defined in Edge
 		std::set<Vec> intersection_points(const ObservationPath &) const;
 		double distance(const ObservationPath &) const;
@@ -28,11 +31,10 @@ class ObstacleEdge {
 		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) const = 0;
 		virtual Vec get_pos(const double & t) const = 0; // 0 <= t <= 1 for all adges
 
-		// No harm in exposing to public, since both are const
+	protected:
 		const Vec & start;
 		const Vec end;
-
-		friend class Path;
+		
 };
 
 std::ostream & operator<<(std::ostream & o, const ObstacleEdge & e);
