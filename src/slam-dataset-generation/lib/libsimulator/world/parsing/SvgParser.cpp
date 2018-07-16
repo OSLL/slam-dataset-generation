@@ -73,6 +73,20 @@ void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute
 }
 
 void SvgParser::path_exit() {
+	
+	// Selectively enforce closure
+	if (obstacle_->getId() != "linear_trajectory")
+	{
+		const Vec & start = obstacle_->getStart();
+		const Vec & end = obstacle_->getEnd();
+		
+		// Note that operator==(const Vec &, const Vec &) ensures the x's and y's fall within a certain epsilon, so as to avoid double rounding errors
+		if (start != end)
+		{
+			unique_ptr<ObstacleEdge> new_edge {new LinearEdge(end, start)};
+			obstacle_->add_edge(std::move(new_edge));
+		}
+	}
 
 	// Path processing is complete.  Move obstacle_ to the world
 	world.addObstacle(std::move(obstacle_));
