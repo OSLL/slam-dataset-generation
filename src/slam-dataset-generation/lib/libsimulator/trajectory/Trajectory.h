@@ -1,5 +1,5 @@
-#ifndef TRAJECTORY_H
-#define TRAJECTORY_H
+#ifndef TRAJECTORY_TRAJECTORY_H
+#define TRAJECTORY_TRAJECTORY_H
 
 #include <vector>
 #include "math/Pose.h"

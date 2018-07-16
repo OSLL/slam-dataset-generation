@@ -1,5 +1,5 @@
-#ifndef CUBICBEZIEREDGE_H
-#define CUBICBEZIEREDGE_H
+#ifndef OBSTACLE_CUBICBEZIEREDGE_H
+#define OBSTACLE_CUBICBEZIEREDGE_H
 
 #include "obstacle/ObstacleEdge.h"
 #include <iostream>

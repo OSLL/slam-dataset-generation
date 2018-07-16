@@ -1,5 +1,5 @@
-#ifndef FINDTRAJECTORY_H
-#define FINDTRAJECTORY_H
+#ifndef PATHFINDING_FIND_TRAJECTORY_H
+#define PATHFINDING_FIND_TRAJECTORY_H
 
 #include <vector>
 #include "world/World.h"

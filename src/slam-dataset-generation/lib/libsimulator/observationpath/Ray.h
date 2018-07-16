@@ -1,5 +1,5 @@
-#ifndef RAY_H
-#define RAY_H
+#ifndef OBSERVATIONPATH_RAY_H
+#define OBSERVATIONPATH_RAY_H
 
 #include "observationpath/ObservationPath.h"
 

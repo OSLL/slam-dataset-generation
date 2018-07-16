@@ -1,5 +1,5 @@
-#ifndef LINE_H
-#define LINE_H
+#ifndef OBSERVATIONPATH_LINE_H
+#define OBSERVATIONPATH_LINE_H
 
 #include "observationpath/ObservationPath.h"
 #include <iostream>

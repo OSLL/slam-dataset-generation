@@ -1,5 +1,5 @@
-#ifndef POSE_H
-#define POSE_H
+#ifndef MATH_POSE_H
+#define MATH_POSE_H
 
 #include <iostream>
 #include "math/Vec.h"

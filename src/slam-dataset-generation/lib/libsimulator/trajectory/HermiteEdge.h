@@ -1,5 +1,5 @@
-#ifndef HERMITEEDGE_H
-#define HERMITEEDGE_H
+#ifndef TRAJECTORY_HERMITEEDGE_H
+#define TRAJECTORY_HERMITEEDGE_H
 
 #include "math/PolynomialEdge.h"
 #include "math/Pose.h"

@@ -1,5 +1,5 @@
-#ifndef FIND_ROOTS_H
-#define FIND_ROOTS_H
+#ifndef MATH_FIND_ROOTS_H
+#define MATH_FIND_ROOTS_H
 
 #include <set>
 

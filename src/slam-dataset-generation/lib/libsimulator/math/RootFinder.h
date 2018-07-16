@@ -1,5 +1,5 @@
-#ifndef MATH_ROOT_FINDER_H
-#define MATH_ROOT_FINDER_H
+#ifndef MATH_ROOTFINDER_H
+#define MATH_ROOTFINDER_H
 
 #include <vector>
 

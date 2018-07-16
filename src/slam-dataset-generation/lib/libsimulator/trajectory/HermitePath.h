@@ -1,5 +1,5 @@
-#ifndef HERMITEPATH_H
-#define HERMITEPATH_H
+#ifndef TRAJECTORY_HERMITEPATH_H
+#define TRAJECTORY_HERMITEPATH_H
 
 #include <vector>
 #include "trajectory/HermiteEdge.h"

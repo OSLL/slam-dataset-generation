@@ -1,5 +1,5 @@
-#ifndef ROBOT_H
-#define ROBOT_H
+#ifndef SIMULATION_ROBOT_H
+#define SIMULATION_ROBOT_H
 
 #include "world/World.h"
 #include "trajectory/Trajectory.h"

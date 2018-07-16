@@ -1,5 +1,5 @@
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef WORLD_WORLD_H
+#define WORLD_WORLD_H
 
 #include <vector>
 #include <iostream>

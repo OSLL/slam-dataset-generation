@@ -1,5 +1,5 @@
-#ifndef STATEVALIDITYCHECKER_H
-#define STATEVALIDITYCHECKER_H
+#ifndef PATHFINDING_STATEVALIDITYCHECKER_H
+#define PATHFINDING_STATEVALIDITYCHECKER_H
 
 #include "world/World.h"
 #include <ompl/base/StateValidityChecker.h>

@@ -1,5 +1,5 @@
-#ifndef EDGE_OBSERVABLE_OBSTACLEEDGE_H
-#define EDGE_OBSERVABLE_OBSTACLEEDGE_H
+#ifndef OBSTACLE_OBSTACLEEDGE_H
+#define OBSTACLE_OBSTACLEEDGE_H
 
 #include "math/Vec.h"
 #include "observationpath/ObservationPath.h"

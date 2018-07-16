@@ -1,5 +1,5 @@
-#ifndef LINESEGMENT_H
-#define LINESEGMENT_H
+#ifndef OBSERVATIONPATH_LINESEGMENT_H
+#define OBSERVATIONPATH_LINESEGMENT_H
 
 #include "observationpath/ObservationPath.h"
 #include "math/Vec.h"

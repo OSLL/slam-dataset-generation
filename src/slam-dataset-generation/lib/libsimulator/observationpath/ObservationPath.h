@@ -1,5 +1,5 @@
-#ifndef OBSERVATIONPATH_H
-#define OBSERVATIONPATH_H
+#ifndef OBSERVATIONPATH_OBSERVATIONPATH_H
+#define OBSERVATIONPATH_OBSERVATIONPATH_H
 
 #include "math/Vec.h"
 #include <iostream>

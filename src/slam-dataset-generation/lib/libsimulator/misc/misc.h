@@ -1,5 +1,5 @@
-#ifndef MISC_H
-#define MISC_H
+#ifndef MISC_MISC_H
+#define MISC_MISC_H
 
 
 /* This file is just for a bunch of useful functions that dont' really deserve their own translation unit */

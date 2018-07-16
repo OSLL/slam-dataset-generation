@@ -1,5 +1,5 @@
-#ifndef MOTIONVALIDATOR_H
-#define MOTIONVALIDATOR_H
+#ifndef PATHFINDING_MOTIONVALIDATOR_H
+#define PATHFINDING_MOTIONVALIDATOR_H
 
 #include "world/World.h"
 #include <ompl/base/MotionValidator.h>

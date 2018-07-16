@@ -1,5 +1,5 @@
-#ifndef LINEAREDGE_H
-#define LINEAREDGE_H
+#ifndef OBSTACLE_LINEAREDGE_H
+#define OBSTACLE_LINEAREDGE_H
 
 #include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
