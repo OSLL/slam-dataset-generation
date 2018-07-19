@@ -6,43 +6,46 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-HermitePath::HermitePath(const vector<Pose> & intermediate_poses) {
-	if (intermediate_poses.size() < 2) {
-		cout << "Requested spline interpolation of a list of one or fewer points." << endl;
-		return;
-	}
-
-	for (int i = 0; i < intermediate_poses.size() - 1; i++) {
-		edges.push_back(HermiteEdge{intermediate_poses[i], intermediate_poses[i+1]});
-	}
-}
-
-double HermitePath::t_min() const {
-	return 0.0f;
-}
-
-double HermitePath::t_max() const {
-	return (double)edges.size() + 1.0f;
+HermitePath::HermitePath(const vector<Pose> & intermediate_poses, const double & start_t_val) {
+	populateFromIntermediatePoses(intermediate_poses, start_t_val);
 }
 
 Pose HermitePath::operator()(double t) const {
 
-	int edge_index;
+	if (t < t_start)
+		return start_position;
+	else if (t >= t_end)
+		return end_position;
+	
+	double t_integer_part;
+	t = modf(t, &t_integer_part);
 
-	if (t < 0) {
-		edge_index = 0;
-		t = 0;
-	} else if (t > edges.size()) {
-		edge_index = edges.size() - 1;
-		t = 0;
-	} else {
-		double temp;
-		t = modf(t, &temp);
-		edge_index = static_cast<int>(temp);
+	const HermiteEdge & correct_edge = edges[static_cast<int>(t_integer_part)];
+	
+	Vec position = correct_edge(t);
+	Vec derivative = correct_edge(t);
+
+	return {position, derivative.radians()};
+}
+
+void HermitePath::populateFromIntermediatePoses(const vector<Pose> & intermediate_poses, const double & start_t_val) {
+	
+	// Cannot create a path with only one pose
+	assert(intermediate_poses.size() > 1);
+
+	// Initialize start and end times of the path
+	start_t = start_t_val;
+	end_t = start_t + static_cast<double>(start_t_val);
+
+	// Create edges vector
+	edges.clear();
+	for (auto itr = intermediate_poses.begin() + 1; itr != intermediate_poses.end(); ++itr) {
+		const Pose & pose1 = *(itr - 1);
+		const Pose & pose2 = *itr;
+
+		edges.push_back(HermiteEdge(pose1, pose2));
 	}
 
-	Vec pos = edges[edge_index](t);
-	Vec derivative = edges[edge_index].derivative(t);
-
-	return {pos, derivative.radians()};
+	start_pose = edges.front()(0.0f);
+	end_pose = edges.back()(1.0f);
 }

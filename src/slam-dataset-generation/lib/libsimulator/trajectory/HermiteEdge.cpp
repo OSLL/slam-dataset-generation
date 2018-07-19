@@ -1,5 +1,14 @@
 #include "trajectory/HermiteEdge.h"
 
+#include <iostream>
+#include <cassert>
+
+using std::cout;
+using std::endl;
+using std::ostream;
+
+const double HermiteEdge::smoothing_factor = 0.2f;
+
 HermiteEdge::HermiteEdge(const Pose & start_pose, const Pose & end_pose)
 	: HermiteEdge(
 		  start_pose.pos,				  // p1
@@ -9,6 +18,15 @@ HermiteEdge::HermiteEdge(const Pose & start_pose, const Pose & end_pose)
 	  )
 { }
 
+void HermiteEdge::print(ostream & o, int tabs) const
+{
+	// Print the right number of tabs
+	for (int i = 0; i < tabs; i++)
+		o << '\t';
+	
+	o << "HermiteEdge: <" << x_ << ", " << y_ << ">" << endl;
+}
+
 HermiteEdge::HermiteEdge(const Vec & p1, const Vec & m1, const Vec & p2, const Vec & m2)
 	: PolynomialEdge<3>(
 		   2*p1 +   m1 - 2*p2 + m2, // A
@@ -16,4 +34,9 @@ HermiteEdge::HermiteEdge(const Vec & p1, const Vec & m1, const Vec & p2, const V
 		   m1,			    // C
 		   p1			    // D
 	  )
-{ }
+{
+	double t = 1.0f;
+	Vec v = (*this).derivative(1.0f);
+	cout << "v(" << t << ") = " << v << " == " << m2 << "?" << endl;
+	//assert(v == m2);
+}

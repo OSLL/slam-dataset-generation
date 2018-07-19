@@ -11,7 +11,7 @@ public:
 	virtual ~UnitParametricEdge() = default;
 
 	virtual Vec operator()(double t) const = 0;
-	virtual Vec derivative(double t, int n = 1) const = 0;
+	virtual Vec derivative(double t) const = 0;
 };
 
 #endif

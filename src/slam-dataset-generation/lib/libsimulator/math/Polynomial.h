@@ -21,7 +21,7 @@ public:
 
 	double operator()(double t) const;
 
-	double derivative(double t, int n = 1) const;
+	double derivative(double t) const;
 	
 	roots_t roots() const;
 
@@ -111,18 +111,19 @@ inline constexpr int f(int i, int n)
 }
 
 template <int degree>
-double Polynomial<degree>::derivative(double t, int n) const
+double Polynomial<degree>::derivative(double t) const
 {
 	double sum = 0;
 
-	for (int i = 0; i < actual_order_; i++)
+	for (int i = 1; i < actual_order_; i++)
 	{
 		// d^n/dx^n [a[i] * x^i] = a[i] * [ i * (i - 1) * (i - 2) * ... (i - (n - 1)) ] * x^(i-n)
 		//
 		// Let f(i, n) = i * (i - 1) * (i - 2) * ... * (i - (n - 1))
 		//
 		// Then, d^n/dx^n [a[i] * x^i] = a[i] * f(i, n) * x^(i-n)
-		sum += coefficients_[i] * f(i, n) * std::pow(t, i - n);
+		sum += coefficients_[i] * i * std::pow(t, i - 1);
+
 	}
 
 	return sum;

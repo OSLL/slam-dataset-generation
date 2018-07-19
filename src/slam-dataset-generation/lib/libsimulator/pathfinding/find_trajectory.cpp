@@ -19,7 +19,6 @@ Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 	unique_ptr<Obstacle> linear_trajectory = world.extractLinearTrajectory();
 
 	vector<Vec> intermediate_points;
-	intermediate_points.reserve(linear_trajectory->getEdges().size() + 1);
 
 	intermediate_points.push_back(linear_trajectory->getStart());
 	for (const auto & edge : linear_trajectory->getEdges()) {
@@ -27,27 +26,23 @@ Trajectory find_trajectory(World & world, const vector<Pose> & critical_poses) {
 	}
 
 	vector<Pose> intermediate_poses;
-	for (vector<Vec>::iterator itr = intermediate_points.begin(); itr != intermediate_points.end(); itr++) {
+	double theta;
+	for (int i = 0; i < intermediate_points.size() - 1; ++i) {
 
-		const Vec & pos = *itr;
+		const Vec & p1 = intermediate_points[i];
+		const Vec & p2 = intermediate_points[i + 1];
 
-		double theta;
-
-		if (itr == intermediate_points.end() - 1) {
-			// Last element.  Use preveious two
-			theta = (*itr - *(itr - 1)).radians();
-		} else {
-			// Not last element. Use next two
-			theta = (*(itr + 1) - *itr).radians();
-		}
-
-		intermediate_poses.push_back({pos, theta});
+		theta = (p2 - p1).radians();
+		
+		intermediate_poses.push_back({p1, theta});
 	}
+	intermediate_poses.push_back({intermediate_points.back(), theta});
 
-
+	/*
 	for (const Pose & pose : intermediate_poses) {
-		//cout << pose << endl;
+		cout << pose << endl;
 	}
+	*/
 
 	Trajectory trajectory(intermediate_poses);
 	return trajectory;

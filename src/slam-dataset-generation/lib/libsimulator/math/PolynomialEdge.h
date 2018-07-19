@@ -27,9 +27,18 @@ public:
 		return {x_(t), y_(t)};
 	}
 
-	Vec derivative(double t, int n = 1) const
+	Vec derivative(double t) const
 	{
-		return {x_.derivative(t, n), y_.derivative(t, n)};
+		return {x_.derivative(t), y_.derivative(t)};
+	}
+
+	void print(std::ostream & o, int tabs = 0) const
+	{
+		// Print correct number of tabs
+		for (int i = 0; i < tabs; i++)
+			o << '\t';
+		
+		o << "PolynomialEdge<" << degree << ">: <" << x_ << ", " << y_ << ">";
 	}
 
 	void setX(Polynomial<degree> x)
@@ -41,9 +50,16 @@ public:
 	{
 		y_ = std::move(y);
 	}
-private:
+protected:
 	Polynomial<degree> x_;
 	Polynomial<degree> y_;
 };
+
+template <int degree>
+std::ostream & operator<<(std::ostream & o, const PolynomialEdge<degree> & f)
+{
+	f.print(o);
+	return o;
+}
 
 #endif

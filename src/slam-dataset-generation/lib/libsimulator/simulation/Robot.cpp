@@ -9,6 +9,12 @@
 using std::cout;
 using std::endl;
 
+//#include <cmath>
+//using std::isnan;
+
+#include <cstdlib>
+using std::abs;
+
 Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
 	world(world_val),
 	trajectory(trajectory_val),
@@ -16,8 +22,7 @@ Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
 	t(trajectory.t_min()),
 	ros_time((t == 0)? ros::TIME_MIN : ros::Time(t)),
 
-	current_pose(trajectory.begin()),
-	last_pose({0, 0}, 0)
+	current_pose(trajectory.begin())
 { }
 
 void Robot::simulate(const char * filename) {
@@ -41,8 +46,6 @@ void Robot::step() {
 
 	laser_sweep();
 	odometry();
-
-	last_pose = current_pose;
 
 	t += time_step;
 	current_pose = trajectory(t);
@@ -96,8 +99,20 @@ void Robot::odometry() {
 	
 	tf::tfMessage tf_message;
 
+
 	tf_message.transforms.push_back(generate_stamped_transform("base_footprint", "base_link", {{0.0f, 0.0f}, 0.0f}));
 	tf_message.transforms.push_back(generate_stamped_transform("odom_combined", "base_footprint", current_pose));
+
+	static Pose last_pose = current_pose;
+	double theta_delta = abs(last_pose.theta - current_pose.theta);
+	const double threshold = 0.1;
+	if (theta_delta > threshold)
+	{
+		cout << "Detected theta change of " << theta_delta << " radians at t = " << t << "." << endl;
+		cout << "last_pose = " << last_pose << endl;
+		cout << "current_pose = " << current_pose << endl;
+	}
+	last_pose = current_pose;
 
 	bag.write("/tf", ros_time, tf_message);
 }

@@ -27,7 +27,6 @@ class Robot {
 		double t;
 		ros::Time ros_time;
 		const double time_step = 0.01;
-		Pose last_pose;
 		Pose current_pose;
 
 		// Laser sweep properties
