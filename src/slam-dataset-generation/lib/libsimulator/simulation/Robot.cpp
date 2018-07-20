@@ -1,19 +1,18 @@
 #include "simulation/Robot.h"
 #include "observationpath/LineSegment.h"
 #include <iostream>
+#include <cstdlib>
 
 #include <sensor_msgs/LaserScan.h>
 #include <tf/tf.h>
 #include <tf/tfMessage.h>
 
+using std::abs;
 using std::cout;
 using std::endl;
-
-//#include <cmath>
-//using std::isnan;
-
-#include <cstdlib>
-using std::abs;
+using std::setprecision;
+using std::fixed;
+using std::flush;
 
 Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
 	world(world_val),
@@ -35,9 +34,13 @@ void Robot::simulate(const char * filename) {
 		return;
 	}
 
+	cout << setprecision(2) << fixed;
+
 	while (t <= trajectory.getEndTime()) {
+		cout << "\r" << t << "/" << trajectory.getEndTime() << std::flush;
 		step();
 	}
+	cout << endl;
 }
 
 void Robot::step() {
