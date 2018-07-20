@@ -19,7 +19,7 @@ Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
 	world(world_val),
 	trajectory(trajectory_val),
 
-	t(trajectory.t_min()),
+	t(trajectory.getStartTime()),
 	ros_time((t == 0)? ros::TIME_MIN : ros::Time(t)),
 
 	current_pose(trajectory.begin())
@@ -34,7 +34,7 @@ void Robot::simulate(const char * filename) {
 		return;
 	}
 
-	while (t <= trajectory.t_max()) {
+	while (t <= trajectory.getEndTime()) {
 		step();
 	}
 }

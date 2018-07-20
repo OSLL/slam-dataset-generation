@@ -58,11 +58,11 @@ struct TrajectorySegment : GraphSegment{
 void draw_trajectory(const World & world, const Trajectory & trajectory, const char * filename) {
 
 	const double timestep = 0.001;
-	const int number_of_datapoints = (trajectory.t_max() - trajectory.t_min()) / timestep;
+	const int number_of_datapoints = (trajectory.getEndTime() - trajectory.getStartTime()) / timestep;
 
 	vector<TrajectorySegment> segments;
 
-	for (double t = trajectory.t_min(); t < trajectory.t_max(); t+= timestep) {
+	for (double t = trajectory.getStartTime(); t < trajectory.getEndTime(); t+= timestep) {
 		Pose pose = trajectory(t);
 		//bool is_point_valid = world.is_valid(pose.pos);
 		bool is_point_valid = true;

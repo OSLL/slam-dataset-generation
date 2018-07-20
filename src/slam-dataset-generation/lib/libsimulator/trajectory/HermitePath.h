@@ -7,7 +7,7 @@
 
 class HermitePath {
 	public:
-		HermitePath(const std::vector<Pose> & intermediate_poses, const double & t_start_val = 0.0f);
+		HermitePath(const std::vector<Pose> & intermediate_poses, const double & start_t_val = 0.0f);
 		
 		Pose operator()(double t) const;
 
@@ -18,12 +18,12 @@ class HermitePath {
 		const Pose & getEndPose() const {return end_pose;}
 
 	protected:
-		void populateFromIntermediatePoses(const std::vector<Pose> & intermediate_poses);
+		void populateFromIntermediatePoses(const std::vector<Pose> & intermediate_poses, const double & start_t_val);
 
 		std::vector<HermiteEdge> edges;
 
-		const double start_t;
-		const double end_t;
+		double start_t;
+		double end_t;
 
 		Pose start_pose;
 		Pose end_pose;

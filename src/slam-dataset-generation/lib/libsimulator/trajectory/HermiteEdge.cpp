@@ -24,7 +24,8 @@ void HermiteEdge::print(ostream & o, int tabs) const
 	for (int i = 0; i < tabs; i++)
 		o << '\t';
 	
-	o << "HermiteEdge: <" << x_ << ", " << y_ << ">" << endl;
+	o << "HermiteEdge: ";
+	printVectorPolynomial(o);
 }
 
 HermiteEdge::HermiteEdge(const Vec & p1, const Vec & m1, const Vec & p2, const Vec & m2)

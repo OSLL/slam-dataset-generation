@@ -26,6 +26,7 @@ public:
 	roots_t roots() const;
 
 	void print(std::ostream & o = std::cout) const;
+	const std::array<double, degree + 1> & getCoefficients() const {return coefficients_;}
 private:
 	// An n-degree polynomial needs n + 1 coefficients because of the constant term
 	coefficients_t coefficients_;
@@ -97,17 +98,15 @@ double Polynomial<degree>::operator()(double t) const
 {
 	double sum = 0;
 
-	for (int i = 0; i < actual_order_ + 1; i++)
+	for (int i = 0; i <= actual_order_; i++)
 	{
+		std::cout << " + " << coefficients_[i] << "(" << t << ")^" << i << std::endl;
 		sum += coefficients_[i] * std::pow(t, i);
 	}
 
-	return sum;
-}
+	std::cout << *this << "(t = " << t << ") = " << sum << std::endl;
 
-inline constexpr int f(int i, int n)
-{
-		return (n == 0)? 1 : i * f(i - 1, n - 1);
+	return sum;
 }
 
 template <int degree>
@@ -115,7 +114,7 @@ double Polynomial<degree>::derivative(double t) const
 {
 	double sum = 0;
 
-	for (int i = 1; i < actual_order_; i++)
+	for (int i = 1; i <= actual_order_; i++)
 	{
 		// d^n/dx^n [a[i] * x^i] = a[i] * [ i * (i - 1) * (i - 2) * ... (i - (n - 1)) ] * x^(i-n)
 		//
@@ -125,6 +124,8 @@ double Polynomial<degree>::derivative(double t) const
 		sum += coefficients_[i] * i * std::pow(t, i - 1);
 
 	}
+
+	std::cout << "derivative of " << *this << "(t = " << t << ") = " << sum << std::endl;
 
 	return sum;
 }

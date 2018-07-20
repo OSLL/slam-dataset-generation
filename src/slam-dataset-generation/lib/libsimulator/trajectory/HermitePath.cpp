@@ -2,20 +2,25 @@
 #include <iostream>
 #include <cmath>
 
+#include <cassert>
+
 using std::vector;
 using std::cout;
 using std::endl;
 
-HermitePath::HermitePath(const vector<Pose> & intermediate_poses, const double & start_t_val) {
+HermitePath::HermitePath(const vector<Pose> & intermediate_poses, const double & start_t_val)
+	: start_pose({0.0f, 0.0f}, 0.0f)
+	, end_pose({0.0f, 0.0f}, 0.0f)
+{
 	populateFromIntermediatePoses(intermediate_poses, start_t_val);
 }
 
 Pose HermitePath::operator()(double t) const {
 
-	if (t < t_start)
-		return start_position;
-	else if (t >= t_end)
-		return end_position;
+	if (t < start_t)
+		return start_pose;
+	else if (t >= end_t)
+		return end_pose;
 	
 	double t_integer_part;
 	t = modf(t, &t_integer_part);
@@ -46,6 +51,13 @@ void HermitePath::populateFromIntermediatePoses(const vector<Pose> & intermediat
 		edges.push_back(HermiteEdge(pose1, pose2));
 	}
 
-	start_pose = edges.front()(0.0f);
-	end_pose = edges.back()(1.0f);
+	// Populate start_pose
+	Vec start_position = edges.front()(0.0f);
+	Vec start_velocity = edges.front().derivative(0.0f);
+	start_pose = {start_position, start_velocity.radians()};
+
+	// Populate end_pose
+	Vec end_position = edges.back()(1.0f);
+	Vec end_velocity = edges.back().derivative(1.0f);
+	end_pose = {end_position, end_velocity.radians()};
 }

@@ -32,13 +32,30 @@ public:
 		return {x_.derivative(t), y_.derivative(t)};
 	}
 
-	void print(std::ostream & o, int tabs = 0) const
+	virtual void print(std::ostream & o, int tabs = 0) const
 	{
 		// Print correct number of tabs
 		for (int i = 0; i < tabs; i++)
 			o << '\t';
 		
-		o << "PolynomialEdge<" << degree << ">: <" << x_ << ", " << y_ << ">";
+		o << "PolynomialEdge<" << degree << ">: ";
+
+		printVectorPolynomial(o);
+	}
+
+	void printVectorPolynomial(std::ostream & o = std::cout) const
+	{
+		const auto & x_coefficients = x_.getCoefficients();
+		const auto & y_coefficients = y_.getCoefficients();
+	
+		for (int i = degree; i >= 0; i--)
+		{
+			o << Vec {x_coefficients[i], y_coefficients[i]};
+
+			if (i != 0)
+				o << "t" << (i != 1 ? std::string("^") + std::to_string(i): "") <<  " + ";
+		}
+
 	}
 
 	void setX(Polynomial<degree> x)
