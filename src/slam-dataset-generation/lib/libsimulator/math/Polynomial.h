@@ -80,9 +80,9 @@ void Polynomial<degree>::updateActualOrder()
 {
 	actual_order_ = degree;
 
-	for (auto & coefficient : coefficients_)
+	for (auto itr = coefficients_.rbegin(); itr != coefficients_.rend(); ++itr)
 	{
-		if (coefficient != 0)
+		if (*itr != 0)
 			break;
 		else
 			--actual_order_;
@@ -100,11 +100,8 @@ double Polynomial<degree>::operator()(double t) const
 
 	for (int i = 0; i <= actual_order_; i++)
 	{
-		std::cout << " + " << coefficients_[i] << "(" << t << ")^" << i << std::endl;
 		sum += coefficients_[i] * std::pow(t, i);
 	}
-
-	std::cout << *this << "(t = " << t << ") = " << sum << std::endl;
 
 	return sum;
 }
@@ -124,8 +121,6 @@ double Polynomial<degree>::derivative(double t) const
 		sum += coefficients_[i] * i * std::pow(t, i - 1);
 
 	}
-
-	std::cout << "derivative of " << *this << "(t = " << t << ") = " << sum << std::endl;
 
 	return sum;
 }

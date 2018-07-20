@@ -22,7 +22,8 @@ Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
 	t(trajectory.getStartTime()),
 	ros_time((t == 0)? ros::TIME_MIN : ros::Time(t)),
 
-	current_pose(trajectory.begin())
+	current_pose(trajectory.getStartPose()),
+	last_pose(trajectory.getStartPose())
 { }
 
 void Robot::simulate(const char * filename) {
@@ -41,16 +42,14 @@ void Robot::simulate(const char * filename) {
 
 void Robot::step() {
 
-	// The reason we update state at the beginning of the step is because
-	// odometry measurements assumes the last pose is known
+	t += time_step;
+	ros_time += ros::Duration().fromSec(time_step);
+
+	last_pose = current_pose;
+	current_pose = trajectory(t);
 
 	laser_sweep();
 	odometry();
-
-	t += time_step;
-	current_pose = trajectory(t);
-
-	ros_time += ros::Duration().fromSec(time_step);
 }
 
 void Robot::laser_sweep() {
@@ -103,18 +102,33 @@ void Robot::odometry() {
 	tf_message.transforms.push_back(generate_stamped_transform("base_footprint", "base_link", {{0.0f, 0.0f}, 0.0f}));
 	tf_message.transforms.push_back(generate_stamped_transform("odom_combined", "base_footprint", current_pose));
 
-	static Pose last_pose = current_pose;
-	double theta_delta = abs(last_pose.theta - current_pose.theta);
-	const double threshold = 0.1;
-	if (theta_delta > threshold)
-	{
-		cout << "Detected theta change of " << theta_delta << " radians at t = " << t << "." << endl;
-		cout << "last_pose = " << last_pose << endl;
-		cout << "current_pose = " << current_pose << endl;
-	}
-	last_pose = current_pose;
 
 	bag.write("/tf", ros_time, tf_message);
+
+	// Perform optional discontinuous motion detection
+
+	double theta_delta = abs(last_pose.theta - current_pose.theta);
+	if (theta_delta > M_PI)
+		theta_delta = 2*M_PI - theta_delta;
+
+	const double theta_discontinuity_threshold = 0.1;
+	bool theta_discontinuity = theta_delta > theta_discontinuity_threshold;
+
+	Vec position_delta = last_pose.pos - current_pose.pos;
+	position_delta.x = abs(position_delta.x);
+	position_delta.y = abs(position_delta.y);
+
+	const double position_coordinate_discontinuity_threshold = 0.1;
+	bool position_discontinuity = (position_delta.x > position_coordinate_discontinuity_threshold) ||
+				      (position_delta.y > position_coordinate_discontinuity_threshold);
+
+
+	if (theta_discontinuity || position_discontinuity)
+	{
+		cout << "Discontinuity in trajectory detected:" << endl;
+		cout << "\t" << last_pose << endl;
+		cout << "\t" << current_pose << endl;
+	}
 }
 
 geometry_msgs::TransformStamped Robot::generate_stamped_transform(const char * frame_id, const char * child_frame_id, const Pose & change_in_pose) {

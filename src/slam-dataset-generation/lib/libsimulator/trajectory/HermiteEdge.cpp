@@ -35,9 +35,4 @@ HermiteEdge::HermiteEdge(const Vec & p1, const Vec & m1, const Vec & p2, const V
 		   m1,			    // C
 		   p1			    // D
 	  )
-{
-	double t = 1.0f;
-	Vec v = (*this).derivative(1.0f);
-	cout << "v(" << t << ") = " << v << " == " << m2 << "?" << endl;
-	//assert(v == m2);
-}
+{ }
