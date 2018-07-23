@@ -5,16 +5,21 @@
 #include <string>
 #include <memory>
 #include <boost/range/iterator_range.hpp>
+#include <boost/array.hpp>
 
-#include "world/World.h"
-#include "world/parsing/LengthFactory.h"
-#include "world/parsing/SvgTransformHandler.h"
 #include "world/parsing/SvgppForwardDeclarations.h"
+
+// Forward declaration instead of providing full types to separate compile time dependencies
+class World;
+class Obstacle;
+class LengthFactory;
+class SvgTransformHandler;
 
 class SvgParser
 {
 public:
 	SvgParser(World & parent_obj);
+	~SvgParser();
 
 	// See world/parsing/SvgParser_parse.cpp for implementation of SvgParser::parse(const char *, World &)
 	//
@@ -31,13 +36,13 @@ public:
 	/* ==================================== Document info ==================================== */
 	void set_viewport(double x, double y, double width, double height);
 	void set_viewbox_size(double width, double size);
-	const LengthFactory & length_factory() {return length_factory_;};
+	const LengthFactory & length_factory();
 	/* ======================================================================================= */
 
 
 
 	/* ================================== Transform handling ================================= */
-	void transform_matrix(const SvgTransformHandler::Transform & t);
+	void transform_matrix(const boost::array<double, 6> & t);
 	void on_enter_element(const svgpp::tag::element::any &);
 	void on_exit_element();
 	/* ======================================================================================= */
@@ -89,13 +94,13 @@ private:
 	double viewbox_height;
 
 	// Length policy
-	LengthFactory length_factory_;
+	std::unique_ptr<LengthFactory> length_factory_;
 	/* ======================================================================================= */
 
 
 
 	/* ================================== Transform handling ================================= */
-	SvgTransformHandler transform_handler_;
+	std::unique_ptr<SvgTransformHandler> transform_handler_;
 	/* ======================================================================================= */
 
 
@@ -103,11 +108,6 @@ private:
 	/* =================================== Path detection ==================================== */
 	std::string id_;
 	std::unique_ptr<Obstacle> obstacle_;
-	/* ======================================================================================= */
-
-
-
-	/* =================================== Edge detection ==================================== */
 	/* ======================================================================================= */
 };
 

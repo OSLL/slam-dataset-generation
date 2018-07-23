@@ -1,15 +1,16 @@
 #include "world/parsing/SvgParser.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
 
+// Svgpp
 #include <svgpp/svgpp.hpp>
-
-// XML policy includes
 #include <rapidxml_ns/rapidxml_ns.hpp>
 #include <svgpp/policy/xml/rapidxml_ns.hpp>
 
 // Customize svgpp with custom policies
+#include "world/parsing/LengthFactory.h"
 #include "world/parsing/AttributeTraversalPolicy.h"
 
 using std::ifstream;
@@ -17,33 +18,30 @@ using std::istreambuf_iterator;
 using std::cout;
 using std::endl;
 using std::string;
-using boost::mpl::pair;
-using boost::mpl::set;
-using namespace svgpp;
 
 // Define processable elements in svg
-typedef set<
-	tag::element::svg,
-	tag::element::g,
-	tag::element::path
+typedef boost::mpl::set<
+	svgpp::tag::element::svg,
+	svgpp::tag::element::g,
+	svgpp::tag::element::path
 >::type processed_elements_t;
 
 // Define processable attributes in svg elements
-typedef set<
+typedef boost::mpl::set<
 	// Transform
-	tag::attribute::transform,
+	svgpp::tag::attribute::transform,
 
 	// Viewport
-	tag::attribute::x,
-	tag::attribute::y,
-	tag::attribute::width,
-	tag::attribute::height,
-	tag::attribute::viewBox,
-	tag::attribute::preserveAspectRatio,
+	svgpp::tag::attribute::x,
+	svgpp::tag::attribute::y,
+	svgpp::tag::attribute::width,
+	svgpp::tag::attribute::height,
+	svgpp::tag::attribute::viewBox,
+	svgpp::tag::attribute::preserveAspectRatio,
 
 	// Path
-	pair<tag::element::path, tag::attribute::id>,
-	pair<tag::element::path, tag::attribute::d>
+	boost::mpl::pair<svgpp::tag::element::path, svgpp::tag::attribute::id>,
+	boost::mpl::pair<svgpp::tag::element::path, svgpp::tag::attribute::d>
 >::type processed_attributes_t;
 
 // Define what an xml element is for svgpp
@@ -71,12 +69,12 @@ void SvgParser::parse(const char * filename, World & world) {
 	if (svg_root) {
 		SvgParser parsing_context(world);
 
-		document_traversal<
-			processed_elements<processed_elements_t>,
-			processed_attributes<processed_attributes_t>,
-			viewport_policy<policy::viewport::as_transform>,
-			length_policy<policy::length::forward_to_method<SvgParser, const LengthFactory>>,
-			attribute_traversal_policy<AttributeTraversalPolicy>
+		svgpp::document_traversal<
+			svgpp::processed_elements<processed_elements_t>,
+			svgpp::processed_attributes<processed_attributes_t>,
+			svgpp::viewport_policy<svgpp::policy::viewport::as_transform>,
+			svgpp::length_policy<svgpp::policy::length::forward_to_method<SvgParser, const LengthFactory>>,
+			svgpp::attribute_traversal_policy<AttributeTraversalPolicy>
 		>::load_document(svg_root, parsing_context);
 	} else {
 		cout << "Could not extract svg root node from file." << endl;

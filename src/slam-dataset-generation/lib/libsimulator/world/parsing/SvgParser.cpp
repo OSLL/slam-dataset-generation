@@ -1,9 +1,18 @@
 #include "world/parsing/SvgParser.h"
 #include "world/World.h"
+#include "world/parsing/LengthFactory.h"
+#include "world/parsing/SvgTransformHandler.h"
 
 #include <string>
 #include <iostream>
 #include <cstdio>
+
+
+// Obstacle edge types
+#include "obstacle/ObstacleEdge.h"
+#include "obstacle/LinearEdge.h"
+#include "obstacle/CubicBezierEdge.h"
+
 
 using std::cout;
 using std::endl;
@@ -14,13 +23,13 @@ using std::make_unique;
 
 using namespace svgpp;
 
-// Obstacle edge types
-#include "obstacle/ObstacleEdge.h"
-#include "obstacle/LinearEdge.h"
-#include "obstacle/CubicBezierEdge.h"
-
 SvgParser::SvgParser(World & world_ref)
 	: world(world_ref)
+	, length_factory_(new LengthFactory())
+	, transform_handler_(new SvgTransformHandler())
+{ }
+
+SvgParser::~SvgParser()
 { }
 
 /* ======================================== Document information ======================================== */
@@ -29,12 +38,16 @@ void SvgParser::set_viewport(double x, double y, double width, double height) {
 	viewport_height = height;
 
 	// Inform transform handler of viewport height
-	transform_handler_.setViewportHeight(viewport_height);
+	transform_handler_->setViewportHeight(viewport_height);
 }
 
 void SvgParser::set_viewbox_size(double width, double height) {
 	viewbox_width = width;
 	viewbox_height = height;
+}
+
+const LengthFactory & SvgParser::length_factory() {
+	return *length_factory_;
 }
 /* ====================================================================================================== */
 
@@ -42,15 +55,15 @@ void SvgParser::set_viewbox_size(double width, double height) {
 
 /* ========================================= Transform Handling ========================================= */
 void SvgParser::transform_matrix(const SvgTransformHandler::Transform & t) {
-	transform_handler_.receiveTransform(t);
+	transform_handler_->receiveTransform(t);
 }
 
 void SvgParser::on_enter_element(const tag::element::any &) {
-	transform_handler_.enterElement();
+	transform_handler_->enterElement();
 }
 
 void SvgParser::on_exit_element() {
-	transform_handler_.exitElement();
+	transform_handler_->exitElement();
 }
 /* ====================================================================================================== */
 
@@ -62,7 +75,7 @@ void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<cons
 }
 
 void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {
-	Vec start_point = transform_handler_({x, y});
+	Vec start_point = (*transform_handler_)({x, y});
 
 	obstacle_ = make_unique<Obstacle>(start_point);
 
@@ -103,7 +116,7 @@ void SvgParser::path_exit() {
 void SvgParser::path_line_to(double x, double y, const tag::coordinate::absolute &) {
 
 	// Transform coordinates
-	Vec end = transform_handler_({x, y}); 
+	Vec end = (*transform_handler_)({x, y}); 
 
 	// Add edge
 	unique_ptr<ObstacleEdge> new_edge {new LinearEdge(obstacle_->getEnd(), end)};
@@ -116,9 +129,9 @@ void SvgParser::path_cubic_bezier_to(double x1, double y1,
 				     const tag::coordinate::absolute &) {
 
 	// Transform coordinates
-	Vec control_1 = transform_handler_({x1, y1}); 
-	Vec control_2 = transform_handler_({x2, y2}); 
-	Vec end = transform_handler_({x, y}); 
+	Vec control_1 = (*transform_handler_)({x1, y1}); 
+	Vec control_2 = (*transform_handler_)({x2, y2}); 
+	Vec end = (*transform_handler_)({x, y}); 
 
 	// Add edge
 	unique_ptr<ObstacleEdge> new_edge {new CubicBezierEdge(obstacle_->getEnd(), control_1, control_2, end)};
