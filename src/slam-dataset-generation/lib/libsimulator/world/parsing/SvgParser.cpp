@@ -72,6 +72,27 @@ void SvgParser::on_exit_element() {
 /* =========================================== Path detection =========================================== */
 void SvgParser::set(const tag::attribute::id &, const boost::iterator_range<const char *> & value) {
 	id_.assign(boost::begin(value), boost::end(value));
+
+
+
+	// If the id ends in "_trajectory", then it's a trajectory
+	//
+	// In order for that to happen, id_.length() has to be 12 or greater (the substring is only 11 characters
+	// but it must be prefaced by a unique identifier, e.g. robot_trajectory)
+	//
+	// We use that fact as a quick way to decide certain path ids
+
+	int len = id_.length();
+
+	if (len >= 12 && id_.substr(len - 11) == "_trajectory")
+	{
+		cout << id_.substr(len - 11) << endl;
+		edge_type_ = TRAJECTORY_EDGE;
+	}
+	else
+	{
+		edge_type_ = OBSTACLE_EDGE;
+	}
 }
 
 void SvgParser::path_move_to(double x, double y, const tag::coordinate::absolute &) {

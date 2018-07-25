@@ -36,15 +36,15 @@ static double closest_distance(const Vec & p, const set<Vec> & s) {
 	}
 }
 
-double ObstacleEdge::distance(const ObservationPath & op) const {
-	set<Vec> path_intersection_points = intersection_points(op);
+double ObstacleEdge::distance(const Vec & edge_offset, const ObservationPath & op) const {
+	set<Vec> path_intersection_points = intersection_points(edge_offset, op);
 
 	return closest_distance(op.start, path_intersection_points);
 }
 
-std::set<Vec> ObstacleEdge::intersection_points(const ObservationPath & op) const {
+std::set<Vec> ObstacleEdge::intersection_points(const Vec & edge_offset, const ObservationPath & op) const {
 	// Obtain set of intersection points as though op was a Line
-	set<Vec> line_intersection_points = linear_intersection_points(op);
+	set<Vec> line_intersection_points = linear_intersection_points(edge_offset, op);
 
 	// If op has a filtering function, then perform filtering on the set
 	if (op.on_path != nullptr) {
@@ -67,8 +67,8 @@ std::set<Vec> ObstacleEdge::intersection_points(const ObservationPath & op) cons
 // If there is a faster way for a particular edge type to accomplish this,
 // these are virtual and can be defined in a subclass
 
-int ObstacleEdge::number_of_intersections(const ObservationPath & op) const {
-	return intersection_points(op).size();
+int ObstacleEdge::number_of_intersections(const Vec & edge_offset, const ObservationPath & op) const {
+	return intersection_points(edge_offset, op).size();
 }
 
 void ObstacleEdge::print(ostream & o, int tabs) const {

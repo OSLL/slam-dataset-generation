@@ -24,7 +24,7 @@ class World {
 
 		bool is_valid(const Vec & p) const;
 
-		double distance(const ObservationPath & op) const;
+		double distance(const double & t, const ObservationPath & op) const;
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 

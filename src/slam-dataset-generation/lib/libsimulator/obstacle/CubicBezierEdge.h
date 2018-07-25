@@ -13,7 +13,7 @@ class CubicBezierEdge : public ObstacleEdge {
 		const Vec control_1;
 		const Vec control_2;
 
-		std::set<Vec> linear_intersection_points(const ObservationPath & op) const;
+		std::set<Vec> linear_intersection_points(const Vec & edge_offset, const ObservationPath & op) const;
 		Vec get_pos(const double & t) const;
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;

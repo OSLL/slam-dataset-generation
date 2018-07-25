@@ -3,6 +3,8 @@
 
 #include "obstacle/ObstacleEdge.h"
 #include "observationpath/ObservationPath.h"
+#include "trajectory/Trajectory.h"
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -18,18 +20,21 @@ class Obstacle {
 		const std::vector<std::unique_ptr<ObstacleEdge>> & getEdges() const {return edges;}
 
 		void setId(std::string id_val) { id = std::move(id_val);}
+		void setTrajectory(std::unique_ptr<Trajectory> trajectory) {trajectory = std::move(trajectory);}
 
 		void add_edge(std::unique_ptr<ObstacleEdge> e);
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		// Raytracing
 		bool is_in(const Vec & p);
-		double distance(const ObservationPath & op) const;
+		double distance(const double & t, const ObservationPath & op) const;
 	private:
 		std::string id;
 
 		const Vec start;
 		const Vec * end_ptr;
+
+		std::unique_ptr<Trajectory> obstacle_trajectory;
 
 		std::vector<std::unique_ptr<ObstacleEdge>> edges;
 };

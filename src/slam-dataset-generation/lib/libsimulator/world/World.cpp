@@ -90,13 +90,13 @@ bool World::is_valid(const Vec & pos) const {
 	return true;
 }
 
-double World::distance(const ObservationPath & op) const {
+double World::distance(const double & t, const ObservationPath & op) const {
 
 	double closest_distance = -1;
 
 	for (const auto & obstacle : obstacles) {
 
-		double distance_to_path = obstacle->distance(op);
+		double distance_to_path = obstacle->distance(t, op);
 
 		if (distance_to_path != -1) {
 			if (distance_to_path < closest_distance || closest_distance == -1) {

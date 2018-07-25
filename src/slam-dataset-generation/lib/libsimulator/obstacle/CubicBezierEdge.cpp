@@ -18,7 +18,7 @@ CubicBezierEdge::CubicBezierEdge(const Vec & start_point, const Vec & c1, const 
 	D(start)
 { }
 
-set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op) const {
+set<Vec> CubicBezierEdge::linear_intersection_points(const Vec & edge_offset, const ObservationPath & op) const {
 	// Initialize set of intersections
 	set<Vec> intersections;
 
@@ -30,14 +30,23 @@ set<Vec> CubicBezierEdge::linear_intersection_points(const ObservationPath & op)
 	//
 	// Find solutions t to that polynomial, check whether they lie in [0, 1], and then construct the intersection points if they do
 
+	// create new Vector coefficients with shift in mind
+
+	Vec start_new = ;
+
+	Vec A_new = -start_new + 3*control_1_new - 3*control_2_new + end_new;
+	Vec B_new = 3*start_new - 6*control_1_new + 3*control_2_new;
+	Vec C_new = -3*start_new + 3*control_1_new;
+	Vec D_new = ;
+
 	// a = op.ab dot A
-	double a = dot(op.ab, A);
+	double a = dot(op.ab, A_new);
 	// b = op.ab dot B
-	double b = dot(op.ab, B);
+	double b = dot(op.ab, B_new);
 	// c = op.ab dot C
-	double c = dot(op.ab, C);
+	double c = dot(op.ab, C_new);
 	// d = op.ab dot D - op.c
-	double d = dot(op.ab, D) - op.c;
+	double d = dot(op.ab, D_new) - op.c;
 
 	// Find roots to this polynomial
 	std::set<double> roots = find_roots(a, b, c, d);

@@ -15,17 +15,18 @@ LinearEdge::LinearEdge(const Vec & start_point, const Vec & end_point) :
 	direction(end-start)
 { }
 
-set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) const {
+set<Vec> LinearEdge::linear_intersection_points(const Vec & edge_offset, const ObservationPath & op) const {
 	
 	// Initialize set of intersections
 	set<Vec> intersections;
 
-	// Edge is characterized by R(t) = start + direction*t
+	// Edge is characterized by R(t) = start + direction*t + edge_offset
 	// ObservationPath is characterized by op.a*x + op.b*y = op.c
 	// 				    -> <op.a, op.b> dot R(t) = op.c
-	// 				    -> <op.a, op.b> dot [start + direction*t] = op.c
-	// 				    -> <op.a, op.b> dot start + <op.a, op.b> dot direction*t = op.c
-	// 				    -> t = (op.c - <op.a, op.b> dot start) / <op.a, op.b> dot direction
+	// 				    -> <op.a, op.b> dot [start + direction*t + edge_offset] = op.c
+	// 				    -> <op.a, op.b> dot [(start + edge_offset) + direction*t] = op.c
+	// 				    -> <op.a, op.b> dot (start + edge_offset) + <op.a, op.b> dot direction*t = op.c
+	// 				    -> t = (op.c - <op.a, op.b> dot (start + edge_offset)) / <op.a, op.b> dot direction
 	// 
 	// Note that t is only valid if denominator != 0
 
@@ -36,7 +37,7 @@ set<Vec> LinearEdge::linear_intersection_points(const ObservationPath & op) cons
 	// If denominator isn't zero, we do further calculation
 	if (denominator != 0) {
 		// Calculate numerator
-		double numerator = op.c - dot(op.ab, start);
+		double numerator = op.c - dot(op.ab, start + edge_offset);
 
 		// Calculate value of t for intersection
 		double t = numerator / denominator;

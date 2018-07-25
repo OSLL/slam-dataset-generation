@@ -108,6 +108,14 @@ private:
 	/* =================================== Path detection ==================================== */
 	std::string id_;
 	std::unique_ptr<Obstacle> obstacle_;
+
+	enum
+	{
+		OBSTACLE_EDGE,
+		TRAJECTORY_EDGE
+	};
+
+	int edge_type_;
 	/* ======================================================================================= */
 };
 

@@ -20,15 +20,15 @@ class ObstacleEdge {
 		const Vec & getEnd() const {return end;}
 
 		// Defined in Edge
-		std::set<Vec> intersection_points(const ObservationPath &) const;
-		double distance(const ObservationPath &) const;
+		std::set<Vec> intersection_points(const Vec & edge_offset, const ObservationPath &) const;
+		double distance(const Vec & edge_offset, const ObservationPath &) const;
 
 		// Can be defined in subclass
-		int number_of_intersections(const ObservationPath &) const;
+		int number_of_intersections(const Vec & edge_offset, const ObservationPath &) const;
 		virtual void print(std::ostream & o = std::cout, int tabs = 0) const;
 
 		// Must be defined in subclass
-		virtual std::set<Vec> linear_intersection_points(const ObservationPath &) const = 0;
+		virtual std::set<Vec> linear_intersection_points(const Vec & edge_offset, const ObservationPath & op) const = 0;
 		virtual Vec get_pos(const double & t) const = 0; // 0 <= t <= 1 for all adges
 
 	protected:
