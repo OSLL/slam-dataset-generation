@@ -86,7 +86,7 @@ void Robot::laser_sweep() {
 		};
 
 		// Take measurement
-		float measurement = world.distance(view);
+		float measurement = world.distance(t, view);
 		laser_scan_msg.ranges.push_back((measurement == -1.0f)? laser_range + 1 : measurement);
 	}
 

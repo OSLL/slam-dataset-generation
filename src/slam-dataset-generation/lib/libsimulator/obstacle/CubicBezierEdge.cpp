@@ -32,12 +32,15 @@ set<Vec> CubicBezierEdge::linear_intersection_points(const Vec & edge_offset, co
 
 	// create new Vector coefficients with shift in mind
 
-	Vec start_new = ;
+	Vec start_new = start + edge_offset;
+	Vec end_new = end + edge_offset;
+	Vec control_1_new = control_1 + edge_offset;
+	Vec control_2_new = control_2 + edge_offset;
 
 	Vec A_new = -start_new + 3*control_1_new - 3*control_2_new + end_new;
 	Vec B_new = 3*start_new - 6*control_1_new + 3*control_2_new;
 	Vec C_new = -3*start_new + 3*control_1_new;
-	Vec D_new = ;
+	Vec D_new = start_new;
 
 	// a = op.ab dot A
 	double a = dot(op.ab, A_new);
