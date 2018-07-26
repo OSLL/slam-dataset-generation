@@ -30,25 +30,23 @@ void World::addObstacle(unique_ptr<Obstacle> obstacle) {
 	}
 }
 
-unique_ptr<Obstacle> World::extractLinearTrajectory() {
+vector<unique_ptr<Obstacle>>::iterator World::findObstacle(const string & requested_id) {
 
-	unique_ptr<Obstacle> linear_trajectory = nullptr;
+	auto itr = obstacles.begin();
 
-	for (auto itr = obstacles.begin(); itr != obstacles.end(); itr++) {
-
-		if ((*itr)->getId() == "linear_trajectory") {
-			linear_trajectory = std::move(*itr);
-			obstacles.erase(itr);
-			break;
-		}
+	while (itr != obstacles.end()) {
+		if ((*itr)->getId() == requested_id)
+			return itr;
 	}
+	return itr;
+}
 
-	if (!linear_trajectory) {
-		cout << "Could not locate path with id=\"linear_trajectory\"" << endl;
-		exit(-1);
-	}
+const Trajectory & World::getRobotTrajectory() {
+	return *robot_trajectory_;
+}
 
-	return linear_trajectory;
+void World::setRobotTrajectory(std::unique_ptr<Trajectory> robot_trajectory_val) {
+	robot_trajectory_ = std::move(robot_trajectory_val);
 }
 
 void World::read_from_disk(const char * filename) {
@@ -64,6 +62,12 @@ void World::read_from_disk(const char * filename) {
 	if (obstacles[0]->getId() != "world_boundary")
 	{
 		cout << "World_boundary not populated" << endl;
+		exit(-1);
+	}
+
+	if (!robot_trajectory_)
+	{
+		cout << "robot_trajectory not populated" << endl;
 		exit(-1);
 	}
 }

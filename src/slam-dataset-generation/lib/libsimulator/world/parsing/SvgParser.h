@@ -2,6 +2,7 @@
 #define WORLD_PARSING_SVGPARSER_H
 
 #include <vector>
+#include <utility>
 #include <string>
 #include <memory>
 #include <boost/range/iterator_range.hpp>
@@ -10,8 +11,11 @@
 #include "world/parsing/SvgppForwardDeclarations.h"
 
 // Forward declaration instead of providing full types to separate compile time dependencies
+class Vec;
 class World;
 class Obstacle;
+class Trajectory;
+
 class LengthFactory;
 class SvgTransformHandler;
 
@@ -78,7 +82,6 @@ public:
 	void disable_rendering() {}
 	void path_close_subpath() {}
 	/* ======================================================================================= */
-
 private:
 	// Reference to World parent
 	World & world;
@@ -106,16 +109,43 @@ private:
 
 	
 	/* =================================== Path detection ==================================== */
-	std::string id_;
 	std::unique_ptr<Obstacle> obstacle_;
+	std::vector<Vec> trajectory_intermediate_points_;
+	std::string id_;
+	/* ======================================================================================= */
 
+
+
+	/* ================================== Edge detection ===================================== */
+	// Edges can either be constructed as part of a trajectory (e.g. HermiteEdge) or as part of an obstacle (e.g. LinearEdge)
+	int edge_type_;
 	enum
 	{
 		OBSTACLE_EDGE,
 		TRAJECTORY_EDGE
 	};
+	/* ======================================================================================= */
 
-	int edge_type_;
+
+
+	/* ================================= Trajectory handling ================================= */
+	// Whenever a trajectory is finished building, it gets placed into a vector.
+	//
+	// After all the paths are assigned, we iterate through them and attempt to assign each to their
+	// respective obstacle (or, if it's the robot_trajectory, to the robot_trajectory_ pointer).
+	//
+	// We save this for last because the trajectory might be associated with a path that hasn't been constructed yet.
+	//
+	// This post-parsing association is done by SvgParser::associateTrajectories()
+	std::vector<
+		std::pair<
+			std::string,
+			std::vector<Vec>
+		>
+	> trajectory_init_param_lists_;
+
+	void associateTrajectories();
+	std::unique_ptr<Trajectory> constructTrajectory(const std::vector<Vec> & intermediate_points);
 	/* ======================================================================================= */
 };
 

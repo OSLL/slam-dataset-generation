@@ -51,10 +51,6 @@ add_library(libsimulator
   lib/libsimulator/obstacle/LinearEdge.cpp
   lib/libsimulator/obstacle/CubicBezierEdge.cpp
 
-  lib/libsimulator/pathfinding/find_trajectory.cpp
-  lib/libsimulator/pathfinding/MotionValidator.cpp
-  lib/libsimulator/pathfinding/StateValidityChecker.cpp
-
   lib/libsimulator/simulation/Robot.cpp
 
   lib/libsimulator/trajectory/Trajectory.cpp

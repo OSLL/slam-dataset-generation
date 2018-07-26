@@ -18,7 +18,10 @@ class World {
 		const std::vector<std::unique_ptr<Obstacle>> & getObstacles() const {return obstacles;}
 
 		void addObstacle(std::unique_ptr<Obstacle> obstacle);
-		std::unique_ptr<Obstacle> extractLinearTrajectory();
+		std::vector<std::unique_ptr<Obstacle>>::iterator findObstacle(const std::string & requested_id);
+
+		const Trajectory & getRobotTrajectory();
+		void setRobotTrajectory(std::unique_ptr<Trajectory> robot_trajectory_val);
 
 		void read_from_disk(const char * source);
 
@@ -28,12 +31,13 @@ class World {
 
 		void print(std::ostream & o = std::cout, int tabs = 0) const;
 
-		friend class ParsingContext;
+		friend class SvgParser;
 	private:
 		double width;
 		double height;
 
 		std::vector<std::unique_ptr<Obstacle>> obstacles;
+		std::unique_ptr<Trajectory> robot_trajectory_;
 };
 
 std::ostream & operator<<(std::ostream & o, const World & world);

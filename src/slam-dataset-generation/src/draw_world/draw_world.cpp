@@ -55,7 +55,9 @@ struct TrajectorySegment : GraphSegment{
 	bool valid;
 };
 
-void draw_trajectory(const World & world, const Trajectory & trajectory, const char * filename) {
+void draw_trajectory(const World & world, const char * filename) {
+
+	const Trajectory & trajectory = world.getRobotTrajectory();
 
 	const double timestep = 0.001;
 	const int number_of_datapoints = (trajectory.getEndTime() - trajectory.getStartTime()) / timestep;
@@ -86,10 +88,10 @@ void draw_trajectory(const World & world, const Trajectory & trajectory, const c
 	}
 }
 
-void draw_world_and_trajectory(const World & world, const Trajectory & trajectory, const char * filename) {
+void draw_world_and_trajectory(const World & world, const char * filename) {
 	
 	draw_world(world, nullptr);
-	draw_trajectory(world, trajectory, nullptr);
+	draw_trajectory(world, nullptr);
 
 	plot::save(filename);
 }

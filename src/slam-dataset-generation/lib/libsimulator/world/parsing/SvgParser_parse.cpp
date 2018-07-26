@@ -65,19 +65,21 @@ void SvgParser::parse(const char * filename, World & world) {
 	doc.parse<0>(buffer);
 	rapidxml_ns::xml_node<> * svg_root = doc.first_node("svg");
 
-	// If XML root node found, parse SVG
-	if (svg_root) {
-		SvgParser parsing_context(world);
-
-		svgpp::document_traversal<
-			svgpp::processed_elements<processed_elements_t>,
-			svgpp::processed_attributes<processed_attributes_t>,
-			svgpp::viewport_policy<svgpp::policy::viewport::as_transform>,
-			svgpp::length_policy<svgpp::policy::length::forward_to_method<SvgParser, const LengthFactory>>,
-			svgpp::attribute_traversal_policy<AttributeTraversalPolicy>
-		>::load_document(svg_root, parsing_context);
-	} else {
+	// If XML root node couldn't be found found, exit
+	if (!svg_root) {
 		cout << "Could not extract svg root node from file." << endl;
 		exit(-1);
 	}
+
+	SvgParser parsing_context(world);
+
+	svgpp::document_traversal<
+		svgpp::processed_elements<processed_elements_t>,
+		svgpp::processed_attributes<processed_attributes_t>,
+		svgpp::viewport_policy<svgpp::policy::viewport::as_transform>,
+		svgpp::length_policy<svgpp::policy::length::forward_to_method<SvgParser, const LengthFactory>>,
+		svgpp::attribute_traversal_policy<AttributeTraversalPolicy>
+	>::load_document(svg_root, parsing_context);
+
+	parsing_context.associateTrajectories();
 }
