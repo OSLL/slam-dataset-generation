@@ -1,6 +1,5 @@
 #include "world/World.h"
 #include "simulation/Robot.h"
-#include "pathfinding/find_trajectory.h"
 
 using namespace std;
 
@@ -17,8 +16,6 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	Trajectory trajectory = find_trajectory(world, {});
-
-	Robot robot(world, trajectory);
+	Robot robot(world);
 	robot.simulate("data.bag");
 }

@@ -61,30 +61,71 @@ double dot(const Vec & v1, const Vec & v2) {
 
 
 /* ############### Arithmetic ############### */
+
+// Multiplication
 Vec Vec::operator*(const double & scale) const {
 	return {scale*x, scale*y};
 }
 
+Vec & Vec::operator*=(const double & scale) {
+	x *= scale;
+	y *= scale;
+
+	return *this;
+}
+
+
+// Division
 Vec Vec::operator/(const double & scale) const {
 	return {x/scale, y/scale};
 }
 
+Vec & Vec::operator/=(const double & scale) {
+	x /= scale;
+	y /= scale;
+
+	return *this;
+}
+
+
+// Addition
 Vec Vec::operator+(const Vec & v) const {
 	return {x + v.x, y + v.y};
 }
 
+Vec & Vec::operator+=(const Vec & v) {
+	x += v.x;
+	y += v.y;
+
+	return *this;
+}
+
+
+// Subtraction
 Vec Vec::operator-(const Vec & v) const {
 	return {x - v.x, y - v.y};
 }
+Vec & Vec::operator-=(const Vec & v) {
+	x -= v.x;
+	y -= v.y;
 
+	return *this;
+}
+
+
+// Negation
 Vec Vec::operator-() const {
 	return {-x, -y};
 }
 
+
+// Associative scalar multiplication
 Vec operator*(const double & scale, const Vec & v) {
 	return v*scale;
 }
 
+
+// Associative scalar division
 Vec operator/(const double & scale, const Vec & v) {
 	return v/scale;
 }

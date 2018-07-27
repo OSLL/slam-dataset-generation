@@ -14,6 +14,14 @@ Obstacle::Obstacle(const Vec & start_point) :
 	end_ptr(&start)
 { }
 
+void Obstacle::setId(string id_val) {
+	id = std::move(id_val);
+}
+
+void Obstacle::setTrajectory(unique_ptr<Trajectory> trajectory) {
+	obstacle_trajectory = std::move(trajectory);
+}
+
 
 void Obstacle::add_edge(unique_ptr<ObstacleEdge> edge) {
 	edges.push_back(std::move(edge));
@@ -28,6 +36,10 @@ void Obstacle::print(ostream & o, int tabs) const {
 
 	// Print data
 	o << "Obstacle: " << id << endl;
+	if (obstacle_trajectory)
+	{
+		obstacle_trajectory->print(o, tabs + 1);
+	}
 	for (const auto & edge : edges) {
 		edge->print(o, tabs + 1);
 		o << endl;
@@ -53,7 +65,9 @@ double Obstacle::distance(const double & t, const ObservationPath & op) const {
 
 	Vec edge_offset = {0.0f, 0.0f};
 	if (obstacle_trajectory)
+	{
 		edge_offset = (*obstacle_trajectory)(t).pos;
+	}
 
 	for (const auto & edge : edges) {
 
@@ -69,7 +83,7 @@ double Obstacle::distance(const double & t, const ObservationPath & op) const {
 	return closest_distance;
 }
 
-ostream & operator<<(ostream & o, const Obstacle & path) {
-	path.print();
+ostream & operator<<(ostream & o, const Obstacle & obstacle) {
+	obstacle.print();
 	return o;
 }

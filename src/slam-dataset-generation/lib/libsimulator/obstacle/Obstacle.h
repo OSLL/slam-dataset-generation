@@ -19,8 +19,8 @@ class Obstacle {
 		const std::string & getId() const {return id;}
 		const std::vector<std::unique_ptr<ObstacleEdge>> & getEdges() const {return edges;}
 
-		void setId(std::string id_val) { id = std::move(id_val);}
-		void setTrajectory(std::unique_ptr<Trajectory> trajectory) {trajectory = std::move(trajectory);}
+		void setId(std::string id_val);
+		void setTrajectory(std::unique_ptr<Trajectory> trajectory);
 
 		void add_edge(std::unique_ptr<ObstacleEdge> e);
 		void print(std::ostream & o = std::cout, int tabs = 0) const;

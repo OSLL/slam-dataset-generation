@@ -26,9 +26,17 @@ class Vec {
 
 		// Arithmetic
 		Vec operator*(const double & scale) const;
+		Vec & operator*=(const double & scale);
+
 		Vec operator/(const double & scale) const;
+		Vec & operator/=(const double & scale);
+
 		Vec operator+(const Vec & v) const;
+		Vec & operator+=(const Vec & v);
+
 		Vec operator-(const Vec & v) const;
+		Vec & operator-=(const Vec & v);
+
 		Vec operator-() const; // Negation
 
 		// Comparison

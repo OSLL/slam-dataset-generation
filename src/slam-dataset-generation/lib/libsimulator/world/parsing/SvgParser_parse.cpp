@@ -48,7 +48,7 @@ typedef boost::mpl::set<
 typedef rapidxml_ns::xml_node<> const * xml_element_t;
 
 void SvgParser::parse(const char * filename, World & world) {
-	
+
 	// Dump file into char buffer
 	ifstream file(filename);
 	if (!file.good())

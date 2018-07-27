@@ -37,11 +37,12 @@ vector<unique_ptr<Obstacle>>::iterator World::findObstacle(const string & reques
 	while (itr != obstacles.end()) {
 		if ((*itr)->getId() == requested_id)
 			return itr;
+		++itr;
 	}
 	return itr;
 }
 
-const Trajectory & World::getRobotTrajectory() {
+const Trajectory & World::getRobotTrajectory() const {
 	return *robot_trajectory_;
 }
 

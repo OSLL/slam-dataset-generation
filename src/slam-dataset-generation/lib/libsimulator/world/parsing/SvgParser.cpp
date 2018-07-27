@@ -261,7 +261,9 @@ void SvgParser::associateTrajectories() {
 	for (auto && trajectory_init_param_list : trajectory_init_param_lists_)
 	{
 		const string & associated_path = trajectory_init_param_list.first;
-		const vector<Vec> &  intermediate_points = trajectory_init_param_list.second;
+
+		// Not const because we might need to modify it if it is an obstacle trajectory
+		vector<Vec> &  intermediate_points = trajectory_init_param_list.second;
 
 		if (associated_path == "robot")
 		{
@@ -273,6 +275,18 @@ void SvgParser::associateTrajectories() {
 
 			if (obstacle_itr != world.obstacles.end())
 			{
+				
+				// Obstacle trajectories should really be interpretted as a cumulative offset from the origin point
+				//
+				// As such, translating the trajectory around the world shouldn't really make a difference.
+				// We should subtract each of the intermediate points by the first point so that the intermediate
+				// points represent offsets, not absolute positions
+				const Vec trajectory_start = intermediate_points.front();
+				for (Vec & point : intermediate_points)
+				{
+					point -= trajectory_start;
+				}
+
 				unique_ptr<Trajectory> trajectory = constructTrajectory(intermediate_points);
 				(*obstacle_itr)->setTrajectory(std::move(trajectory));
 			}

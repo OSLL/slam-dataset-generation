@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="map3.svg">
+   sodipodi:docname="map1.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.061871843"
-     inkscape:cx="3993.623"
-     inkscape:cy="9160.0504"
+     inkscape:zoom="0.175"
+     inkscape:cx="9582.6174"
+     inkscape:cy="8448.1901"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -89,12 +89,13 @@
     <path
        style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:106.29920959;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        d="m 12380.43,-8257.2037 -436.386,1842.5187 484.873,80.812 727.31,-2569.8283 -694.985,32.3249 z"
-       id="path3369"
-       inkscape:connector-curvature="0" />
+       id="obstacle_5"
+       inkscape:connector-curvature="0"
+       inkscape:label="#path3369" />
     <path
        style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:106.29920959;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        d="m 3377.9501,-5380.289 16.1624,1664.731 468.7108,1309.158 1163.6958,694.985 1438.4572,0 1196.0206,-549.523 1276.8328,-258.599 1163.6953,210.111 662.661,711.148 678.822,323.249 1131.371,-113.137 985.909,-339.412 468.711,-694.985 -32.325,-678.822 -517.198,-598.01 -404.061,-646.498 -16.163,-856.609 678.823,-1115.209 565.685,-1454.6195 -145.462,-1228.3455 64.65,-1470.782 193.949,-581.848 16.163,-1147.533 -921.26,-711.148 -1373.807,-404.061 -1260.67,-177.787 -1713.2191,242.437 -2004.1427,48.487 -2521.3407,-32.324 -694.985,290.923 -274.7615,743.473 0,1034.396 307.0864,1616.2441 452.5483,1099.0459 581.8479,517.1981 630.3352,64.6498 856.6094,-501.0357 743.4722,-1002.0713 840.4469,-549.523 1002.0714,-80.8119 888.9342,0 743.4721,290.9237 323.249,1034.3962 32.325,1325.3201 -307.086,1616.244 -808.1225,1034.396 -1325.3202,177.787 -1034.3962,-323.249 -1002.0713,-662.66 -840.4469,-824.284 -1115.2084,-226.274 -678.8225,323.248"
-       id="linear_trajectory"
+       id="robot_trajectory"
        inkscape:connector-curvature="0"
        inkscape:label="#path3371" />
   </g>

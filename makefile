@@ -1,4 +1,4 @@
-WORLD_FILE := res/map1.svg
+WORLD_FILE := res/map4.svg
 
 .PHONY: build simulate draw test test_roots
 

@@ -2,6 +2,7 @@
 #define TRAJECTORY_HERMITEPATH_H
 
 #include <vector>
+#include <iostream>
 #include "trajectory/HermiteEdge.h"
 #include "math/Pose.h"
 
@@ -17,6 +18,8 @@ class HermitePath {
 		const Pose & getStartPose() const {return start_pose;}
 		const Pose & getEndPose() const {return end_pose;}
 
+		virtual void print(std::ostream & o = std::cout, int tabs = 0) const;
+
 	protected:
 		void populateFromIntermediatePoses(const std::vector<Pose> & intermediate_poses, const double & start_t_val);
 
@@ -28,5 +31,7 @@ class HermitePath {
 		Pose start_pose;
 		Pose end_pose;
 };
+
+std::ostream & operator<<(std::ostream & o, const HermitePath & p);
 
 #endif

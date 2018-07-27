@@ -1,6 +1,5 @@
 #include "world/World.h"
 #include "simulation/Robot.h"
-#include "pathfinding/find_trajectory.h"
 
 using namespace std;
 
@@ -17,9 +16,6 @@ int main(int argc, char ** argv) {
 	World world;
 	world.read_from_disk(source);
 
-	Trajectory trajectory = find_trajectory(world, {});
-	
-	Pose position = trajectory(51.5);
+	cout << world << endl;
 
-	cout << "Pose = " << position << endl;
 }

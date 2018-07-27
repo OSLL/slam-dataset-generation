@@ -14,9 +14,9 @@ using std::setprecision;
 using std::fixed;
 using std::flush;
 
-Robot::Robot(const World & world_val, const Trajectory & trajectory_val) :
+Robot::Robot(const World & world_val) :
 	world(world_val),
-	trajectory(trajectory_val),
+	trajectory(world_val.getRobotTrajectory()),
 
 	t(trajectory.getStartTime()),
 	ros_time((t == 0)? ros::TIME_MIN : ros::Time(t)),

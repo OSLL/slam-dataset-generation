@@ -12,7 +12,7 @@
 
 class Robot {
 	public:
-		Robot(const World & world_val, const Trajectory & trajectory_val);
+		Robot(const World & world_val);
 
 		void simulate(const char * filename);
 	private:

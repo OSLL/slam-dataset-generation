@@ -20,7 +20,7 @@ class World {
 		void addObstacle(std::unique_ptr<Obstacle> obstacle);
 		std::vector<std::unique_ptr<Obstacle>>::iterator findObstacle(const std::string & requested_id);
 
-		const Trajectory & getRobotTrajectory();
+		const Trajectory & getRobotTrajectory() const;
 		void setRobotTrajectory(std::unique_ptr<Trajectory> robot_trajectory_val);
 
 		void read_from_disk(const char * source);

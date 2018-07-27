@@ -5,6 +5,7 @@
 #include <cassert>
 
 using std::vector;
+using std::ostream;
 using std::cout;
 using std::endl;
 
@@ -40,6 +41,19 @@ Pose HermitePath::operator()(double t) const {
 	return {position, velocity.radians()};
 }
 
+void HermitePath::print(ostream & o, int tabs) const {
+	
+	for (int i = 0; i < tabs; i++)
+		o << '\t';
+	
+	o << "HermitePath:" << endl;
+	for (auto && edge : edges)
+	{
+		edge.print(o, tabs + 1);
+		cout << endl;
+	}
+}
+
 void HermitePath::populateFromIntermediatePoses(const vector<Pose> & intermediate_poses, const double & start_t_val) {
 	
 	// Cannot create a path with only one pose
@@ -68,4 +82,9 @@ void HermitePath::populateFromIntermediatePoses(const vector<Pose> & intermediat
 	Vec end_position = edges.back()(1.0f);
 	Vec end_velocity = edges.back().derivative(1.0f);
 	end_pose = {end_position, end_velocity.radians()};
+}
+
+ostream & operator<<(ostream & o, const HermitePath & p) {
+	p.print(o);
+	return o;
 }
