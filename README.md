@@ -26,3 +26,4 @@
     1) Navigate to the base of the repo
     2) Issue `source ./devel/setup.bash`
     3) Issue `rosrun slam-dataset-generation simulate_world <path_to_map_file>`
+        * The bag file will be written to ${REPO_ROOT}/data.bag
