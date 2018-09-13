@@ -1,4 +1,9 @@
-# How do I use this tool?
+# Dataset generation tool for SLAM in ROS
+
+This tools could help you to make a dataset for testing SLAM algorithms in ROS
+
+How do I use this tool?
+
 
 ## Step 1: Create a map file
 - Map files are svg files populated with [paths](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths) that can be given ids
